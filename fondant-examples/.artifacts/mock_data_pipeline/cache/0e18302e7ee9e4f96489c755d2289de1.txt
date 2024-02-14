@@ -1,1 +1,0 @@
-/.artifacts/mock_data_pipeline/mock_data_pipeline-20240214134638/load_from_parquet/manifest.json

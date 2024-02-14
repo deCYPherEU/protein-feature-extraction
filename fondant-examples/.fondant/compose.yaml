@@ -1,19 +1,158 @@
 name: mock_data_pipeline
 services:
+  aromaticitycomponent:
+    command:
+    - --metadata
+    - '{"base_path": "/.fondant", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214160454", "component_id": "aromaticitycomponent",
+      "cache_key": "e172278f9b5e734a673082f1ad63a8db"}'
+    - --output_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/aromaticitycomponent/manifest.json
+    - --cache
+    - 'True'
+    - --cluster_type
+    - default
+    - --operation_spec
+    - '{"specification": {"name": "AromaticityComponent", "image": "fndnt/fondant:0.10.1-py3.11",
+      "description": "lightweight component", "consumes": {"sequence": {"type": "string"},
+      "sequence_length": {"type": "int64"}, "molecular_weight": {"type": "float64"}},
+      "produces": {"aromaticity": {"type": "float64"}}}, "consumes": {}, "produces":
+      {}}'
+    - --input_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/molecularweightcomponent/manifest.json
+    depends_on:
+      molecularweightcomponent:
+        condition: service_completed_successfully
+    entrypoint:
+    - sh
+    - -ec
+    - "printf biopython > 'requirements.txt'\npython3 -m pip install -r requirements.txt\n\
+      \            printf 'from typing import *\nimport typing as t\n\nimport dask.dataframe\
+      \ as dd\nimport fondant\nimport pandas as pd\nfrom fondant.component import\
+      \ *\nfrom fondant.core import *\n\n\nclass AromaticityComponent(PandasTransformComponent):\n\
+      \tdef __init__(self):\n\t\tpass\n\n\tdef transform(self, dataframe: pd.DataFrame)\
+      \ -> pd.DataFrame:\n\t\tfrom Bio.SeqUtils.ProtParam import ProteinAnalysis\n\
+      \t\tdataframe[\"aromaticity\"] = dataframe[\"sequence\"].map(\n\t\t\tlambda\
+      \ x: ProteinAnalysis(x).aromaticity()\n\t\t)\n\n\t\tprint(dataframe)\n\t\treturn\
+      \ dataframe\n' > 'main.py'\n            fondant execute main \"$@\"\n"
+    - --
+    image: fndnt/fondant:0.10.1-py3.11
+    labels:
+      pipeline_description: basic pipeline to generate a few features
+    ports:
+    - 8787:8787
+    volumes:
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.fondant
+      target: /.fondant
+      type: bind
+    - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
+  instabilityindexcomponent:
+    command:
+    - --metadata
+    - '{"base_path": "/.fondant", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214160454", "component_id": "instabilityindexcomponent",
+      "cache_key": "5f7e5569c70880d97e758f8b41040fa4"}'
+    - --output_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/instabilityindexcomponent/manifest.json
+    - --cache
+    - 'True'
+    - --cluster_type
+    - default
+    - --operation_spec
+    - '{"specification": {"name": "InstabilityIndexComponent", "image": "fndnt/fondant:0.10.1-py3.11",
+      "description": "lightweight component", "consumes": {"sequence": {"type": "string"},
+      "sequence_length": {"type": "int64"}, "molecular_weight": {"type": "float64"},
+      "aromaticity": {"type": "float64"}, "isoelectric_point": {"type": "float64"}},
+      "produces": {"instability_index": {"type": "float64"}}}, "consumes": {}, "produces":
+      {}}'
+    - --input_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/isoelectricpointcomponent/manifest.json
+    depends_on:
+      isoelectricpointcomponent:
+        condition: service_completed_successfully
+    entrypoint:
+    - sh
+    - -ec
+    - "printf biopython > 'requirements.txt'\npython3 -m pip install -r requirements.txt\n\
+      \            printf 'from typing import *\nimport typing as t\n\nimport dask.dataframe\
+      \ as dd\nimport fondant\nimport pandas as pd\nfrom fondant.component import\
+      \ *\nfrom fondant.core import *\n\n\nclass InstabilityIndexComponent(PandasTransformComponent):\n\
+      \tdef __init__(self):\n\t\tpass\n\n\tdef transform(self, dataframe: pd.DataFrame)\
+      \ -> pd.DataFrame:\n\t\tfrom Bio.SeqUtils.ProtParam import ProteinAnalysis\n\
+      \t\tdataframe[\"instability_index\"] = dataframe[\"sequence\"].map(\n\t\t\t\
+      lambda x: ProteinAnalysis(x).instability_index()\n\t\t)\n\n\t\tprint(dataframe)\n\
+      \t\treturn dataframe\n' > 'main.py'\n            fondant execute main \"$@\"\
+      \n"
+    - --
+    image: fndnt/fondant:0.10.1-py3.11
+    labels:
+      pipeline_description: basic pipeline to generate a few features
+    ports:
+    - 8787:8787
+    volumes:
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.fondant
+      target: /.fondant
+      type: bind
+    - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
+  isoelectricpointcomponent:
+    command:
+    - --metadata
+    - '{"base_path": "/.fondant", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214160454", "component_id": "isoelectricpointcomponent",
+      "cache_key": "c8a1223f57b0c2f271d3867e0703dd78"}'
+    - --output_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/isoelectricpointcomponent/manifest.json
+    - --cache
+    - 'True'
+    - --cluster_type
+    - default
+    - --operation_spec
+    - '{"specification": {"name": "IsoelectricPointComponent", "image": "fndnt/fondant:0.10.1-py3.11",
+      "description": "lightweight component", "consumes": {"sequence": {"type": "string"},
+      "sequence_length": {"type": "int64"}, "molecular_weight": {"type": "float64"},
+      "aromaticity": {"type": "float64"}}, "produces": {"isoelectric_point": {"type":
+      "float64"}}}, "consumes": {}, "produces": {}}'
+    - --input_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/aromaticitycomponent/manifest.json
+    depends_on:
+      aromaticitycomponent:
+        condition: service_completed_successfully
+    entrypoint:
+    - sh
+    - -ec
+    - "printf biopython > 'requirements.txt'\npython3 -m pip install -r requirements.txt\n\
+      \            printf 'from typing import *\nimport typing as t\n\nimport dask.dataframe\
+      \ as dd\nimport fondant\nimport pandas as pd\nfrom fondant.component import\
+      \ *\nfrom fondant.core import *\n\n\nclass IsoelectricPointComponent(PandasTransformComponent):\n\
+      \tdef __init__(self):\n\t\tpass\n\n\tdef transform(self, dataframe: pd.DataFrame)\
+      \ -> pd.DataFrame:\n\t\tfrom Bio.SeqUtils.ProtParam import ProteinAnalysis\n\
+      \t\tdataframe[\"isoelectric_point\"] = dataframe[\"sequence\"].map(\n\t\t\t\
+      lambda x: ProteinAnalysis(x).isoelectric_point()\n\t\t)\n\n\t\tprint(dataframe)\n\
+      \t\treturn dataframe\n' > 'main.py'\n            fondant execute main \"$@\"\
+      \n"
+    - --
+    image: fndnt/fondant:0.10.1-py3.11
+    labels:
+      pipeline_description: basic pipeline to generate a few features
+    ports:
+    - 8787:8787
+    volumes:
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.fondant
+      target: /.fondant
+      type: bind
+    - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
   load_from_parquet:
     command:
     - --metadata
-    - '{"base_path": "/.artifacts", "pipeline_name": "mock_data_pipeline", "run_id":
-      "mock_data_pipeline-20240214134638", "component_id": "load_from_parquet", "cache_key":
-      "0e18302e7ee9e4f96489c755d2289de1"}'
+    - '{"base_path": "/.fondant", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214160454", "component_id": "load_from_parquet", "cache_key":
+      "e0f0788509d754d0430735f0f58ba677"}'
     - --output_manifest_path
-    - /.artifacts/mock_data_pipeline/mock_data_pipeline-20240214134638/load_from_parquet/manifest.json
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/load_from_parquet/manifest.json
     - --dataset_uri
     - /data/mock_data.parquet
-    - --n_rows_to_load
-    - '5'
     - --cache
-    - 'False'
+    - 'True'
     - --cluster_type
     - default
     - --operation_spec
@@ -39,8 +178,96 @@ services:
     ports:
     - 8787:8787
     volumes:
-    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.artifacts
-      target: /.artifacts
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.fondant
+      target: /.fondant
+      type: bind
+    - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
+  molecularweightcomponent:
+    command:
+    - --metadata
+    - '{"base_path": "/.fondant", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214160454", "component_id": "molecularweightcomponent",
+      "cache_key": "26b79d4b9c9327086b186a8f75831456"}'
+    - --output_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/molecularweightcomponent/manifest.json
+    - --cache
+    - 'True'
+    - --cluster_type
+    - default
+    - --operation_spec
+    - '{"specification": {"name": "MolecularWeightComponent", "image": "fndnt/fondant:0.10.1-py3.11",
+      "description": "lightweight component", "consumes": {"sequence": {"type": "string"},
+      "sequence_length": {"type": "int64"}}, "produces": {"molecular_weight": {"type":
+      "float64"}}}, "consumes": {}, "produces": {}}'
+    - --input_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/sequencelengthcomponent/manifest.json
+    depends_on:
+      sequencelengthcomponent:
+        condition: service_completed_successfully
+    entrypoint:
+    - sh
+    - -ec
+    - "printf biopython > 'requirements.txt'\npython3 -m pip install -r requirements.txt\n\
+      \            printf 'from typing import *\nimport typing as t\n\nimport dask.dataframe\
+      \ as dd\nimport fondant\nimport pandas as pd\nfrom fondant.component import\
+      \ *\nfrom fondant.core import *\n\n\nclass MolecularWeightComponent(PandasTransformComponent):\n\
+      \tdef __init__(self):\n\t\tpass\n\n\tdef transform(self, dataframe: pd.DataFrame)\
+      \ -> pd.DataFrame:\n\t\tfrom Bio.SeqUtils.ProtParam import ProteinAnalysis\n\
+      \t\tdataframe[\"molecular_weight\"] = dataframe[\"sequence\"].map(\n\t\t\tlambda\
+      \ x: ProteinAnalysis(x).molecular_weight()\n\t\t)\n\n\t\tprint(dataframe)\n\t\
+      \treturn dataframe\n' > 'main.py'\n            fondant execute main \"$@\"\n"
+    - --
+    image: fndnt/fondant:0.10.1-py3.11
+    labels:
+      pipeline_description: basic pipeline to generate a few features
+    ports:
+    - 8787:8787
+    volumes:
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.fondant
+      target: /.fondant
+      type: bind
+    - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
+  sequencelengthcomponent:
+    command:
+    - --metadata
+    - '{"base_path": "/.fondant", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214160454", "component_id": "sequencelengthcomponent",
+      "cache_key": "c52eb269afdb70575a437173e9fc27a4"}'
+    - --output_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/sequencelengthcomponent/manifest.json
+    - --cache
+    - 'True'
+    - --cluster_type
+    - default
+    - --operation_spec
+    - '{"specification": {"name": "SequenceLengthComponent", "image": "fndnt/fondant:0.10.1-py3.11",
+      "description": "lightweight component", "consumes": {"sequence": {"type": "string"}},
+      "produces": {"sequence_length": {"type": "int64"}}}, "consumes": {}, "produces":
+      {}}'
+    - --input_manifest_path
+    - /.fondant/mock_data_pipeline/mock_data_pipeline-20240214160454/load_from_parquet/manifest.json
+    depends_on:
+      load_from_parquet:
+        condition: service_completed_successfully
+    entrypoint:
+    - sh
+    - -ec
+    - "            printf 'from typing import *\nimport typing as t\n\nimport dask.dataframe\
+      \ as dd\nimport fondant\nimport pandas as pd\nfrom fondant.component import\
+      \ *\nfrom fondant.core import *\n\n\nclass SequenceLengthComponent(PandasTransformComponent):\n\
+      \tdef __init__(self):\n\t\tpass\n\n\tdef transform(self, dataframe: pd.DataFrame)\
+      \ -> pd.DataFrame:\n\t\tdataframe[\"sequence_length\"] = dataframe[\"sequence\"\
+      ].map(len)\n\t\treturn dataframe\n' > 'main.py'\n            fondant execute\
+      \ main \"$@\"\n"
+    - --
+    image: fndnt/fondant:0.10.1-py3.11
+    labels:
+      pipeline_description: basic pipeline to generate a few features
+    ports:
+    - 8787:8787
+    volumes:
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.fondant
+      target: /.fondant
       type: bind
     - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
 version: '3.8'
