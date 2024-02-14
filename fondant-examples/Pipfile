@@ -9,6 +9,7 @@ pandas = "*"
 pyarrow = "*"
 dask = "*"
 tensorflow = "*"
+biopython = "*"
 
 [dev-packages]
 
