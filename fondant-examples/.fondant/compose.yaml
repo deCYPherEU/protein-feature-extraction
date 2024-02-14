@@ -1,0 +1,46 @@
+name: mock_data_pipeline
+services:
+  load_from_parquet:
+    command:
+    - --metadata
+    - '{"base_path": "/.artifacts", "pipeline_name": "mock_data_pipeline", "run_id":
+      "mock_data_pipeline-20240214134638", "component_id": "load_from_parquet", "cache_key":
+      "0e18302e7ee9e4f96489c755d2289de1"}'
+    - --output_manifest_path
+    - /.artifacts/mock_data_pipeline/mock_data_pipeline-20240214134638/load_from_parquet/manifest.json
+    - --dataset_uri
+    - /data/mock_data.parquet
+    - --n_rows_to_load
+    - '5'
+    - --cache
+    - 'False'
+    - --cluster_type
+    - default
+    - --operation_spec
+    - '{"specification": {"name": "Load from parquet", "image": "fndnt/load_from_parquet:0.10.1",
+      "description": "Component that loads a dataset from a parquet uri", "tags":
+      ["Data loading"], "produces": {"additionalProperties": true}, "args": {"dataset_uri":
+      {"description": "The remote path to the parquet file/folder containing the dataset",
+      "type": "str"}, "column_name_mapping": {"description": "Mapping of the consumed
+      dataset", "type": "dict", "default": {}}, "n_rows_to_load": {"description":
+      "Optional argument that defines the number of rows to load. Useful for testing
+      pipeline runs on a small scale", "type": "int", "default": "None"}, "index_column":
+      {"description": "Column to set index to in the load component, if not specified
+      a default globally unique index will be set", "type": "str", "default": "None"}}},
+      "consumes": {}, "produces": {"sequence": {"type": "string"}}}'
+    depends_on: {}
+    entrypoint:
+    - fondant
+    - execute
+    - main
+    image: fndnt/load_from_parquet:0.10.1
+    labels:
+      pipeline_description: basic pipeline to generate a few features
+    ports:
+    - 8787:8787
+    volumes:
+    - source: C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\.artifacts
+      target: /.artifacts
+      type: bind
+    - C:\Users\denis\Desktop\stage\protein-feature-extraction\fondant-examples\data:/data
+version: '3.8'
