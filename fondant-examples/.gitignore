@@ -1,0 +1,11 @@
+# Ignore .fondant folder
+.fondant/
+
+# Ignore .artifacts folder
+.artifacts/
+
+# Ignore Pipfile
+Pipfile
+
+# Ignore Pipfile.lock
+Pipfile.lock
