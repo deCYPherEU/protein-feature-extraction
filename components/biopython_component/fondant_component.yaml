@@ -1,0 +1,10 @@
+name: Biopython component
+description: A component that uses Biopython to perform certain operations on sequences.
+image: biopython_component:latest
+
+consumes:
+  sequence:
+        type: string
+
+produces:
+  additionalProperties: true
