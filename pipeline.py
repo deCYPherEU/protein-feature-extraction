@@ -30,8 +30,13 @@ biopython_dataset = dataset.apply(
     "./components/biopython_component",
 )
 
+# apply the ifeatpro component
+ifeatpro_dataset = biopython_dataset.apply(
+	"./components/ifeatpro_component",
+)
+
 # write the dataset to a parquet file
-biopython_dataset.apply(
+ifeatpro_dataset.apply(
 	"write_to_file",
 	arguments={
 		"path": "/data/export",

@@ -1,0 +1,10 @@
+name: ifeatpro component
+description: A component that uses the ifeatpro pip package to perform certain operations on sequences.
+image: ifeatpro_component:latest
+
+consumes:
+  sequence:
+        type: string
+
+produces:
+  additionalProperties: true
