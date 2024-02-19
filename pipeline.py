@@ -34,6 +34,22 @@ biopython_dataset.apply(
 	"write_to_file",
 	arguments={
 		"path": "/data/export",
+	},
+	consumes={
+		"sequence": pa.string(),
+		"sequence_length": pa.int64(),
+		"molecular_weight": pa.float64(),
+		"aromaticity": pa.float64(),
+		"isoelectric_point": pa.float64(),
+		"instability_index": pa.float64(),
+		"gravy": pa.float64(),
+		"helix": pa.float64(),
+		"turn": pa.float64(),
+		"sheet": pa.float64(),
+		"charge_at_ph7": pa.float64(),
+		"charge_at_ph5": pa.float64(),
+		"molar_extinction_coefficient_oxidized": pa.int64(),
+		"molar_extinction_coefficient_reduced": pa.int64()
 	}
 )
 
