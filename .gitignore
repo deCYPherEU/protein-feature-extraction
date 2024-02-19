@@ -178,3 +178,12 @@ pyrightconfig.json
 # Ignore all .env files
 .Pipfile
 .Pipfile.lock
+
+# Ignore .fondant folder
+.fondant/
+
+# Ignore .artifacts folder
+.artifacts/
+
+# Ignore the data folder
+data/
