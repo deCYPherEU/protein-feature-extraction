@@ -4,6 +4,7 @@ The BiopythonComponent class is a component that takes in a dataframe, performs 
 import logging
 import pandas as pd
 from fondant.component import PandasTransformComponent
+from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -16,8 +17,7 @@ class BiopythonComponent(PandasTransformComponent):
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""The transform method takes in a dataframe, performs the Biopython functions to generate new features and returns the dataframe with the new features added."""
-		from Bio.SeqUtils.ProtParam import ProteinAnalysis
-		
+
 		dataframe["sequence_length"] = dataframe["sequence"].map(len)
 		dataframe["molecular_weight"] = dataframe["sequence"].map(
 			lambda x: ProteinAnalysis(x).molecular_weight()
