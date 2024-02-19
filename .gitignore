@@ -186,4 +186,7 @@ pyrightconfig.json
 .artifacts/
 
 # Ignore the data folder
-./data/
+data/
+
+# Ignore the experiments folder
+experiments/
