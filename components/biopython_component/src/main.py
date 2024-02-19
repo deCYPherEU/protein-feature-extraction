@@ -18,43 +18,21 @@ class BiopythonComponent(PandasTransformComponent):
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""The transform method takes in a dataframe, performs the Biopython functions to generate new features and returns the dataframe with the new features added."""
 
-		dataframe["sequence_length"] = dataframe["sequence"].map(len)
-		dataframe["molecular_weight"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).molecular_weight()
-		)
-		dataframe["aromaticity"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).aromaticity()
-		)
-		dataframe["isoelectric_point"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).isoelectric_point()
-		)
-		dataframe["instability_index"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).instability_index()
-		)
-		dataframe["gravy"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).gravy()
-		)
-		dataframe["helix"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).secondary_structure_fraction()[0]
-		)
-		dataframe["turn"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).secondary_structure_fraction()[1]
-		)
-		dataframe["sheet"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).secondary_structure_fraction()[2]
-		)
-		dataframe["charge_at_ph7"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).charge_at_pH(7.0)
-		)
-		dataframe["charge_at_ph5"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).charge_at_pH(5.0)
-		)
-		dataframe["molar_extinction_coefficient_oxidized"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).molar_extinction_coefficient()[1]
-		)
-		dataframe["molar_extinction_coefficient_reduced"] = dataframe["sequence"].map(
-			lambda x: ProteinAnalysis(x).molar_extinction_coefficient()[0]
-		)
+		sequence_analysis = dataframe["sequence"].apply(ProteinAnalysis)
+		
+		dataframe["sequence_length"] = sequence_analysis.apply(lambda x: x.length)
+		dataframe["molecular_weight"] = sequence_analysis.apply(lambda x: x.molecular_weight())
+		dataframe["aromaticity"] = sequence_analysis.apply(lambda x: x.aromaticity())
+		dataframe["isoelectric_point"] = sequence_analysis.apply(lambda x: x.isoelectric_point())
+		dataframe["instability_index"] = sequence_analysis.apply(lambda x: x.instability_index())
+		dataframe["gravy"] = sequence_analysis.apply(lambda x: x.gravy())
+		dataframe["helix"] = sequence_analysis.apply(lambda x: x.secondary_structure_fraction()[0])
+		dataframe["turn"] = sequence_analysis.apply(lambda x: x.secondary_structure_fraction()[1])
+		dataframe["sheet"] = sequence_analysis.apply(lambda x: x.secondary_structure_fraction()[2])
+		dataframe["charge_at_ph7"] = sequence_analysis.apply(lambda x: x.charge_at_pH(7.0))
+		dataframe["charge_at_ph5"] = sequence_analysis.apply(lambda x: x.charge_at_pH(5.0))
+		dataframe["molar_extinction_coefficient_oxidized"] = sequence_analysis.apply(lambda x: x.molar_extinction_coefficient()[0])
+		dataframe["molar_extinction_coefficient_reduced"] = sequence_analysis.apply(lambda x: x.molar_extinction_coefficient()[1])
 
 		logger.info(f"BiopythonComponent: features generated: {dataframe.columns.tolist()}")
 		return dataframe

@@ -1,10 +1,6 @@
 import pyarrow as pa
 from fondant.pipeline import Pipeline
-from config import generate_mock_data
 from config import MOCK_DATA_PATH_FONDANT
-
-# generate the mock data, also creates a parquet file
-generate_mock_data()
 
 # create a new pipeline
 pipeline = Pipeline(
