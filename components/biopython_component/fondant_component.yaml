@@ -1,0 +1,37 @@
+name: Biopython component
+description: A component that uses Biopython to perform certain operations on sequences.
+image: biopython_component:latest
+
+consumes:
+  sequence:
+        type: string
+
+produces:
+  sequence:
+        type: string
+  sequence_length:
+        type: int64
+  molecular_weight:
+        type: float64
+  aromaticity:
+        type: float64
+  isoelectric_point:
+        type: float64
+  instability_index:
+        type: float64
+  gravy:
+        type: float64
+  helix:
+        type: float64
+  turn:
+        type: float64
+  sheet:
+        type: float64
+  charge_at_ph7:
+        type: float64
+  charge_at_ph5:
+        type: float64
+  molar_extinction_coefficient_oxidized:
+        type: int64
+  molar_extinction_coefficient_reduced:
+        type: int64

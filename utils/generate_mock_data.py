@@ -1,5 +1,5 @@
 import pandas as pd
-from components.constants import MOCK_DATA_PATH_LOCAL
+from config import MOCK_DATA_PATH_LOCAL
 
 def generate_mock_data() -> None:
 	data = {

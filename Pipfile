@@ -4,9 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-biopython = "*"
-ipykernel = "*"
 pandas = "*"
+pyarrow = "*"
+dask = "*"
+tensorflow = "*"
+biopython = "*"
+fondant = {extras = ["component"], version = "*"}
+ifeatpro = "*"
 
 [dev-packages]
 
