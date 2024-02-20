@@ -10,11 +10,6 @@ logger = logging.getLogger(__name__)
 class IFeatureComponent(PandasTransformComponent):
 	"""The IFeatureComponent class is a component that generates new features using iFeature."""
 
-	ENCODING_CSV = "/iFeature/encoding.csv"
-	ENCODING_TSV = "/iFeature/encoding.tsv"
-	TEMP_FOLDER = "/iFeature/temp_folder"
-	SEQUENCE_FILE = "/iFeature/proteins.txt"
-
 	def __init__(self):
 		self.script_dir = os.path.dirname(os.path.realpath(__file__))
 		self.ENCODING_CSV = os.path.join(self.script_dir, "encoding.csv")
@@ -26,8 +21,7 @@ class IFeatureComponent(PandasTransformComponent):
 		"""Generates new features using iFeature and returns the dataframe with the new features added."""
 		features = ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
 
-		temp_dataframe = self.generate_features(dataframe["sequence"], features)
-		logger.info(len(temp_dataframe.columns))
+		dataframe = self.generate_features(dataframe["sequence"], features)
 
 		return dataframe
 
@@ -60,7 +54,7 @@ class IFeatureComponent(PandasTransformComponent):
 				with open(f"{self.TEMP_FOLDER}/temp_seq_{i}.txt", "w") as f:
 					f.write(f">{i}\n{sequences[i]}\n")
 
-	def execute_ifeature(self, sequence_file: str, feature_type: str) -> pd.DataFrame:
+	def execute_ifeature_command(self, sequence_file: str, feature_type: str) -> pd.DataFrame:
 		"""Executes iFeature for the given feature type and returns the dataframe with the new features."""
 		process = subprocess.Popen(["python", "./iFeature/iFeature.py", "--file", sequence_file, "--type", feature_type])
 
@@ -76,13 +70,11 @@ class IFeatureComponent(PandasTransformComponent):
 			data = f.read().replace("\t", ",")
 		with open(self.ENCODING_CSV, "w") as f:
 			f.write(data)
-			logger.info(f"Converted {self.ENCODING_TSV} to {self.ENCODING_CSV}")
 
 		# Open the output file in a dataframe
-		logger.info(f"Reading {self.ENCODING_CSV}")
 		df = pd.read_csv(self.ENCODING_CSV)
 
-		# Remove the "#" feature from the dataframe (first column)
+		# Remove the first column "#"
 		df = df.iloc[:, 1:]
 
 		# Rename the feature columns to include the feature type prefix
@@ -96,7 +88,7 @@ class IFeatureComponent(PandasTransformComponent):
 
 		# Execute iFeature for each feature type and concatenate the results
 		for feature in features:
-			df_feature = self.execute_ifeature(sequence_file, feature)
+			df_feature = self.execute_ifeature_command(sequence_file, feature)
 			df_main = pd.concat([df_main, df_feature], axis=1)
 		
 		# Read the sequence from the input file
@@ -119,6 +111,6 @@ class IFeatureComponent(PandasTransformComponent):
 		df_main.fillna(value="missing", inplace=True)
 
 		# Feature aggregation: take the mean of the normalized feature values across all positions
-		df_agg = df_main.groupby("sequence").mean().reset_index()
+		df_agg = df_main.groupby("sequence").mean()
 
 		return df_agg

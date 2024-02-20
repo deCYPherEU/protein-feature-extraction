@@ -7,7 +7,7 @@ consumes:
         type: string
 
 produces:
-  sequence:
-        type: string
   additionalProperties: true
   # impossible to define the output schema as it is dependent on the input. There can be different features generated for different sequences.
+  # the sequence will be known, but for some reason Fondant is too quick. This when the sequence is not yet available, which breaks the pipeline
+  # So, I'll just add the additionalProperties: true so that the pipeline runs at least.
