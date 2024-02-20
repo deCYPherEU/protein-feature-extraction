@@ -26,6 +26,20 @@ To execute this script, you need to run the following command:
 python utils/generate_mock_data.py
 ```
 
+## Adding the iFeature repo to the ifeature_component folder
+
+iFeature is a GitHub repo that contains the code for the iFeature tool. This tool is used to extract protein features from protein sequences. It sadly doesn't have a pip package, so we need to add the repo to the ifeature_component folder. To do this, you need to run the following command:
+
+```bash
+git clone https://github.com/Superzchen/iFeature
+
+# linux users
+mv iFeature ifeature_component
+
+# windows users
+Move-Item -Path iFeature -Destination components/ifeature_component/src/
+```
+
 ## Executing the Pipeline
 
 For Windows users, you need to run the following command to execute the pipeline:
