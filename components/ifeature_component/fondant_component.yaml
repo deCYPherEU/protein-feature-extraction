@@ -1,0 +1,13 @@
+name: iFeature component
+description: A component that uses iFeature to perform certain operations on sequences.
+image: iFeature_component:latest
+
+consumes:
+  sequence:
+        type: string
+
+produces:
+  sequence:
+        type: string
+  additionalProperties: true
+  # impossible to define the output schema as it is dependent on the input. There can be different features generated for different sequences.

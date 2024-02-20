@@ -190,3 +190,5 @@ data/
 
 # Ignore the experiments folder
 experiments/
+
+components/ifeature_component/src/iFeature

@@ -20,10 +20,16 @@ dataset = pipeline.read(
 	}
 )
 
-# apply the biopython component
-biopython_dataset = dataset.apply(
+# apply the ifeature component
+dataset = dataset.apply(
     "./components/biopython_component",
+).apply(
+	"./components/ifeature_component",
 )
+
+"""
+
+NEED TO WAIT UNTIL THE FEATURE HAS BEEN ADDED WHERE I DON'T NEED TO SPECIFY THE COLUMNS
 
 # write the dataset to a parquet file
 biopython_dataset.apply(
@@ -48,6 +54,7 @@ biopython_dataset.apply(
 		"molar_extinction_coefficient_reduced": pa.int64()
 	}
 )
+"""
 
 # run the pipeline using your local path to the folder, this one is mine
 # fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
