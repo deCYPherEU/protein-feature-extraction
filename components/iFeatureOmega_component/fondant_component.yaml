@@ -1,0 +1,13 @@
+name: iFeatureOmega component
+description: A component that uses iFeatureOmega to perform certain operations on sequences.
+image: iFeatureOmega_component:latest
+
+consumes:
+  sequence:
+        type: string
+
+produces:
+  sequence:
+        type: string
+  iFeatureOmega_features:
+        type: string

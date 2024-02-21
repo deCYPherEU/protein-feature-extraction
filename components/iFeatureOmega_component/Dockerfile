@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.8-slim
+FROM --platform=linux/amd64 python:3.11-slim
 
 # System dependencies
 RUN apt-get update && \
@@ -10,8 +10,7 @@ COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Install fondant
-ARG FONDANT_VERSION=main
-RUN pip3 install fondant[component]@git+https://github.com/ml6team/fondant@${FONDANT_VERSION}
+RUN pip3 install fondant[component]
 
 # Set the working directory to the component folder
 WORKDIR /component/src

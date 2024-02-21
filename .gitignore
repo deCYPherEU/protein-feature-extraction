@@ -191,4 +191,4 @@ data/
 # Ignore the experiments folder
 experiments/
 
-components/ifeature_component/src/iFeature
+components/iFeatureOmega_component/src/iFeatureOmega_CLI

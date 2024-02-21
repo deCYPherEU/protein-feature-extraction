@@ -8,9 +8,7 @@ pandas = "*"
 pyarrow = "*"
 dask = "*"
 tensorflow = "*"
-biopython = "*"
 fondant = {extras = ["component"], version = "*"}
-ifeatpro = "*"
 
 [dev-packages]
 

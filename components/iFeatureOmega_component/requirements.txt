@@ -1,0 +1,11 @@
+scikit-learn
+scipy
+matplotlib
+qdarkstyle
+sip
+datetime
+seaborn
+joblib
+networkx
+biopython
+rdkit

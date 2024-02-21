@@ -20,38 +20,21 @@ dataset = pipeline.read(
 	}
 )
 
-# apply the ifeature component
+# apply the containerized components to the dataset
 dataset = dataset.apply(
-    "./components/biopython_component",
-).apply(
-	"./components/ifeature_component",
+	"./components/iFeatureOmega_component"
 )
 
 """
-
-NEED TO WAIT UNTIL THE FEATURE HAS BEEN ADDED WHERE I DON'T NEED TO SPECIFY THE COLUMNS
-
 # write the dataset to a parquet file
-biopython_dataset.apply(
+dataset.apply(
 	"write_to_file",
 	arguments={
 		"path": "/data/export",
 	},
 	consumes={
 		"sequence": pa.string(),
-		"sequence_length": pa.int64(),
-		"molecular_weight": pa.float64(),
-		"aromaticity": pa.float64(),
-		"isoelectric_point": pa.float64(),
-		"instability_index": pa.float64(),
-		"gravy": pa.float64(),
-		"helix": pa.float64(),
-		"turn": pa.float64(),
-		"sheet": pa.float64(),
-		"charge_at_ph7": pa.float64(),
-		"charge_at_ph5": pa.float64(),
-		"molar_extinction_coefficient_oxidized": pa.int64(),
-		"molar_extinction_coefficient_reduced": pa.int64()
+		"iFeatureOmega_features": pa.string()
 	}
 )
 """
