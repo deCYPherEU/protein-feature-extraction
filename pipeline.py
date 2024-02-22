@@ -20,24 +20,19 @@ dataset = pipeline.read(
 	}
 )
 
+# apply the biopython component to the dataset
+# works, currently commented out, because I need to test the iFeatureOmega component
+"""
+biopython_dataset = dataset.apply(
+	"./components/biopython_component"
+)
+"""
+
 # apply the containerized components to the dataset
 dataset = dataset.apply(
 	"./components/iFeatureOmega_component"
 )
 
-"""
-# write the dataset to a parquet file
-dataset.apply(
-	"write_to_file",
-	arguments={
-		"path": "/data/export",
-	},
-	consumes={
-		"sequence": pa.string(),
-		"iFeatureOmega_features": pa.string()
-	}
-)
-"""
 
 # run the pipeline using your local path to the folder, this one is mine
 # fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
