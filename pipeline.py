@@ -1,6 +1,7 @@
 import pyarrow as pa
 from fondant.pipeline import Pipeline
 from config import MOCK_DATA_PATH_FONDANT
+from config import VERY_LARGE_NUMBER_PARTITION_ROWS
 
 # create a new pipeline
 pipeline = Pipeline(
@@ -20,17 +21,20 @@ dataset = pipeline.read(
 	}
 )
 
-# apply the biopython component to the dataset
-# works, currently commented out, because I need to test the iFeatureOmega component
-"""
-biopython_dataset = dataset.apply(
+_ = dataset.apply(
 	"./components/biopython_component"
+).apply(
+	"./components/iFeatureOmega_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this
+	input_partition_rows=5,
 )
-"""
 
-# apply the containerized components to the dataset
-dataset = dataset.apply(
-	"./components/iFeatureOmega_component"
+# write the dataset
+_ = dataset.write(
+	"write_to_file",
+	arguments={
+		"path": "/data/export/",
+	}
 )
 
 
