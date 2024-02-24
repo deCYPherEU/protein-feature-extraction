@@ -1,7 +1,6 @@
 import pyarrow as pa
 from fondant.pipeline import Pipeline
 from config import MOCK_DATA_PATH_FONDANT
-from config import VERY_LARGE_NUMBER_PARTITION_ROWS
 
 # create a new pipeline
 pipeline = Pipeline(
@@ -29,6 +28,8 @@ _ = dataset.apply(
 	input_partition_rows=5,
 )
 
+
+"""
 # write the dataset
 _ = dataset.write(
 	"write_to_file",
@@ -36,7 +37,7 @@ _ = dataset.write(
 		"path": "/data/export/",
 	}
 )
-
+"""
 
 # run the pipeline using your local path to the folder, this one is mine
 # fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
