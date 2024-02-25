@@ -6,6 +6,12 @@ consumes:
   sequence:
         type: string
 
+args:
+  descriptors:
+        type: list
+        description: List of descriptors to be calculated
+        default: ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+
 produces:
   sequence:
         type: string

@@ -3,7 +3,6 @@ import pandas as pd
 from fondant.component import PandasTransformComponent
 import iFeatureOmega_CLI.iFeatureOmegaCLI as iFO
 import uuid
-import os
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -11,8 +10,8 @@ logger = logging.getLogger(__name__)
 class IFeatureOmegaComponent(PandasTransformComponent):
 	"""The IFeatureOmegaComponent class is a component that generates new features using iFeatureOmega."""
 
-	def __init__(self, *_):
-		self.descriptors = ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+	def __init__(self, descriptors: list):
+		self.descriptors = descriptors
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		# Get the sequence from the dataframe

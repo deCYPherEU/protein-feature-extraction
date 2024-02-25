@@ -26,27 +26,6 @@ To execute this script, you need to run the following command:
 python utils/generate_mock_data.py
 ```
 
-## Adding the iFeatureOmega repo to the iFeatureOmega_component folder
-
-iFeatureOmega is a GitHub repo that contains the code for the iFeatureOmega tool. This tool is used to extract protein features from protein sequences. It sadly doesn't have a pip package, so we need to add the repo to the iFeatureOmega_component folder. To do this, you need to run the following command:
-
-```bash
-git clone https://github.com/Superzchen/iFeatureOmega-CLI
-
-# linux users
-mv iFeatureOmega-CLI components/iFeatureOmega_component/src/iFeatureOmega-CLI
-
-# rename the folder to iFeatureOmega_CLI
-mv components/iFeatureOmega_component/src/iFeatureOmega-CLI components/iFeatureOmega_component/src/iFeatureOmega_CLI
-
-# windows users
-Move-Item -Path iFeatureOmega-CLI -Destination components/iFeatureOmega_component/src/iFeatureOmega-CLI
-
-# rename the folder to iFeatureOmega_CLI
-Rename-Item -Path components/iFeatureOmega_component/src/iFeatureOmega-CLI -NewName iFeatureOmega_CLI
-
-```
-
 ## Executing the Pipeline
 
 For Windows users, you need to run the following command to execute the pipeline:

@@ -18,4 +18,8 @@ WORKDIR /component/src
 # Copy over src-files and spec of the component
 COPY src/ .
 
+# install the github repo of iFeatureOmega-CLI and rename it to iFeatureOmega_CLI
+RUN git clone https://github.com/Superzchen/iFeatureOmega-CLI
+RUN mv iFeatureOmega-CLI iFeatureOmega_CLI
+
 ENTRYPOINT ["fondant", "execute", "main"]
