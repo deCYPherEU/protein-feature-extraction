@@ -18,7 +18,7 @@ class IFeatureOmegaComponent(PandasTransformComponent):
 		sequences = dataframe["sequence"].tolist()
 		
 		# Generate all features, only need one to get the column names
-		all_features = self.generate_all_features(sequences[0])
+		all_features = self.generate_all_features_names(sequences[0])
 
 		# Add the columns to the dataframe
 		dataframe = pd.concat([dataframe, pd.DataFrame(columns=all_features)])
@@ -50,7 +50,7 @@ class IFeatureOmegaComponent(PandasTransformComponent):
 
 		return ifeatureO_protein
 	
-	def generate_all_features(self, sequence: str) -> list:
+	def generate_all_features_names(self, sequence: str) -> list:
 		all_features = []
 
 		single_protein = self.create_ifo_protein(sequence)
