@@ -24,7 +24,7 @@ _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
 	"./components/iFeatureOmega_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
 	# change the descriptors? => change the features of the yaml file 
 	arguments={
