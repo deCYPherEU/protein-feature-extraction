@@ -1,0 +1,264 @@
+name: iFeatureOmega component
+description: A component that uses iFeatureOmega to perform certain operations on sequences.
+image: iFeatureOmega_component:latest
+
+consumes:
+  sequence:
+        type: string
+
+args:
+  descriptors:
+        type: list
+        description: List of descriptors to be calculated
+        default: ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+
+produces:
+  sequence:
+        type: string
+  AAC_A:
+        type: float64
+  AAC_C:
+        type: float64
+  AAC_D:
+        type: float64
+  AAC_E:
+        type: float64
+  AAC_F:
+        type: float64
+  AAC_G:
+        type: float64
+  AAC_H:
+        type: float64
+  AAC_I:
+        type: float64
+  AAC_K:
+        type: float64
+  AAC_L:
+        type: float64
+  AAC_M:
+        type: float64
+  AAC_N:
+        type: float64
+  AAC_P:
+        type: float64
+  AAC_Q:
+        type: float64
+  AAC_R:
+        type: float64
+  AAC_S:
+        type: float64
+  AAC_T:
+        type: float64
+  AAC_V:
+        type: float64
+  AAC_W:
+        type: float64
+  AAC_Y:
+        type: float64
+  APAAC_Pc1.A:
+        type: float64
+  APAAC_Pc1.C:
+        type: float64
+  APAAC_Pc1.D:
+        type: float64
+  APAAC_Pc1.E:
+        type: float64
+  APAAC_Pc1.F:
+        type: float64
+  APAAC_Pc1.G:
+        type: float64
+  APAAC_Pc1.H:
+        type: float64
+  APAAC_Pc1.I:
+        type: float64
+  APAAC_Pc1.K:
+        type: float64
+  APAAC_Pc1.L:
+        type: float64
+  APAAC_Pc1.M:
+        type: float64
+  APAAC_Pc1.N:
+        type: float64
+  APAAC_Pc1.P:
+        type: float64
+  APAAC_Pc1.Q:
+        type: float64
+  APAAC_Pc1.R:
+        type: float64
+  APAAC_Pc1.S:
+        type: float64
+  APAAC_Pc1.T:
+        type: float64
+  APAAC_Pc1.V:
+        type: float64
+  APAAC_Pc1.W:
+        type: float64
+  APAAC_Pc1.Y:
+        type: float64
+  APAAC_Pc2.Hydrophilicity.1:
+        type: float64
+  APAAC_Pc2.Hydrophilicity.2:
+        type: float64
+  APAAC_Pc2.Hydrophilicity.3:
+        type: float64
+  APAAC_Pc2.Hydrophobicity.1:
+        type: float64
+  APAAC_Pc2.Hydrophobicity.2:
+        type: float64
+  APAAC_Pc2.Hydrophobicity.3:
+        type: float64
+  GAAC_alphatic:
+        type: float64
+  GAAC_aromatic:
+        type: float64
+  GAAC_negativecharge:
+        type: float64
+  GAAC_postivecharge:
+        type: float64
+  GAAC_uncharge:
+        type: float64
+  Geary_ANDN920101.lag1:
+        type: float64
+  Geary_ANDN920101.lag2:
+        type: float64
+  Geary_ANDN920101.lag3:
+        type: float64
+  Geary_ARGP820101.lag1:
+        type: float64
+  Geary_ARGP820101.lag2:
+        type: float64
+  Geary_ARGP820101.lag3:
+        type: float64
+  Geary_ARGP820102.lag1:
+        type: float64
+  Geary_ARGP820102.lag2:
+        type: float64
+  Geary_ARGP820102.lag3:
+        type: float64
+  Geary_ARGP820103.lag1:
+        type: float64
+  Geary_ARGP820103.lag2:
+        type: float64
+  Geary_ARGP820103.lag3:
+        type: float64
+  Geary_BEGF750101.lag1:
+        type: float64
+  Geary_BEGF750101.lag2:
+        type: float64
+  Geary_BEGF750101.lag3:
+        type: float64
+  Geary_BEGF750102.lag1:
+        type: float64
+  Geary_BEGF750102.lag2:
+        type: float64
+  Geary_BEGF750102.lag3:
+        type: float64
+  Geary_BEGF750103.lag1:
+        type: float64
+  Geary_BEGF750103.lag2:
+        type: float64
+  Geary_BEGF750103.lag3:
+        type: float64
+  Geary_BHAR880101.lag1:
+        type: float64
+  Geary_BHAR880101.lag2:
+        type: float64
+  Geary_BHAR880101.lag3:
+        type: float64
+  Moran_ANDN920101.lag1:
+        type: float64
+  Moran_ANDN920101.lag2:
+        type: float64
+  Moran_ANDN920101.lag3:
+        type: float64
+  Moran_ARGP820101.lag1:
+        type: float64
+  Moran_ARGP820101.lag2:
+        type: float64
+  Moran_ARGP820101.lag3:
+        type: float64
+  Moran_ARGP820102.lag1:
+        type: float64
+  Moran_ARGP820102.lag2:
+        type: float64
+  Moran_ARGP820102.lag3:
+        type: float64
+  Moran_ARGP820103.lag1:
+        type: float64
+  Moran_ARGP820103.lag2:
+        type: float64
+  Moran_ARGP820103.lag3:
+        type: float64
+  Moran_BEGF750101.lag1:
+        type: float64
+  Moran_BEGF750101.lag2:
+        type: float64
+  Moran_BEGF750101.lag3:
+        type: float64
+  Moran_BEGF750102.lag1:
+        type: float64
+  Moran_BEGF750102.lag2:
+        type: float64
+  Moran_BEGF750102.lag3:
+        type: float64
+  Moran_BEGF750103.lag1:
+        type: float64
+  Moran_BEGF750103.lag2:
+        type: float64
+  Moran_BEGF750103.lag3:
+        type: float64
+  Moran_BHAR880101.lag1:
+        type: float64
+  Moran_BHAR880101.lag2:
+        type: float64
+  Moran_BHAR880101.lag3:
+        type: float64
+  NMBroto_ANDN920101.lag1:
+        type: float64
+  NMBroto_ANDN920101.lag2:
+        type: float64
+  NMBroto_ANDN920101.lag3:
+        type: float64
+  NMBroto_ARGP820101.lag1:
+        type: float64
+  NMBroto_ARGP820101.lag2:
+        type: float64
+  NMBroto_ARGP820101.lag3:
+        type: float64
+  NMBroto_ARGP820102.lag1:
+        type: float64
+  NMBroto_ARGP820102.lag2:
+        type: float64
+  NMBroto_ARGP820102.lag3:
+        type: float64
+  NMBroto_ARGP820103.lag1:
+        type: float64
+  NMBroto_ARGP820103.lag2:
+        type: float64
+  NMBroto_ARGP820103.lag3:
+        type: float64
+  NMBroto_BEGF750101.lag1:
+        type: float64
+  NMBroto_BEGF750101.lag2:
+        type: float64
+  NMBroto_BEGF750101.lag3:
+        type: float64
+  NMBroto_BEGF750102.lag1:
+        type: float64
+  NMBroto_BEGF750102.lag2:
+        type: float64
+  NMBroto_BEGF750102.lag3:
+        type: float64
+  NMBroto_BEGF750103.lag1:
+        type: float64
+  NMBroto_BEGF750103.lag2:
+        type: float64
+  NMBroto_BEGF750103.lag3:
+        type: float64
+  NMBroto_BHAR880101.lag1:
+        type: float64
+  NMBroto_BHAR880101.lag2:
+        type: float64
+  NMBroto_BHAR880101.lag3:
+        type: float64
+

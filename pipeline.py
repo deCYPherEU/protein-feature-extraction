@@ -20,34 +20,28 @@ dataset = pipeline.read(
 	}
 )
 
-# apply the biopython component
-biopython_dataset = dataset.apply(
-    "./components/biopython_component",
-)
-
-# write the dataset to a parquet file
-biopython_dataset.apply(
-	"write_to_file",
+_ = dataset.apply(
+	"./components/biopython_component"
+).apply(
+	"./components/iFeatureOmega_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+	input_partition_rows=5,
+	# change the descriptors? => change the features of the yaml file 
 	arguments={
-		"path": "/data/export",
-	},
-	consumes={
-		"sequence": pa.string(),
-		"sequence_length": pa.int64(),
-		"molecular_weight": pa.float64(),
-		"aromaticity": pa.float64(),
-		"isoelectric_point": pa.float64(),
-		"instability_index": pa.float64(),
-		"gravy": pa.float64(),
-		"helix": pa.float64(),
-		"turn": pa.float64(),
-		"sheet": pa.float64(),
-		"charge_at_ph7": pa.float64(),
-		"charge_at_ph5": pa.float64(),
-		"molar_extinction_coefficient_oxidized": pa.int64(),
-		"molar_extinction_coefficient_reduced": pa.int64()
+		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
 	}
 )
+
+
+"""
+# write the dataset
+_ = dataset.write(
+	"write_to_file",
+	arguments={
+		"path": "/data/export/",
+	}
+)
+"""
 
 # run the pipeline using your local path to the folder, this one is mine
 # fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data

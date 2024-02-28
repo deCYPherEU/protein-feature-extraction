@@ -175,9 +175,9 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
-# Ignore all .env files
-.Pipfile
-.Pipfile.lock
+# Ignore all pip files
+Pipfile
+Pipfile.lock
 
 # Ignore .fondant folder
 .fondant/
@@ -190,3 +190,5 @@ data/
 
 # Ignore the experiments folder
 experiments/
+
+components/iFeatureOmega_component/src/iFeatureOmega_CLI
