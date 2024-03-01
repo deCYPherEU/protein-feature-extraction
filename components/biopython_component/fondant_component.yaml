@@ -7,31 +7,308 @@ consumes:
         type: string
 
 produces:
-  sequence:
-        type: string
-  sequence_length:
-        type: int64
-  molecular_weight:
-        type: float64
+  AAA_frequency:
+    type: float64
+  AAA_usage_bias:
+    type: float64
+  AAC_frequency:
+    type: float64
+  AAC_usage_bias:
+    type: float64
+  AAG_frequency:
+    type: float64
+  AAG_usage_bias:
+    type: float64
+  AAT_frequency:
+    type: float64
+  AAT_usage_bias:
+    type: float64
+  ACA_frequency:
+    type: float64
+  ACA_usage_bias:
+    type: float64
+  ACC_frequency:
+    type: float64
+  ACC_usage_bias:
+    type: float64
+  ACG_frequency:
+    type: float64
+  ACG_usage_bias:
+    type: float64
+  ACT_frequency:
+    type: float64
+  ACT_usage_bias:
+    type: float64
+  AGA_frequency:
+    type: float64
+  AGA_usage_bias:
+    type: float64
+  AGC_frequency:
+    type: float64
+  AGC_usage_bias:
+    type: float64
+  AGG_frequency:
+    type: float64
+  AGG_usage_bias:
+    type: float64
+  AGT_frequency:
+    type: float64
+  AGT_usage_bias:
+    type: float64
+  ATA_frequency:
+    type: float64
+  ATA_usage_bias:
+    type: float64
+  ATC_frequency:
+    type: float64
+  ATC_usage_bias:
+    type: float64
+  ATG_frequency:
+    type: float64
+  ATG_usage_bias:
+    type: float64
+  ATT_frequency:
+    type: float64
+  ATT_usage_bias:
+    type: float64
+  A_frequency:
+    type: float64
+  CAA_frequency:
+    type: float64
+  CAA_usage_bias:
+    type: float64
+  CAC_frequency:
+    type: float64
+  CAC_usage_bias:
+    type: float64
+  CAG_frequency:
+    type: float64
+  CAG_usage_bias:
+    type: float64
+  CAT_frequency:
+    type: float64
+  CAT_usage_bias:
+    type: float64
+  CCA_frequency:
+    type: float64
+  CCA_usage_bias:
+    type: float64
+  CCC_frequency:
+    type: float64
+  CCC_usage_bias:
+    type: float64
+  CCG_frequency:
+    type: float64
+  CCG_usage_bias:
+    type: float64
+  CCT_frequency:
+    type: float64
+  CCT_usage_bias:
+    type: float64
+  CGA_frequency:
+    type: float64
+  CGA_usage_bias:
+    type: float64
+  CGC_frequency:
+    type: float64
+  CGC_usage_bias:
+    type: float64
+  CGG_frequency:
+    type: float64
+  CGG_usage_bias:
+    type: float64
+  CGT_frequency:
+    type: float64
+  CGT_usage_bias:
+    type: float64
+  CTA_frequency:
+    type: float64
+  CTA_usage_bias:
+    type: float64
+  CTC_frequency:
+    type: float64
+  CTC_usage_bias:
+    type: float64
+  CTG_frequency:
+    type: float64
+  CTG_usage_bias:
+    type: float64
+  CTT_frequency:
+    type: float64
+  CTT_usage_bias:
+    type: float64
+  C_frequency:
+    type: float64
+  GAA_frequency:
+    type: float64
+  GAA_usage_bias:
+    type: float64
+  GAC_frequency:
+    type: float64
+  GAC_usage_bias:
+    type: float64
+  GAG_frequency:
+    type: float64
+  GAG_usage_bias:
+    type: float64
+  GAT_frequency:
+    type: float64
+  GAT_usage_bias:
+    type: float64
+  GCA_frequency:
+    type: float64
+  GCA_usage_bias:
+    type: float64
+  GCC_frequency:
+    type: float64
+  GCC_usage_bias:
+    type: float64
+  GCG_frequency:
+    type: float64
+  GCG_usage_bias:
+    type: float64
+  GCT_frequency:
+    type: float64
+  GCT_usage_bias:
+    type: float64
+  GGA_frequency:
+    type: float64
+  GGA_usage_bias:
+    type: float64
+  GGC_frequency:
+    type: float64
+  GGC_usage_bias:
+    type: float64
+  GGG_frequency:
+    type: float64
+  GGG_usage_bias:
+    type: float64
+  GGT_frequency:
+    type: float64
+  GGT_usage_bias:
+    type: float64
+  GTA_frequency:
+    type: float64
+  GTA_usage_bias:
+    type: float64
+  GTC_frequency:
+    type: float64
+  GTC_usage_bias:
+    type: float64
+  GTG_frequency:
+    type: float64
+  GTG_usage_bias:
+    type: float64
+  GTT_frequency:
+    type: float64
+  GTT_usage_bias:
+    type: float64
+  G_frequency:
+    type: float64
+  TAA_frequency:
+    type: float64
+  TAA_usage_bias:
+    type: float64
+  TAC_frequency:
+    type: float64
+  TAC_usage_bias:
+    type: float64
+  TAG_frequency:
+    type: float64
+  TAG_usage_bias:
+    type: float64
+  TAT_frequency:
+    type: float64
+  TAT_usage_bias:
+    type: float64
+  TCA_frequency:
+    type: float64
+  TCA_usage_bias:
+    type: float64
+  TCC_frequency:
+    type: float64
+  TCC_usage_bias:
+    type: float64
+  TCG_frequency:
+    type: float64
+  TCG_usage_bias:
+    type: float64
+  TCT_frequency:
+    type: float64
+  TCT_usage_bias:
+    type: float64
+  TGA_frequency:
+    type: float64
+  TGA_usage_bias:
+    type: float64
+  TGC_frequency:
+    type: float64
+  TGC_usage_bias:
+    type: float64
+  TGG_frequency:
+    type: float64
+  TGG_usage_bias:
+    type: float64
+  TGT_frequency:
+    type: float64
+  TGT_usage_bias:
+    type: float64
+  TTA_frequency:
+    type: float64
+  TTA_usage_bias:
+    type: float64
+  TTC_frequency:
+    type: float64
+  TTC_usage_bias:
+    type: float64
+  TTG_frequency:
+    type: float64
+  TTG_usage_bias:
+    type: float64
+  TTT_frequency:
+    type: float64
+  TTT_usage_bias:
+    type: float64
+  T_frequency:
+    type: float64
   aromaticity:
-        type: float64
-  isoelectric_point:
-        type: float64
-  instability_index:
-        type: float64
-  gravy:
-        type: float64
-  helix:
-        type: float64
-  turn:
-        type: float64
-  sheet:
-        type: float64
-  charge_at_ph7:
-        type: float64
+    type: float64
+  charge_at_ph3:
+    type: float64
   charge_at_ph5:
-        type: float64
+    type: float64
+  charge_at_ph7:
+    type: float64
+  charge_at_ph9:
+    type: float64
+  flexibility_max:
+    type: float64
+  flexibility_mean:
+    type: float64
+  flexibility_min:
+    type: float64
+  gc_content:
+    type: float64
+  gravy:
+    type: float64
+  helix:
+    type: float64
+  instability_index:
+    type: float64
+  isoelectric_point:
+    type: float64
   molar_extinction_coefficient_oxidized:
-        type: int64
+    type: int64
   molar_extinction_coefficient_reduced:
-        type: int64
+    type: int64
+  molecular_weight:
+    type: float64
+  sequence:
+    type: string
+  sequence_length:
+    type: int64
+  sheet:
+    type: float64
+  turn:
+    type: float64
+

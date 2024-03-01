@@ -30,6 +30,10 @@ _ = dataset.apply(
 	arguments={
 		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
 	}
+).apply(
+	"./components/peptide_features_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+	input_partition_rows=5
 )
 
 
