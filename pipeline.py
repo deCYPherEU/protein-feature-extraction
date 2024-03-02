@@ -28,7 +28,7 @@ _ = dataset.apply(
 	input_partition_rows=5,
 	# change the descriptors? => change the features of the yaml file 
 	arguments={
-		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+		"descriptors": ["AAC", "CTDC", "CTDT"]
 	}
 ).apply(
 	"./components/peptide_features_component",
