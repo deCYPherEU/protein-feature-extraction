@@ -3,11 +3,11 @@
 function usage {
     echo "Usage: $0 [options]"
     echo "Options:"
-    echo "  -d, --directory <directory>              Directory containing components to build as subdirectories. The path should be relative to the root directory (default:components)"
-    echo "  -t, --tag <tag>                         Tag of the component to build (default: latest)"
-    echo "  -r, --registry <registry>               Registry to push the image to (default: ghcr.io/decyphereu/fondant/components)"
-    echo "  -f, --fondant-version <fondant-version> Version of fondant to use (default: main)"
-    echo "  -h, --help                              Show this help message and exit"
+    echo "  -d, --directory <directory>                 Directory containing components to build as subdirectories. The path should be relative to the root directory (default:components)"
+    echo "  -t, --tag <tag>                             Tag of the component to build (default: latest)"
+    echo "  -r, --registry <registry>                   Registry to push the image to (default: ghcr.io/decyphereu/fondant/components)"
+    echo "  -f, --fondant-version <fondant-version>     Version of fondant to use (default: main)"
+    echo "  -h, --help                                  Show this help message and exit"
 }
 
 
