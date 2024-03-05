@@ -41,30 +41,54 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 
 	def apply_local_transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""The local_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
-		pdb_files_filepath = "pdb_files"
 
 		payload = self.prepare_payload(dataframe)
 		# response = self.send_query(payload)
 
+		# Mock response
 		response = [
 			{
-				"id": "sequence_id",
+				"id": "CRC-94CF2EE011C80480",
 				"pdb": "pdb_file"
 			},
 			{
-				"id": "sequence_id_2",
+				"id": "CRC-68D748EC385E9BEC",
 				"pdb": "pdb_file_2"
-			}				
+			},
+			{
+				"id": "CRC-3B9E0764E7D3C737",
+				"pdb": "pdb_file_3"
+			},
+			{
+				"id": "CRC-B08C4E4E86E87F17",
+				"pdb": "pdb_file_4"
+			},
+			{
+				"id": "CRC-747F108552578E1D",
+				"pdb": "pdb_file_5"
+			}
 		]
 		
-		# save the results to a file using the sequence id as the file name
-		for result in response:
-			with open(f"{pdb_files_filepath}/{result['id']}.pdb", "w") as file:
-				file.write(result["pdb"])
+		# Merge payload and response based on id
+		merged_data = []
+		for item in payload['inputs']:
+			for resp in response:
+				if item['id'] == resp['id']:
+					merged_data.append({**item, **resp})
+					break
 
+		# Create columns
+		dataframe["pdb_string"] = ""
+		dataframe["sequence_id"] = ""
 
-		logger.info(f"Amount of files in the pdb_files folder: {len(os.listdir(pdb_files_filepath))}")
+		# Place merged data into the dataframe
+		for index, row in dataframe.iterrows():
+			for merged_item in merged_data:
+				if row["sequence"] == merged_item["sequence"]:
+					dataframe.at[index, "pdb_string"] = merged_item["pdb"]
+					dataframe.at[index, "sequence_id"] = merged_item["id"]
 		
+
 		return dataframe
 
 

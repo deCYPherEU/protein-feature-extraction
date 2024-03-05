@@ -15,4 +15,8 @@ args:
 produces:
   sequence:
     type: string
+  pdb_string:
+    type: string
+  sequence_id:
+    type: string
 
