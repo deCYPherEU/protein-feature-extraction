@@ -81,9 +81,3 @@ produces:
     type: float64
   tmd_length:
     type: int64
-  tmd_hydrophobic_aa_fraction:
-    type: float64
-  tmd_start_position:
-    type: int64
-  tmd_end_position:
-    type: int64

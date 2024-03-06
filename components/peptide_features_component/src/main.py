@@ -25,9 +25,6 @@ class PeptideFeaturesComponent(PandasTransformComponent):
 		
 		dataframe = self.calculate_aa_fractions(dataframe)	
 		dataframe = self.calculate_mz(dataframe)
-		dataframe = self.calculate_tmd_length(dataframe)
-		dataframe = self.calculate_tmd_hydrophobic_aa_fraction(dataframe)
-		dataframe = self.calculate_tmd_start_end_positions(dataframe)
 
 
 		logger.info(f"PeptideFeaturesComponent: features generated: {dataframe.columns.tolist()}")
@@ -88,53 +85,3 @@ class PeptideFeaturesComponent(PandasTransformComponent):
 			dataframe[column_name] = dataframe["sequence"].apply(lambda x: sum(x.count(aa) for aa in amino_acids) / len(x))
 		
 		return dataframe
-	
-	def calculate_tmd_length(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""
-		Calculate the length of transmembrane domains (TMDs) in a protein sequence.
-		"""
-		tmd_lengths = []
-		tmd_pattern = '[AILMFWV]{4,}'
-
-		for sequence in dataframe["sequence"]:
-			tmd_lengths.append(sum(len(match.group()) for match in re.finditer(tmd_pattern, sequence)))
-
-		dataframe["tmd_length"] = tmd_lengths
-		return dataframe
-
-	def calculate_tmd_hydrophobic_aa_fraction(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""
-		Calculate the fraction of hydrophobic amino acids in transmembrane domains (TMDs) of a protein sequence.
-		"""
-		hydrophobic_aa = 'AILMFWV'
-		tmd_hydrophobic_aa_fraction = []
-
-		for sequence in dataframe["sequence"]:
-			tmd_pattern = '[AILMFWV]{4,}'
-			tmd_sequence = ''.join(match.group() for match in re.finditer(tmd_pattern, sequence))
-			hydrophobic_count = sum(tmd_sequence.count(aa) for aa in hydrophobic_aa)
-			tmd_hydrophobic_aa_fraction.append(hydrophobic_count / len(tmd_sequence) if len(tmd_sequence) > 0 else 0.0)
-
-		dataframe["tmd_hydrophobic_aa_fraction"] = tmd_hydrophobic_aa_fraction
-		return dataframe
-
-	def calculate_tmd_start_end_positions(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-			"""
-			Calculate the start and end positions of transmembrane domains (TMDs) in a protein sequence.
-			"""
-			tmd_start_positions = []
-			tmd_end_positions = []
-			tmd_pattern = '[AILMFWV]{4,}'
-
-			for sequence in dataframe["sequence"]:
-				tmd_positions = [(match.start() + 1, match.end()) for match in re.finditer(tmd_pattern, sequence)]
-				if tmd_positions:
-					tmd_start_positions.append(tmd_positions[0][0])
-					tmd_end_positions.append(tmd_positions[-1][1])
-				else:
-					tmd_start_positions.append(None)
-					tmd_end_positions.append(None)
-
-			dataframe["tmd_start_position"] = tmd_start_positions
-			dataframe["tmd_end_position"] = tmd_end_positions
-			return dataframe
