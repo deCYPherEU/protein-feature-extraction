@@ -5,3 +5,4 @@ dask==2024.2.0
 tensorflow==2.15.0
 biopython==1.83
 ipykernel==6.29.3
+google-cloud-storage==2.15.0
