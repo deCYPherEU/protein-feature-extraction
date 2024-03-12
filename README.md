@@ -2,6 +2,20 @@
 
 This repository contains the code for the creation of the Fondant pipeline that extracts protein features from protein sequences.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Generation of Mock Data](#generation-of-mock-data)
+- [Hugging Face Endpoint Component](#hugging-face-endpoint-component)
+  - [Installing Nimbus](#installing-nimbus)
+  - [Installing Terraform](#installing-terraform)
+  - [Installing Google Cloud SDK](#installing-google-cloud-sdk)
+  - [Getting Google Cloud Credentials](#getting-google-cloud-credentials)
+  - [Creating the environment file](#creating-the-environment-file)
+- [Creating the Infrastructure](#creating-the-infrastructure)
+- [Executing the Pipeline](#executing-the-pipeline)
+- [Partition issue with Fondant](#partition-issue-with-fondant)
+
 ## Installation
 
 To install the pipeline, you need to run the following command to install the requirements file:
@@ -24,7 +38,15 @@ To execute this script, you need to run the following command:
 python utils/generate_mock_data.py
 ```
 
-## Installing Nimbus
+## Hugging Face Endpoint Component
+
+The Hugging Face Endpoint component is a custom component that is used to interact with the Interface Endpoints of the Hugging Face API. This component is used to predict the tertiary structure of a protein sequence using the ESMFold model. The Hugging Face component makes use of the Nimbus tool to create the infrastructure on the Google Cloud Platform to store the created pdb files. The component also uses the Google Cloud SDK to authenticate with the Google Cloud Platform.
+
+> path: [hf_endpoint_component](./components/hf_endpoint_component/)
+
+The following sections contain the requirements for the component and the installation steps.
+
+### Installing Nimbus
 
 Nimbus is a tool created by ML6. This project is used to generate boilerplate code for cloud providers. To install Nimbus, you need to run the following command:
 
@@ -92,6 +114,32 @@ terraform init
 terraform plan --var-file ../environment/project.tfvars 
 terraform apply --var-file ../environment/project.tfvars
 ```
+
+### Getting Google Cloud Credentials
+
+To use the Google Cloud SDK, you need to authenticate with your Google Cloud account. To do this, you need to run the following command:
+
+```bash
+gcloud auth login
+```
+
+This command should create a new browser window where you can authenticate with your Google Cloud account. It also create a new file in your home directory called ``.config/gcloud/application_default_credentials.json``. This file contains the credentials that are used to authenticate with the Google Cloud SDK.
+
+### Creating the environment file
+
+The environment file is used to store the project information. This file is used by the component to for access to the Google Cloud Platform and the Hugging Face Interface Endpoints. This file looks as follows:
+
+```js
+HF_API_KEY=huggingface-api-key
+HF_ENDPOINT_URL=huggingface-endpoint-url
+PROJECT_ID=project-id
+BUCKET_NAME=bucket-name
+GOOGLE_APPLICATION_CREDENTIALS=google_cloud_credentials.json
+```
+
+This file should be placed in the ``hf_endpoint_component`` folder and should be called ``.env``.
+
+The other file that should be added is the ``google_cloud_credentials.json`` file. This file is used to authenticate with the Google Cloud Platform. This file should also be placed in the ``hf_endpoint_component`` folder.
 
 ## Executing the Pipeline
 
