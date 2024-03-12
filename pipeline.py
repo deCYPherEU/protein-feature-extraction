@@ -24,11 +24,7 @@ dataset = pipeline.read(
 # apply the cloud pdb component
 _ = dataset.apply(
 	"./components/cloud_pdb_component",
-)
-
-
-"""
-.apply(
+).apply(
 	"./components/biopython_component"
 ).apply(
 	"./components/iFeatureOmega_component",
@@ -43,8 +39,6 @@ _ = dataset.apply(
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5
 )
-"""
-
 
 
 """
