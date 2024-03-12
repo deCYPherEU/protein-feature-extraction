@@ -77,19 +77,42 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		self.upload_to_cloud_storage(dataframe)
 		
 		return dataframe
+	
 
-	def upload_to_cloud_storage(self, dataframe: pd.DataFrame) -> None:
-		"""
-		Upload the pdb files to the cloud storage if they are not already in the cloud storage.
-		"""
+	def apply_local_transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+		"""The local_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
-		# check if the checksum is already in the cloud storage
-		ids_in_cloud = [blob.name for blob in self.bucket.list_blobs()]
+		dataframe = self.apply_checksum(dataframe)
+		payload = self.prepare_payload_local(dataframe)
+		# response = self.send_query(payload)
 
-		for index, row in dataframe.iterrows():
-			if row["sequence_id"] not in ids_in_cloud:
-				blob = self.bucket.blob(row["sequence_id"])
-				blob.upload_from_string(row["pdb_string"])
+		# Mock response
+		response = [
+			{
+				"id": "CRC-94CF2EE011C80480",
+				"pdb": "pdb_file"
+			},
+			{
+				"id": "CRC-68D748EC385E9BEC",
+				"pdb": "pdb_file_2"
+			},
+			{
+				"id": "CRC-3B9E0764E7D3C737",
+				"pdb": "pdb_file_3"
+			},
+			{
+				"id": "CRC-B08C4E4E86E87F17",
+				"pdb": "pdb_file_4"
+			},
+			{
+				"id": "CRC-747F108552578E1D",
+				"pdb": "pdb_file_5"
+			}
+		]
+
+		dataframe = self.merge_response_to_dataframe(dataframe, response)
+
+		return dataframe
 
 
 	def apply_checksum(self, dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -103,6 +126,7 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 			dataframe.at[index, "sequence_id"] = crc64(row["sequence"])
 		
 		return dataframe
+
 	
 	def prepare_payload_cloud(self, dataframe: pd.DataFrame) -> Tuple[Dict[str, List[Dict[str, str]]], pd.DataFrame]:
 		"""
@@ -142,40 +166,19 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		return blob.download_as_string()
 
 
-	def apply_local_transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""The local_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
+	def prepare_payload_local(self, dataframe: pd.DataFrame) -> Dict[str, List[Dict[str, str]]]:
+		"""Prepare the payload by performing a CRC64 checksum on each sequence and adding it to the inputs list."""
 
-		dataframe = self.apply_checksum(dataframe)
-		payload = self.prepare_payload_local(dataframe)
-		# response = self.send_query(payload)
+		ids_and_sequences = []
 
-		# Mock response
-		response = [
-			{
-				"id": "CRC-94CF2EE011C80480",
-				"pdb": "pdb_file"
-			},
-			{
-				"id": "CRC-68D748EC385E9BEC",
-				"pdb": "pdb_file_2"
-			},
-			{
-				"id": "CRC-3B9E0764E7D3C737",
-				"pdb": "pdb_file_3"
-			},
-			{
-				"id": "CRC-B08C4E4E86E87F17",
-				"pdb": "pdb_file_4"
-			},
-			{
-				"id": "CRC-747F108552578E1D",
-				"pdb": "pdb_file_5"
-			}
-		]
+		for index, row in dataframe.iterrows():
+			sequence = row["sequence"]
+			checksum = crc64(sequence)
+			ids_and_sequences.append({"id": checksum, "sequence": sequence})
+		
 
-		dataframe = self.merge_response_to_dataframe(dataframe, response)
+		return {"inputs": ids_and_sequences}
 
-		return dataframe
 
 	def merge_response_to_dataframe(self, dataframe: pd.DataFrame, response: List[Dict[str, str]]) -> pd.DataFrame:
 		"""Merge the response from the Hugging Face API with the original dataframe."""
@@ -191,20 +194,6 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 					dataframe.at[index, "pdb_string"] = item["pdb"]
 
 		return dataframe
-
-
-	def prepare_payload_local(self, dataframe: pd.DataFrame) -> Dict[str, List[Dict[str, str]]]:
-		"""Prepare the payload by performing a CRC64 checksum on each sequence and adding it to the inputs list."""
-
-		ids_and_sequences = []
-
-		for index, row in dataframe.iterrows():
-			sequence = row["sequence"]
-			checksum = crc64(sequence)
-			ids_and_sequences.append({"id": checksum, "sequence": sequence})
-		
-
-		return {"inputs": ids_and_sequences}
 
 
 	def send_query(self, payload: list) -> list:
@@ -226,3 +215,17 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		except requests.exceptions.RequestException as e:
 			print("ERROR API request: ", e)
 			return []
+
+
+	def upload_to_cloud_storage(self, dataframe: pd.DataFrame) -> None:
+		"""
+		Upload the pdb files to the cloud storage if they are not already in the cloud storage.
+		"""
+
+		# check if the checksum is already in the cloud storage
+		ids_in_cloud = [blob.name for blob in self.bucket.list_blobs()]
+
+		for index, row in dataframe.iterrows():
+			if row["sequence_id"] not in ids_in_cloud:
+				blob = self.bucket.blob(row["sequence_id"])
+				blob.upload_from_string(row["pdb_string"])
