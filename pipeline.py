@@ -1,6 +1,7 @@
 import pyarrow as pa
 from fondant.pipeline import Pipeline
 from config import MOCK_DATA_PATH_FONDANT
+from config import PDB_FILES_PATH
 
 # create a new pipeline
 pipeline = Pipeline(
@@ -20,11 +21,9 @@ dataset = pipeline.read(
 	}
 )
 
+# apply the cloud pdb component
 _ = dataset.apply(
-	"./components/hf_endpoint_component",
-	arguments={
-		"method": "cloud",
-	},
+	"./components/cloud_pdb_component",
 )
 
 

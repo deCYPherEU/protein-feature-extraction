@@ -120,7 +120,7 @@ terraform apply --var-file ../environment/project.tfvars
 To use the Google Cloud SDK, you need to authenticate with your Google Cloud account. To do this, you need to run the following command:
 
 ```bash
-gcloud auth login
+gcloud auth application-default login
 ```
 
 This command should create a new browser window where you can authenticate with your Google Cloud account. It also create a new file in your home directory called ``.config/gcloud/application_default_credentials.json``. This file contains the credentials that are used to authenticate with the Google Cloud SDK.

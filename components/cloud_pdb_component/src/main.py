@@ -1,5 +1,5 @@
 """
-The HuggingFaceEndpointComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence.
+The CloudPDBComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence using the cloud (GCP).
 """
 import logging
 import pandas as pd
@@ -21,27 +21,26 @@ service_account_key_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 # Set GOOGLE_APPLICATION_CREDENTIALS environment variable
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_key_path
 
+# Set GOOGLE_CLOUD_PROJECT environment variable
+os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("PROJECT_ID")
+
 # Set up logging
 logger = logging.getLogger(__name__)
 
-class HuggingFaceEndpointComponent(PandasTransformComponent):
-	"""The HuggingFaceEndpointComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
+class CloudPDBComponent(PandasTransformComponent):
+	"""The CloudPDBComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
-	def __init__(self, method: str):
-		self.method = method
-
-		# Load the environment variables
+	def __init__(self):
 		self.bucket_name = os.getenv("BUCKET_NAME")
-		self.project_id = os.getenv("PROJECT_ID")
 		self.HF_API_KEY = os.getenv("HF_API_KEY")
 		self.HF_ENDPOINT_URL = os.getenv("HF_ENDPOINT_URL")
-
-		self.storage_client = storage.Client(project=self.project_id)
-		self.bucket = self.storage_client.get_bucket(self.bucket_name)
-
+		self.project_id = os.getenv("PROJECT_ID")
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""The transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
+
+		storage_client = storage.Client(self.project_id)
+		bucket = storage_client.get_bucket(self.bucket_name)
 
 		if (self.HF_API_KEY is None) or (self.HF_ENDPOINT_URL is None):
 			logger.error("The Hugging Face API key or endpoint URL is not set.")
@@ -50,31 +49,23 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		if (self.bucket_name is None) or (self.project_id is None):
 			logger.error("The bucket name or project id is not set.")
 			return dataframe
-		
-		if self.method not in ["local", "cloud"]:
-			logger.error("The method must be either 'local' or 'cloud'.")
-			return dataframe
 
-		if self.method == "local":
-			return self.apply_local_transform(dataframe)
-		
-		if self.method == "cloud":
-			return self.apply_cloud_transform(dataframe)
+		dataframe = self.apply_cloud_transform(dataframe, bucket)
 		
 		return dataframe
-
+		
 	
-	def apply_cloud_transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+	def apply_cloud_transform(self, dataframe: pd.DataFrame, bucket) -> pd.DataFrame:
 		"""The cloud_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
 		dataframe = self.apply_checksum(dataframe)
 
-		payload, dataframe = self.prepare_payload_cloud(dataframe)
+		payload, dataframe = self.prepare_payload_cloud(dataframe, bucket)
 		response = self.send_query(payload)
 		
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
-		self.upload_to_cloud_storage(dataframe)
+		self.upload_to_cloud_storage(dataframe, bucket)
 		
 		return dataframe
 	
@@ -128,7 +119,7 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		return dataframe
 
 	
-	def prepare_payload_cloud(self, dataframe: pd.DataFrame) -> Tuple[Dict[str, List[Dict[str, str]]], pd.DataFrame]:
+	def prepare_payload_cloud(self, dataframe: pd.DataFrame, bucket) -> Tuple[Dict[str, List[Dict[str, str]]], pd.DataFrame]:
 		"""
 		Prepare the payload by performing a CRC64 checksum on each sequence and adding it to the inputs list.
 		Returns the payload and the dataframe.
@@ -137,7 +128,7 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		ids_and_sequences = []
 
 		# Collect all blob names first
-		blob_names = [blob.name for blob in self.bucket.list_blobs()]
+		blob_names = [blob.name for blob in bucket.list_blobs()]
 
 		# Check if the sequence is in the cloud storage
 		for index, row in dataframe.iterrows():
@@ -146,7 +137,7 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 				if row["sequence_id"] in blob_name:
 					found = True
 					# If the sequence is found in the cloud storage, update the dataframe
-					row["pdb_string"] = self.get_blob_content(blob_name)
+					row["pdb_string"] = self.get_blob_content(blob_name, bucket)
 					row["sequence_id"] = blob_name
 					dataframe.at[index, "pdb_string"] = row["pdb_string"]
 					dataframe.at[index, "sequence_id"] = row["sequence_id"]
@@ -157,12 +148,12 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 
 		return {"inputs": ids_and_sequences}, dataframe
 	
-	def get_blob_content(self, blob_name: str) -> str:
+	def get_blob_content(self, blob_name: str, bucket) -> str:
 		"""
 		Get the content of a blob from the cloud storage.
 		"""
 
-		blob = self.bucket.blob(blob_name)
+		blob = bucket.blob(blob_name)
 		return blob.download_as_string()
 
 
@@ -217,15 +208,15 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 			return []
 
 
-	def upload_to_cloud_storage(self, dataframe: pd.DataFrame) -> None:
+	def upload_to_cloud_storage(self, dataframe: pd.DataFrame, bucket) -> None:
 		"""
 		Upload the pdb files to the cloud storage if they are not already in the cloud storage.
 		"""
 
 		# check if the checksum is already in the cloud storage
-		ids_in_cloud = [blob.name for blob in self.bucket.list_blobs()]
+		ids_in_cloud = [blob.name for blob in bucket.list_blobs()]
 
 		for index, row in dataframe.iterrows():
 			if row["sequence_id"] not in ids_in_cloud:
-				blob = self.bucket.blob(row["sequence_id"])
+				blob = bucket.blob(row["sequence_id"])
 				blob.upload_from_string(row["pdb_string"])

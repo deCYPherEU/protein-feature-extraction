@@ -195,4 +195,4 @@ experiments/
 components/iFeatureOmega_component/src/iFeatureOmega_CLI
 
 # Hide the google cloud credentials
-components/hf_endpoint_component/google_cloud_credentials.json
+components/cloud_pdb_component/google_cloud_credentials.json
