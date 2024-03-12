@@ -70,32 +70,8 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 		dataframe = self.apply_checksum(dataframe)
 
 		payload, dataframe = self.prepare_payload_cloud(dataframe)
-		# response = self.send_query(payload)
+		response = self.send_query(payload)
 		
-		# Mock response
-		response = [
-			{
-				"id": "CRC-94CF2EE011C80480",
-				"pdb": "pdb_file"
-			},
-			{
-				"id": "CRC-68D748EC385E9BEC",
-				"pdb": "pdb_file_2"
-			},
-			{
-				"id": "CRC-3B9E0764E7D3C737",
-				"pdb": "pdb_file_3"
-			},
-			{
-				"id": "CRC-B08C4E4E86E87F17",
-				"pdb": "pdb_file_4"
-			},
-			{
-				"id": "CRC-747F108552578E1D",
-				"pdb": "pdb_file_5"
-			}
-		]
-
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
 		self.upload_to_cloud_storage(dataframe)
@@ -146,9 +122,10 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 				if row["sequence_id"] in blob_name:
 					found = True
 					# If the sequence is found in the cloud storage, update the dataframe
-					row["pdb_string"] = self.get_blob_content(blob_name)  # Assuming you have a method to get blob content
+					row["pdb_string"] = self.get_blob_content(blob_name)
 					row["sequence_id"] = blob_name
-					break
+					dataframe.at[index, "pdb_string"] = row["pdb_string"]
+					dataframe.at[index, "sequence_id"] = row["sequence_id"]
 
 			if not found:
 				# If the sequence is not in the cloud storage, add it to the payload
@@ -231,6 +208,10 @@ class HuggingFaceEndpointComponent(PandasTransformComponent):
 
 
 	def send_query(self, payload: list) -> list:
+		# check if the payload contains any values for the "inputs" key
+		if len(payload["inputs"]) == 0:
+			return []
+
 		try:
 			response = requests.post(self.HF_ENDPOINT_URL,
 									headers={
