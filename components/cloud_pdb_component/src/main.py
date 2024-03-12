@@ -68,43 +68,6 @@ class CloudPDBComponent(PandasTransformComponent):
 		self.upload_to_cloud_storage(dataframe, bucket)
 		
 		return dataframe
-	
-
-	def apply_local_transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""The local_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
-
-		dataframe = self.apply_checksum(dataframe)
-		payload = self.prepare_payload_local(dataframe)
-		# response = self.send_query(payload)
-
-		# Mock response
-		response = [
-			{
-				"id": "CRC-94CF2EE011C80480",
-				"pdb": "pdb_file"
-			},
-			{
-				"id": "CRC-68D748EC385E9BEC",
-				"pdb": "pdb_file_2"
-			},
-			{
-				"id": "CRC-3B9E0764E7D3C737",
-				"pdb": "pdb_file_3"
-			},
-			{
-				"id": "CRC-B08C4E4E86E87F17",
-				"pdb": "pdb_file_4"
-			},
-			{
-				"id": "CRC-747F108552578E1D",
-				"pdb": "pdb_file_5"
-			}
-		]
-
-		dataframe = self.merge_response_to_dataframe(dataframe, response)
-
-		return dataframe
-
 
 	def apply_checksum(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Apply a CRC64 checksum to each sequence and store the result in a new column."""
@@ -155,20 +118,6 @@ class CloudPDBComponent(PandasTransformComponent):
 
 		blob = bucket.blob(blob_name)
 		return blob.download_as_string()
-
-
-	def prepare_payload_local(self, dataframe: pd.DataFrame) -> Dict[str, List[Dict[str, str]]]:
-		"""Prepare the payload by performing a CRC64 checksum on each sequence and adding it to the inputs list."""
-
-		ids_and_sequences = []
-
-		for index, row in dataframe.iterrows():
-			sequence = row["sequence"]
-			checksum = crc64(sequence)
-			ids_and_sequences.append({"id": checksum, "sequence": sequence})
-		
-
-		return {"inputs": ids_and_sequences}
 
 
 	def merge_response_to_dataframe(self, dataframe: pd.DataFrame, response: List[Dict[str, str]]) -> pd.DataFrame:
