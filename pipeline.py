@@ -23,7 +23,7 @@ dataset = pipeline.read(
 _ = dataset.apply(
 	"./components/hf_endpoint_component",
 	arguments={
-		"method": "local",
+		"method": "cloud",
 	},
 )
 

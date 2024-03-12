@@ -9,7 +9,7 @@ consumes:
 args:
   method:
         type: str
-        description: The method used to save the pdb file. Options are "local" or "gcp".
+        description: The method used to save the pdb files. Options are "local" or "cloud".
         default: "local"
 
 produces:
