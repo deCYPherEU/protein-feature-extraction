@@ -1,0 +1,24 @@
+name: Local PDB Component
+description: A component that makes a request to the ESMFold model that is using the Hugging Face endpoint and returns the pdb file as string into the dataframe. This component will be used locally, so the pdb files will be saved in a parquet file as string and the file will be used as a 'cache' for the next requests.
+image: local_pdb_component:latest
+
+consumes:
+  sequence:
+        type: string
+  sequence_id:
+        type: string
+
+args:
+  pdb_file_path:
+        type: str
+        description: The path to the parquet file that contains the pdb files as string
+        default: ""
+
+produces:
+  sequence:
+    type: string
+  pdb_string:
+    type: string
+  sequence_id:
+    type: string
+

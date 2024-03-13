@@ -58,26 +58,12 @@ class CloudPDBComponent(PandasTransformComponent):
 	def apply_cloud_transform(self, dataframe: pd.DataFrame, bucket) -> pd.DataFrame:
 		"""The cloud_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
-		dataframe = self.apply_checksum(dataframe)
-
 		payload, dataframe = self.prepare_payload_cloud(dataframe, bucket)
 		response = self.send_query(payload)
 		
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
 		self.upload_to_cloud_storage(dataframe, bucket)
-		
-		return dataframe
-
-	def apply_checksum(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""Apply a CRC64 checksum to each sequence and store the result in a new column."""
-
-		dataframe["sequence_id"] = ""
-		# Create a new column to store the pdb_string
-		dataframe["pdb_string"] = ""
-		
-		for index, row in dataframe.iterrows():
-			dataframe.at[index, "sequence_id"] = crc64(row["sequence"])
 		
 		return dataframe
 

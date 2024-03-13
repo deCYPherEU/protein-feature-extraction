@@ -2,6 +2,7 @@ import pyarrow as pa
 from fondant.pipeline import Pipeline
 from config import MOCK_DATA_PATH_FONDANT
 from config import PDB_FILES_PATH
+from components import sequence_id_lightweight_component
 
 # create a new pipeline
 pipeline = Pipeline(
@@ -21,25 +22,39 @@ dataset = pipeline.read(
 	}
 )
 
+_ = dataset.apply(
+	ref=sequence_id_lightweight_component.SequenceIDComponent
+).apply(
+		"./components/local_pdb_component",
+		arguments={
+			"pdb_file_path": PDB_FILES_PATH
+		}
+)
+
+"""
 # apply the cloud pdb component
 _ = dataset.apply(
 	"./components/cloud_pdb_component",
-).apply(
-	"./components/biopython_component"
-).apply(
-	"./components/iFeatureOmega_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
-	input_partition_rows=5,
-	# change the descriptors? => change the features of the yaml file 
-	arguments={
-		"descriptors": ["AAC", "CTDC", "CTDT"]
-	}
-).apply(
-	"./components/peptide_features_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
-	input_partition_rows=5
 )
+"""
 
+"""
+.apply(
+		"./components/biopython_component"
+).apply(
+		"./components/iFeatureOmega_component",
+		# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+		input_partition_rows=5,
+		# change the descriptors? => change the features of the yaml file 
+		arguments={
+			"descriptors": ["AAC", "CTDC", "CTDT"]
+		}
+).apply(
+		"./components/peptide_features_component",
+		# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+		input_partition_rows=5
+)
+"""
 
 """
 # write the dataset

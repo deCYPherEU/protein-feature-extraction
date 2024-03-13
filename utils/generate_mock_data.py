@@ -24,8 +24,8 @@ def generate_mock_data() -> None:
 	# create a mock dataframe for the pdb files
 
 	pdb_files_data = {
-		"sequence_id": ["CRC-94CF2EE011C8048", "CRC-68D748EC385E9BEC", "CRC-3B9E0764E7D3C737", "CRC-B08C4E4E86E87F17", "CRC-747F108552578E1D"],
-		"pdb_string": ["pdb_file", "pdb_file_2", "pdb_file_3", "pdb_file_4", "pdb_file_5"]
+		"sequence_id": ["CRC-68D748EC385E9BEC", "CRC-3B9E0764E7D3C737", "CRC-B08C4E4E86E87F17", "CRC-747F108552578E1D"],
+		"pdb_string": ["pdb_file_2", "pdb_file_3", "pdb_file_4", "pdb_file_5"]
 	}
 
 	pdb_files_df = pd.DataFrame(pdb_files_data)

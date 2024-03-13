@@ -18,8 +18,8 @@ WORKDIR /component/src
 # Copy the .env file to the component folder
 COPY .env .
 
-# Copy the google_cloud_credentials.json file to the component folder
-COPY google_cloud_credentials.json .
+# Copy the pdb file to the component folder
+COPY pdb_files.parquet .
 
 # Copy over src-files and spec of the component
 COPY src/ .
