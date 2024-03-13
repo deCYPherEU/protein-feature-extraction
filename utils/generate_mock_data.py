@@ -2,7 +2,7 @@ import pandas as pd
 
 # having a problem with importing from config.py, placing this here hard-coded. This entire file will disappear once the real data is available
 MOCK_DATA_PATH_LOCAL = "./data/mock_data.parquet"
-PDB_FILES_PATH = "./data/pdb_files.parquet"
+PDB_FILES_PATH = "./data/pdb_file.parquet"
 
 def generate_mock_data() -> None:
 
@@ -24,8 +24,8 @@ def generate_mock_data() -> None:
 	# create a mock dataframe for the pdb files
 
 	pdb_files_data = {
-		"sequence_id": ["CRC-68D748EC385E9BEC", "CRC-3B9E0764E7D3C737", "CRC-B08C4E4E86E87F17", "CRC-747F108552578E1D"],
-		"pdb_string": ["pdb_file_2", "pdb_file_3", "pdb_file_4", "pdb_file_5"]
+		"sequence_id": [""],
+		"pdb_string": [""]
 	}
 
 	pdb_files_df = pd.DataFrame(pdb_files_data)

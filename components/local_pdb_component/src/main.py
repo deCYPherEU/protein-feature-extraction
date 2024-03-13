@@ -25,9 +25,6 @@ class LocalPDBComponent(PandasTransformComponent):
 		self.HF_ENDPOINT_URL = os.getenv("HF_ENDPOINT_URL")
 		self.pdb_file_path = pdb_file_path
 
-		if self.pdb_file_path is "":
-			raise ValueError("The pdb_file_path is empty.")
-
 		self.df_pdb_local = pd.read_parquet(self.pdb_file_path)
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -47,23 +44,31 @@ class LocalPDBComponent(PandasTransformComponent):
 
 		dataframe = self.merge_local_pdb_strings(dataframe)
 		payload = self.prepare_payload_local(dataframe)
-		# response = self.send_query(payload)
-
-		logger.info(payload)
-
-		response = [
-			{
-				"id": "CRC-94CF2EE011C80480",
-				"pdb": "pdb_file_1"
-			}
-		]
+		response = self.send_query(payload)
 
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
-		# add the content of the response to the local dataframe
-		pd.concat([self.df_pdb_local, pd.DataFrame(response)], ignore_index=True).to_parquet(self.pdb_file_path)
+		self.df_pdb_local = self.merge_new_pdbs_to_local(self.df_pdb_local, response)
+		self.df_pdb_local.to_parquet(self.pdb_file_path, index=False)
 
 		return dataframe
+
+
+	def merge_new_pdbs_to_local(self, df_pdb_local: pd.DataFrame, response: List[Dict[str, str]]) -> pd.DataFrame:
+		"""
+		Merge the response from the Hugging Face API with the local dataframe.
+		"""
+		if response == None or len(response) == 0:
+			return df_pdb_local
+
+		response_df = pd.DataFrame(response)
+		response_df = response_df.rename(columns={"id": "sequence_id", "pdb": "pdb_string"})
+
+		# Concatenate response_df with df_pdb_local
+		df_pdb_local = pd.concat([df_pdb_local, response_df], ignore_index=True)
+
+		return df_pdb_local
+
 
 	def merge_local_pdb_strings(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""

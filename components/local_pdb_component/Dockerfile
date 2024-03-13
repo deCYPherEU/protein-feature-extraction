@@ -18,9 +18,6 @@ WORKDIR /component/src
 # Copy the .env file to the component folder
 COPY .env .
 
-# Copy the pdb file to the component folder
-COPY pdb_files.parquet .
-
 # Copy over src-files and spec of the component
 COPY src/ .
 

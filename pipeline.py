@@ -67,4 +67,4 @@ _ = dataset.write(
 """
 
 # run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
+# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\components\local_pdb_component\pdb_files.parquet:/data

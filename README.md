@@ -143,10 +143,31 @@ The other file that should be added is the ``google_cloud_credentials.json`` fil
 
 ## Executing the Pipeline
 
-For Windows users, you need to run the following command to execute the pipeline:
+### Local
+
+Make sure you have a local copy of the parquet file containing the following columns: `sequence_id`, `pdb_string`. These don't need to contain any data, as the pipeline will generate the data for you, but the columns need to be present.
+
+If there is any data present then you will need to keep in mind that the checksum operation is used on the ``sequence_id`` column. The checksum operation uses the sequences (string), which are not present in this file. Make sure to use the right checksum operation for your data. The following code shows you how to use the checksum operation on the sequence column:
+
+```python
+import Bio.SeqUtils.CheckSum.crc64
+import pandas as pd
+
+dataframe["sequence_id"] = dataframe["sequence"].apply(lambda x: Bio.SeqUtils.CheckSum.crc64(x))
+```
+
+If you want to execute the pipeline using local pdb files, you need to run the following command:
 
 ```bash
-PS> fondant run local pipeline.py --extra-volumes YOUR\FULL\PATH\TO\THIS\PROJECT\data:/data
+PS> fondant run local pipeline.py --extra-volumes YOUR\FULL\PATH\TO\THIS\PROJECT\data\pdb_file.parquet:/pdb_file.parquet
+```
+
+### Cloud
+
+If you want to execute the pipeline using the cloud infrastructure for the pdb files, you can run the following command:
+
+```bash
+PS> fondant run local pipeline.py
 ```
 
 ## Partition issue with Fondant
