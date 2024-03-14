@@ -1,16 +1,15 @@
 """
 The CloudPDBComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence using the cloud (GCP).
 """
+import os
 import logging
 import pandas as pd
 from fondant.component import PandasTransformComponent
-import os
 from Bio.SeqUtils.CheckSum import crc64
 import requests
 from dotenv import load_dotenv
 from typing import Dict, List, Tuple
 from google.cloud import storage
-import os
 
 # Load the environment variables
 load_dotenv()
@@ -26,6 +25,7 @@ os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("PROJECT_ID")
 
 # Set up logging
 logger = logging.getLogger(__name__)
+
 
 class CloudPDBComponent(PandasTransformComponent):
 	"""The CloudPDBComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
@@ -43,18 +43,18 @@ class CloudPDBComponent(PandasTransformComponent):
 		bucket = storage_client.get_bucket(self.bucket_name)
 
 		if (self.HF_API_KEY is None) or (self.HF_ENDPOINT_URL is None):
-			logger.error("The Hugging Face API key or endpoint URL is not set.")
+			logger.error(
+				"The Hugging Face API key or endpoint URL is not set.")
 			return dataframe
-		
+
 		if (self.bucket_name is None) or (self.project_id is None):
 			logger.error("The bucket name or project id is not set.")
 			return dataframe
 
 		dataframe = self.apply_cloud_transform(dataframe, bucket)
-		
+
 		return dataframe
-		
-	
+
 	def apply_cloud_transform(self, dataframe: pd.DataFrame, bucket) -> pd.DataFrame:
 		"""The cloud_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
@@ -62,11 +62,11 @@ class CloudPDBComponent(PandasTransformComponent):
 
 		payload, dataframe = self.prepare_payload_cloud(dataframe, bucket)
 		response = self.send_query(payload)
-		
+
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
 		self.upload_to_cloud_storage(dataframe, bucket)
-		
+
 		return dataframe
 
 	def apply_checksum(self, dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -75,13 +75,12 @@ class CloudPDBComponent(PandasTransformComponent):
 		dataframe["sequence_id"] = ""
 		# Create a new column to store the pdb_string
 		dataframe["pdb_string"] = ""
-		
+
 		for index, row in dataframe.iterrows():
 			dataframe.at[index, "sequence_id"] = crc64(row["sequence"])
-		
+
 		return dataframe
 
-	
 	def prepare_payload_cloud(self, dataframe: pd.DataFrame, bucket) -> Tuple[Dict[str, List[Dict[str, str]]], pd.DataFrame]:
 		"""
 		Prepare the payload by performing a CRC64 checksum on each sequence and adding it to the inputs list.
@@ -100,17 +99,19 @@ class CloudPDBComponent(PandasTransformComponent):
 				if row["sequence_id"] in blob_name:
 					found = True
 					# If the sequence is found in the cloud storage, update the dataframe
-					row["pdb_string"] = self.get_blob_content(blob_name, bucket)
+					row["pdb_string"] = self.get_blob_content(
+						blob_name, bucket)
 					row["sequence_id"] = blob_name
 					dataframe.at[index, "pdb_string"] = row["pdb_string"]
 					dataframe.at[index, "sequence_id"] = row["sequence_id"]
 
 			if not found:
 				# If the sequence is not in the cloud storage, add it to the payload
-				ids_and_sequences.append({"id": crc64(row["sequence"]), "sequence": row["sequence"]})
+				ids_and_sequences.append(
+					{"id": crc64(row["sequence"]), "sequence": row["sequence"]})
 
 		return {"inputs": ids_and_sequences}, dataframe
-	
+
 	def get_blob_content(self, blob_name: str, bucket) -> str:
 		"""
 		Get the content of a blob from the cloud storage.
@@ -118,7 +119,6 @@ class CloudPDBComponent(PandasTransformComponent):
 
 		blob = bucket.blob(blob_name)
 		return blob.download_as_string()
-
 
 	def merge_response_to_dataframe(self, dataframe: pd.DataFrame, response: List[Dict[str, str]]) -> pd.DataFrame:
 		"""Merge the response from the Hugging Face API with the original dataframe."""
@@ -135,8 +135,9 @@ class CloudPDBComponent(PandasTransformComponent):
 
 		return dataframe
 
-
 	def send_query(self, payload: list) -> list:
+		"""send the query to the Hugging Face API and return the response."""
+
 		# check if the payload contains any values for the "inputs" key
 		if len(payload["inputs"]) == 0:
 			return []
@@ -151,11 +152,10 @@ class CloudPDBComponent(PandasTransformComponent):
 									json=payload)
 			response.raise_for_status()
 			return response.json()
-		
+
 		except requests.exceptions.RequestException as e:
 			print("ERROR API request: ", e)
 			return []
-
 
 	def upload_to_cloud_storage(self, dataframe: pd.DataFrame, bucket) -> None:
 		"""

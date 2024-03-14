@@ -7,7 +7,6 @@ This repository contains the code for the creation of the Fondant pipeline that 
 - [Installation](#installation)
 - [Generation of Mock Data](#generation-of-mock-data)
 - [Hugging Face Endpoint Component](#hugging-face-endpoint-component)
-  - [Installing Nimbus](#installing-nimbus)
   - [Installing Terraform](#installing-terraform)
   - [Installing Google Cloud SDK](#installing-google-cloud-sdk)
   - [Getting Google Cloud Credentials](#getting-google-cloud-credentials)
@@ -45,28 +44,6 @@ The Hugging Face Endpoint component is a custom component that is used to intera
 > path: [hf_endpoint_component](./components/hf_endpoint_component/)
 
 The following sections contain the requirements for the component and the installation steps.
-
-### Installing Nimbus
-
-Nimbus is a tool created by ML6. This project is used to generate boilerplate code for cloud providers. To install Nimbus, you need to run the following command:
-
-> Make sure you have access to the ML6 Bitbucket repository.
-
-```bash
-pip install git+https://USERNAME:APP_PWD@bitbucket.org/ml6team/nimbus.git#egg=Nimbus
-```
-
-After installing, make sure to run the following command to configure the tool:
-
-```bash
-# create a new directory for the nimbus project
-mkdir nimbus
-cd nimbus
-
-nimbus gcp init
-
-# fill in the required information
-```
 
 ### Installing Terraform
 

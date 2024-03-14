@@ -1,7 +1,6 @@
 import pyarrow as pa
 from fondant.pipeline import Pipeline
 from config import MOCK_DATA_PATH_FONDANT
-from config import PDB_FILES_PATH
 
 # create a new pipeline
 pipeline = Pipeline(
@@ -34,12 +33,7 @@ _ = dataset.apply(
 	arguments={
 		"descriptors": ["AAC", "CTDC", "CTDT"]
 	}
-).apply(
-	"./components/peptide_features_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
-	input_partition_rows=5
 )
-
 
 """
 # write the dataset
