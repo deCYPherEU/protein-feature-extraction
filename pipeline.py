@@ -31,12 +31,6 @@ _ = dataset.apply(
 		}
 )
 
-"""
-# apply the cloud pdb component
-_ = dataset.apply(
-	"./components/cloud_pdb_component",
-)
-"""
 
 """
 .apply(

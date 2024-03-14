@@ -2,13 +2,12 @@
 The LocalPDBComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence using a local parquet file as the cache.
 """
 import logging
-import pandas as pd
-from fondant.component import PandasTransformComponent
 import os
-import requests
-from dotenv import load_dotenv
 from typing import Dict, List
-import os
+import requests
+import pandas as pd
+from dotenv import load_dotenv
+from fondant.component import PandasTransformComponent
 
 # Load the environment variables
 load_dotenv()
@@ -48,27 +47,28 @@ class LocalPDBComponent(PandasTransformComponent):
 
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
-		self.df_pdb_local = self.merge_new_pdbs_to_local(self.df_pdb_local, response)
+		self.df_pdb_local = self.merge_new_pdbs_to_local(
+			self.df_pdb_local, response)
 		self.df_pdb_local.to_parquet(self.pdb_file_path, index=False)
 
 		return dataframe
-
 
 	def merge_new_pdbs_to_local(self, df_pdb_local: pd.DataFrame, response: List[Dict[str, str]]) -> pd.DataFrame:
 		"""
 		Merge the response from the Hugging Face API with the local dataframe.
 		"""
-		if response == None or len(response) == 0:
+		if response is None or len(response) == 0:
 			return df_pdb_local
 
 		response_df = pd.DataFrame(response)
-		response_df = response_df.rename(columns={"id": "sequence_id", "pdb": "pdb_string"})
+		response_df = response_df.rename(
+			columns={"id": "sequence_id", "pdb": "pdb_string"})
 
 		# Concatenate response_df with df_pdb_local
-		df_pdb_local = pd.concat([df_pdb_local, response_df], ignore_index=True)
+		df_pdb_local = pd.concat(
+			[df_pdb_local, response_df], ignore_index=True)
 
 		return df_pdb_local
-
 
 	def merge_local_pdb_strings(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""
@@ -82,7 +82,8 @@ class LocalPDBComponent(PandasTransformComponent):
 
 		for row in dataframe.itertuples():
 			if row.sequence_id in local_pdb_sequence_ids:
-				dataframe.at[row.Index, "pdb_string"] = self.df_pdb_local[self.df_pdb_local["sequence_id"] == row.sequence_id]["pdb_string"].values[0]
+				dataframe.at[row.Index, "pdb_string"] = self.df_pdb_local[self.df_pdb_local["sequence_id"]
+																		== row.sequence_id]["pdb_string"].values[0]
 			else:
 				dataframe.at[row.Index, "pdb_string"] = ""
 
@@ -107,7 +108,7 @@ class LocalPDBComponent(PandasTransformComponent):
 		"""Merge the response from the Hugging Face API with the original dataframe."""
 
 		# Check if response is empty
-		if response == None or len(response) == 0:
+		if response is None or len(response) == 0:
 			return dataframe
 
 		for row in dataframe.itertuples():

@@ -1,3 +1,0 @@
-biopython==1.83
-pyarrow==15.0.0
-peptides==0.3.2
