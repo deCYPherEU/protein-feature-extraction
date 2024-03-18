@@ -55,11 +55,11 @@ class LocalPDBComponent(PandasTransformComponent):
 		"""
 		Save the pdb strings to a local pdb file.
 		"""
+
 		for row in self.df_pdb_local.itertuples():
 			with open(self.pdb_files_path + row.sequence_id + ".pdb", "w") as f:
 				f.write(row.pdb_string)
 
-		logger.info("Local PDB files saved.")
 
 	def create_local_dataframe(self) -> None:
 		"""
