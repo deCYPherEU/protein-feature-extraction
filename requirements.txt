@@ -4,3 +4,6 @@ pyarrow==15.0.0
 dask==2024.2.0
 tensorflow==2.15.0.post1
 biopython==1.83
+bandit==1.7.1
+pylint==2.5.3
+liccheck==0.6.5

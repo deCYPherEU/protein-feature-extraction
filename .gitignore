@@ -191,4 +191,8 @@ data/
 # Ignore the experiments folder
 experiments/
 
+# Ignore the iFeatureOmega_CLI GitHub folder
 components/iFeatureOmega_component/src/iFeatureOmega_CLI
+
+# Avoid tracking Azure's local.settings.json file, which contains sensitive data such as connection strings.
+local.settings.json
