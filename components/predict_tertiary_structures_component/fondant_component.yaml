@@ -1,0 +1,19 @@
+name: Predict Tertiary Structures Component
+description: The PredictTertiaryStructuresComponent is a component that takes in a dataframe and sends the sequences to the HuggingFace ESMFold Endpoint to predict the tertiary structures of the proteins. The component returns the dataframe with the predicted tertiary structures.
+image: predict_tertiary_structures_component:latest
+
+consumes:
+  sequence:
+        type: string
+  sequence_id:
+        type: string
+  pdb_string:
+        type: string
+
+produces:
+  sequence:
+        type: string
+  sequence_id:
+        type: string
+  pdb_string:
+        type: string
