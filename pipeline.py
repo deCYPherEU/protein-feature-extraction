@@ -1,7 +1,6 @@
 import pyarrow as pa
 from fondant.pipeline import Pipeline
-from config import MOCK_DATA_PATH_FONDANT
-from config import PDB_FILES_PATH
+from config import MOCK_DATA_PATH_FONDANT, PDB_FILES_PATH
 from components import sequence_id_lightweight_component
 
 # create a new pipeline
@@ -27,7 +26,7 @@ _ = dataset.apply(
 ).apply(
 		"./components/local_pdb_component",
 		arguments={
-			"pdb_file_path": PDB_FILES_PATH
+			"pdb_files_path": PDB_FILES_PATH
 		}
 )
 
@@ -61,4 +60,4 @@ _ = dataset.write(
 """
 
 # run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\components\local_pdb_component\pdb_files.parquet:/data
+# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data\:/data

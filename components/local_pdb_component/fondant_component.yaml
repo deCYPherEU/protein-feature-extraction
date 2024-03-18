@@ -9,9 +9,9 @@ consumes:
         type: string
 
 args:
-  pdb_file_path:
+  pdb_files_path:
         type: str
-        description: The path to the parquet file that contains the pdb files as string
+        description: The path to the pdb folder that contains the pdb files
         default: ""
 
 produces:

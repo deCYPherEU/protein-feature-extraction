@@ -19,19 +19,17 @@ logger = logging.getLogger(__name__)
 class LocalPDBComponent(PandasTransformComponent):
 	"""The LocalPDBComponent class is a component that takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
-	def __init__(self, pdb_file_path: str):
+	def __init__(self, pdb_files_path: str):
 		self.HF_API_KEY = os.getenv("HF_API_KEY")
 		self.HF_ENDPOINT_URL = os.getenv("HF_ENDPOINT_URL")
-		self.pdb_file_path = pdb_file_path
-
-		self.df_pdb_local = pd.read_parquet(self.pdb_file_path)
+		self.df_pdb_local = pd.DataFrame()
+		self.pdb_files_path = pdb_files_path
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""The transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
 		if (self.HF_API_KEY is None) or (self.HF_ENDPOINT_URL is None):
-			logger.error(
-				"The Hugging Face API key or endpoint URL is not set.")
+			logger.error("The Hugging Face API key or endpoint URL is not set.")
 			return dataframe
 
 		dataframe = self.apply_local_transform(dataframe)
@@ -41,17 +39,48 @@ class LocalPDBComponent(PandasTransformComponent):
 	def apply_local_transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""The apply_local_transform method takes in a dataframe, sends each sequence to the Hugging Face API and returns the tertiary structure of the protein sequence."""
 
+		self.create_local_dataframe()
 		dataframe = self.merge_local_pdb_strings(dataframe)
 		payload = self.prepare_payload_local(dataframe)
 		response = self.send_query(payload)
 
 		dataframe = self.merge_response_to_dataframe(dataframe, response)
 
-		self.df_pdb_local = self.merge_new_pdbs_to_local(
-			self.df_pdb_local, response)
-		self.df_pdb_local.to_parquet(self.pdb_file_path, index=False)
+		self.df_pdb_local = self.merge_new_pdbs_to_local(self.df_pdb_local, response)
+		self.save_local_pdb_files()
 
 		return dataframe
+
+	def save_local_pdb_files(self) -> None:
+		"""
+		Save the pdb strings to a local pdb file.
+		"""
+		for row in self.df_pdb_local.itertuples():
+			with open(self.pdb_files_path + row.sequence_id + ".pdb", "w") as f:
+				f.write(row.pdb_string)
+
+		logger.info("Local PDB files saved.")
+
+	def create_local_dataframe(self) -> None:
+		"""
+		Using the mount flag of Fondant, the local pdb folder containing the pdb files can be accessed. The pdb files are used to create a local dataframe with the sequence_id and pdb_string columns.
+		"""
+
+		# Get the list of pdb files
+		pdb_files = os.listdir(self.pdb_files_path)
+
+		# add the column names to the dataframe
+		df_pdb_local = pd.DataFrame(columns=["sequence_id", "pdb_string"])
+
+		for file in pdb_files:
+			with open(self.pdb_files_path + file, "r") as f:
+				pdb_string = f.read()
+				sequence_id = file.split(".")[0]
+				df_pdb_local = pd.concat([df_pdb_local, pd.DataFrame(
+					{"sequence_id": [sequence_id], "pdb_string": [pdb_string]}
+				)])
+
+		self.df_pdb_local = df_pdb_local
 
 	def merge_new_pdbs_to_local(self, df_pdb_local: pd.DataFrame, response: List[Dict[str, str]]) -> pd.DataFrame:
 		"""
