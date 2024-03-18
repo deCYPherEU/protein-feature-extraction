@@ -9,7 +9,7 @@ from Bio.SeqUtils.CheckSum import crc64
 # Set up logging
 logger = logging.getLogger(__name__)
 
-class BiopythonComponent(PandasTransformComponent):
+class ApplyChecksumComponent(PandasTransformComponent):
 	"""The ApplyChecksumComponent is a component that takes in a dataframe and applies a checksum to the sequence column. The checksum is then added as a new column to the dataframe."""
 
 	def __init__(self, *_):
