@@ -29,6 +29,11 @@ _ = dataset.apply(
 	}
 ).apply(
 	"./components/predict_tertiary_structures_component"
+).apply(
+	"./components/store_pdb_component",
+	arguments={
+		"method": "remote"
+	}
 )
 
 

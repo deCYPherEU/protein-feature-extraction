@@ -23,19 +23,25 @@ class PredictTertiaryStructuresComponent(PandasTransformComponent):
 		self.HF_API_KEY = os.getenv("HF_API_KEY")
 		self.HF_ENDPOINT_URL = os.getenv("HF_ENDPOINT_URL")
 
+		if not self.HF_API_KEY or not self.HF_ENDPOINT_URL:
+			raise Exception("environment variables not set.")
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Perform the transformation on the dataframe."""
 
-		# Get the dataframe of sequences that don't have a pdb_string yet
 		# Get the indices of sequences that don't have a pdb_string yet
+		"""
 		indices_to_predict = dataframe[dataframe["pdb_string"] == ""].index
-
+		
 		# Predict pdb_string for sequences that don't have it yet
 		for index in indices_to_predict:
 			sequence = dataframe.at[index, "sequence"]
 			pdb_string = self.predict_tertiary_structure(sequence)
 			dataframe.at[index, "pdb_string"] = pdb_string
+		"""
+
+		# create a mock pdb_string
+		dataframe["pdb_string"] = "mock_pdb_string"
 
 		return dataframe
 	
