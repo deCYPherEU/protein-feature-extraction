@@ -5,7 +5,6 @@ import logging
 import pandas as pd
 from fondant.component import PandasTransformComponent
 import peptides
-import re
 
 # Set up logging
 logger = logging.getLogger(__name__)

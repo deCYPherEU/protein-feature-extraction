@@ -23,6 +23,14 @@ dataset = pipeline.read(
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
+	"./components/peptide_features_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+	input_partition_rows=5
+)
+
+
+"""
+.apply(
 	"./components/iFeatureOmega_component",
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
@@ -30,12 +38,8 @@ _ = dataset.apply(
 	arguments={
 		"descriptors": ["AAC", "CTDC", "CTDT"]
 	}
-).apply(
-	"./components/peptide_features_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
-	input_partition_rows=5
 )
-
+"""
 
 """
 # write the dataset

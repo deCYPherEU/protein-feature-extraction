@@ -79,5 +79,3 @@ produces:
     type: float64
   z_scales_5:
     type: float64
-  tmd_length:
-    type: int64
