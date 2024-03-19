@@ -30,7 +30,6 @@ class PredictTertiaryStructuresComponent(PandasTransformComponent):
 		"""Perform the transformation on the dataframe."""
 
 		# Get the indices of sequences that don't have a pdb_string yet
-		"""
 		indices_to_predict = dataframe[dataframe["pdb_string"] == ""].index
 		
 		# Predict pdb_string for sequences that don't have it yet
@@ -38,10 +37,6 @@ class PredictTertiaryStructuresComponent(PandasTransformComponent):
 			sequence = dataframe.at[index, "sequence"]
 			pdb_string = self.predict_tertiary_structure(sequence)
 			dataframe.at[index, "pdb_string"] = pdb_string
-		"""
-
-		# create a mock pdb_string
-		dataframe["pdb_string"] = "mock_pdb_string"
 
 		return dataframe
 	
