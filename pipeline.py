@@ -21,6 +21,13 @@ dataset = pipeline.read(
 )
 
 _ = dataset.apply(
+	"./components/apply_checksum_component"
+).apply(
+	"./components/msa_component",
+)
+
+"""
+_ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
 	"./components/iFeatureOmega_component",
@@ -31,7 +38,7 @@ _ = dataset.apply(
 		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
 	}
 )
-
+"""
 
 """
 # write the dataset
