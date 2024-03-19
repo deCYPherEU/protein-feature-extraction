@@ -1,6 +1,12 @@
+import logging
 import pyarrow as pa
+
 from fondant.pipeline import Pipeline
-from config import MOCK_DATA_PATH_FONDANT
+from fondant.pipeline.runner import DockerRunner
+
+
+logger = logging.getLogger(__name__)
+
 
 # create a new pipeline
 pipeline = Pipeline(
@@ -9,39 +15,46 @@ pipeline = Pipeline(
 	description="A pipeline to extract features from protein sequences."
 )
 
+load_component_column_mapping = {
+    "Entry Name": "entry_name",
+    "Entry": "entry",
+    "Gene Names": "gene_name",
+    "Length": "length",
+    "Sequence": "sequence",
+    "Subcellular location [CC]": "subcellular_location",
+}
+
 # read the dataset
 dataset = pipeline.read(
 	"load_from_parquet",
 	arguments={
-		"dataset_uri": MOCK_DATA_PATH_FONDANT,
+		"dataset_uri": "/data",
+        "column_name_mapping": load_component_column_mapping,
 	},
-	produces={
-		"sequence": pa.string()
-	}
+    produces={
+        "entry_name": pa.string(), 
+        "entry": pa.string(), 
+        "gene_name": pa.string(), 
+        "length": pa.int32(), 
+        "sequence": pa.string(), 
+        "subcellular_location": pa.string()
+    }
 )
 
-_ = dataset.apply(
-	"./components/biopython_component"
-).apply(
-	"./components/iFeatureOmega_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
-	input_partition_rows=5,
-	# change the descriptors? => change the features of the yaml file 
-	arguments={
-		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
-	}
+dataset = dataset.apply(
+    "./components/biopython_component"
 )
 
+# dataset.write(
+# 	"write_to_file",
+# 	arguments={
+# 		"path": "/data/output",
+# 	}
+# )
 
-"""
-# write the dataset
-_ = dataset.write(
-	"write_to_file",
-	arguments={
-		"path": "/data/export/",
-	}
+# run the pipeline
+runner = DockerRunner()
+runner.run(
+    input=pipeline,
+    extra_volumes=["/Users/sharongrundmann/Projects/client-work/decypher/protein-feature-extraction/data:/data"]
 )
-"""
-
-# run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
