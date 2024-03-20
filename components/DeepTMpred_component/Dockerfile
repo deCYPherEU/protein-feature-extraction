@@ -18,8 +18,9 @@ WORKDIR /component/src
 # Clone the DeepTMpred repository
 RUN git clone https://github.com/ISYSLAB-HUST/DeepTMpred.git .
 
-# Run the setup script
-RUN sh DeepTMpred/script/download.sh
+# Copy the model_files directory
+COPY /src/model_files/deepTMpred-b.pth ./model_files/
+COPY /src/model_files/orientaion-b.pth ./model_files/
 
 # Copy over src-files and spec of the component
 COPY src/ .
