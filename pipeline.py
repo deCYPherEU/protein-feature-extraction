@@ -21,6 +21,14 @@ dataset = pipeline.read(
 )
 
 _ = dataset.apply(
+	"./components/apply_checksum_component"
+).apply(
+	"./components/DeepTMpred_component"
+)
+
+
+"""
+.apply(
 	"./components/biopython_component"
 ).apply(
 	"./components/iFeatureOmega_component",
@@ -32,8 +40,6 @@ _ = dataset.apply(
 	}
 )
 
-
-"""
 # write the dataset
 _ = dataset.write(
 	"write_to_file",
