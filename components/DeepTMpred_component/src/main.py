@@ -17,8 +17,8 @@ class DeepTMpredComponent(PandasTransformComponent):
 	"""The DeepTMpred component predicts the number of transmembrane helices in a protein sequence using the DeepTMpred model."""
 
 	def __init__(self, *_):
-		self.columns = ['tmh_num_helices', 'tmh_total_length', 'tmh_avg_length_total', 'tmh_biggest_length', 'tmh_smallest_length']
-		
+		self.columns = ['tmh_num_helices', 'tmh_total_length',
+						'tmh_avg_length_total', 'tmh_biggest_length', 'tmh_smallest_length']
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Transform the dataframe by adding new features."""
@@ -30,15 +30,17 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		for row in dataframe.itertuples():
 			self.run_deeptmpred_model(input_file, row.sequence, input_file)
-			transmembrane_helices = self.read_and_parse_output(input_file, output_file)
+			transmembrane_helices = self.read_and_parse_output(
+				input_file, output_file)
 			features = self.calculate_features(transmembrane_helices)
-			dataframe = self.insert_features_into_dataframe(dataframe, features, row.sequence_id)
+			dataframe = self.insert_features_into_dataframe(
+				dataframe, features, row.sequence_id)
 
 		return dataframe
 
 	def create_columns(self, dataframe: pd.DataFrame) -> None:
 		"""Create new columns in the dataframe to store the new features."""
-		
+
 		for column in self.columns:
 			dataframe[column] = None
 
@@ -60,7 +62,7 @@ class DeepTMpredComponent(PandasTransformComponent):
 		"""Read and parse the output file."""
 
 		# wait until the output file is created.
-		# Time is set to 3 seconds, because the model doesn't insert the values fast enough. 3 seconds is enough time to wait. 
+		# Time is set to 3 seconds, because the model doesn't insert the values fast enough. 3 seconds is enough time to wait.
 		while not os.path.exists(output_file):
 			time.sleep(3)
 
@@ -80,12 +82,12 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		tmh_num_helices = len(transmembrane_helices)
 		tmh_total_length = sum(end - start + 1 for start,
-						end in transmembrane_helices)
+							end in transmembrane_helices)
 		tmh_avg_length_total = tmh_total_length / tmh_num_helices
 		tmh_biggest_length = max(end - start + 1 for start,
-							end in transmembrane_helices)
+								end in transmembrane_helices)
 		tmh_smallest_length = min(end - start + 1 for start,
-							end in transmembrane_helices)
+								end in transmembrane_helices)
 		return tmh_num_helices, tmh_total_length, tmh_avg_length_total, tmh_biggest_length, tmh_smallest_length
 
 	def insert_features_into_dataframe(self, dataframe: pd.DataFrame, features: tuple, sequence_id: str) -> pd.DataFrame:
@@ -93,9 +95,9 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		# Find the index where sequence_id matches in the dataframe
 		index = dataframe[dataframe['sequence_id'] == sequence_id].index[0]
-		
+
 		# Insert the new features into the dataframe at the corresponding index using the self.columns list
 		for column, feature in zip(self.columns, features):
 			dataframe.at[index, column] = feature
-		
+
 		return dataframe
