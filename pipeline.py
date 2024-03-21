@@ -33,17 +33,16 @@ _ = dataset.apply(
 	}
 ).apply(
 	"./components/predict_protein_3D_structure_component",
-)
-
-"""
-.apply(
+).apply(
 	"./components/store_pdb_component",
 	arguments={
-		"storage_type": "remote",
-		"pdb_path": "/data/pdb/"
+		"storage_type": "local",
+		"pdb_path": "/data/pdb_files/",
+		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
+		"project_id": "elated-chassis-400207",
+		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 )
-"""
 
 """
 _ = dataset.apply(
