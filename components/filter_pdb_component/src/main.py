@@ -26,7 +26,7 @@ class FilterPDBComponent(PandasTransformComponent):
 		if method == "local":
 			self.local_pdb_files_path = pdb_path
 
-		if method == "remote":
+		else:
 			os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_cloud_credentials_path
 			os.environ["GOOGLE_CLOUD_PROJECT"] = project_id
 
