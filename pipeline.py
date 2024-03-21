@@ -21,7 +21,7 @@ load_component_column_mapping = {
     "Gene Names": "gene_name",
     "Length": "length",
     "Sequence": "sequence",
-    "Subcellular location [CC]": "subcellular_location",
+    "Subcellular location [CC]": "subcellular_location_[cc]",
 }
 
 # read the dataset
@@ -32,12 +32,7 @@ dataset = pipeline.read(
         "column_name_mapping": load_component_column_mapping,
 	},
     produces={
-        "entry_name": pa.string(), 
-        "entry": pa.string(), 
-        "gene_name": pa.string(), 
-        "length": pa.int32(), 
-        "sequence": pa.string(), 
-        "subcellular_location": pa.string()
+        "sequence": pa.string(),
     }
 )
 
@@ -45,12 +40,28 @@ dataset = dataset.apply(
     "./components/biopython_component"
 )
 
-# dataset.write(
-# 	"write_to_file",
-# 	arguments={
-# 		"path": "/data/output",
-# 	}
-# )
+dataset.write(
+    "write_to_file",
+	arguments={
+		"path": "/data/output",
+	},
+    consumes={
+        "sequence": pa.string(),
+        "sequence_length": pa.int64(),
+        "molecular_weight": pa.float64(),
+        "aromaticity": pa.float64(),
+        "isoelectric_point": pa.float64(),
+        "instability_index": pa.float64(),
+        "gravy": pa.float64(),
+        "helix": pa.float64(),
+        "turn": pa.float64(),
+        "sheet": pa.float64(),
+        "charge_at_pH_5": pa.float64(),
+        "charge_at_pH_7": pa.float64(),
+        # "molar_extinction_coefficient_oxidized": pa.int64(),
+        # "molar_extinction_coefficient_reduced": pa.int64(),
+    }
+)
 
 # run the pipeline
 runner = DockerRunner()

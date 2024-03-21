@@ -1,6 +1,6 @@
 name: Biopython component
 description: A component that uses Biopython to perform certain operations on sequences.
-image: biopython_component:latest
+image: biopython_component:dev
 
 consumes:
   sequence:
@@ -27,11 +27,12 @@ produces:
       type: float64
   sheet:
       type: float64
-  charge_at_ph7:
+  charge_at_pH_5:
       type: float64
-  charge_at_ph5:
+  charge_at_pH_7:
       type: float64
-  molar_extinction_coefficient_oxidized:
-      type: int64
-  molar_extinction_coefficient_reduced:
-      type: int64
+  # molar_extinction_coefficient_oxidized:
+  #     type: int64
+  # molar_extinction_coefficient_reduced:
+  #     type: int64
+  
