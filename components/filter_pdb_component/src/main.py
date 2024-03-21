@@ -39,8 +39,8 @@ class FilterPDBComponent(PandasTransformComponent):
 		if self.method == "local":
 			dataframe = self.load_local_pdb_files(dataframe)
 		if self.method == "remote":
-			self.storage_client = storage.Client(self.project_id)
-			self.bucket = self.storage_client.get_bucket(self.bucket_name)
+			storage_client = storage.Client(self.project_id)
+			self.bucket = storage_client.get_bucket(self.bucket_name)
 			dataframe = self.load_remote_pdb_files(dataframe)
 
 		return dataframe
