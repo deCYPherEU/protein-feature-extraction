@@ -25,14 +25,16 @@ _ = dataset.apply(
 ).apply(
 	"./components/filter_pdb_component",
 	arguments={
-		"method": "local"
+		"method": "local",
+		"pdb_path": "/data/pdb/"
 	}
 ).apply(
 	"./components/predict_tertiary_structures_component"
 ).apply(
 	"./components/store_pdb_component",
 	arguments={
-		"method": "remote"
+		"method": "remote",
+		"pdb_path": "/data/pdb/"
 	}
 )
 

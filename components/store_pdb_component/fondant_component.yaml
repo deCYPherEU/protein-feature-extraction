@@ -1,5 +1,5 @@
 name: Store PDB Component
-description: The StorePDBComponent stores the PDB file given a method. This method consists of two options 'local' and 'remote'. The 'local' method is used to store the PDB file locally in the '/data/pdb_files' folder. The 'remote' method will use the GCP storage bucket to store the PDB file.
+description: The StorePDBComponent stores the PDB file given a method. This method consists of two options 'local' and 'remote'. The 'local' method is used to store the PDB file locally in the provided folder. The 'remote' method will use the GCP storage bucket to store the PDB file.
 image: store_pdb_component:latest
 
 consumes:
@@ -15,7 +15,10 @@ args:
         type: str
         description: "The method to use to fetch and save the PDB file. Can be 'local' or 'remote'."
         default: "local"
-
+    pdb_path:
+        type: str
+        description: "The path to the PDB files. Only used when the method is 'local'."
+        default: "/data/pdb_files/"
 produces:
   sequence:
         type: string

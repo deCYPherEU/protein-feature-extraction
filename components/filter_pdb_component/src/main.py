@@ -29,12 +29,11 @@ class FilterPDBComponent(PandasTransformComponent):
 	The FilterPDBComponent is a component that takes in a dataframe and, based on the method given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
 	"""
 
-	def __init__(self, method: str):
+	def __init__(self, method: str, pdb_path: str):
 		if method not in ["local", "remote"]:
 			raise ValueError("method must be either 'local' or 'remote'")
-
 		self.method = method
-		self.local_pdb_files_path = "/data/pdb_files"
+		self.local_pdb_files_path = pdb_path
 
 		if method == "remote":
 			self.bucket_name = os.getenv("BUCKET_NAME")
