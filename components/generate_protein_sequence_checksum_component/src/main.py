@@ -18,6 +18,6 @@ class GenerateProteinSequenceChecksumComponent(PandasTransformComponent):
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Apply a CRC64 checksum to each sequence and store the result in a new column."""
 
-		dataframe['sequence_checksum'] = dataframe['sequence'].apply(lambda x: crc64(x))
+		dataframe['sequence_checksum'] = dataframe['sequence'].apply(crc64)
 
 		return dataframe

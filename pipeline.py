@@ -22,7 +22,10 @@ dataset = pipeline.read(
 
 _ = dataset.apply(
 	"./components/generate_protein_sequence_checksum_component"
-).apply(
+)
+
+"""
+.apply(
 	"./components/filter_pdb_component",
 	arguments={
 		"method": "remote",
@@ -31,10 +34,7 @@ _ = dataset.apply(
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
-)
-
-"""
-.apply(
+).apply(
 	"./components/predict_tertiary_structures_component"
 ).apply(
 	"./components/store_pdb_component",
