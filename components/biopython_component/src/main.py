@@ -24,7 +24,7 @@ class BiopythonComponent(PandasTransformComponent):
 			try:
 				analyzed_protein = ProteinAnalysis(sequence)
 				features = {
-					"sequence_length": len(sequence),
+					"sequence_length": analyzed_protein.length,
 					"molecular_weight": analyzed_protein.molecular_weight(),
 					"aromaticity": analyzed_protein.aromaticity(),
 					"isoelectric_point": analyzed_protein.isoelectric_point(),
