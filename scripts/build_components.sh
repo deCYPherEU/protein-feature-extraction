@@ -38,7 +38,7 @@ done
 # Set default values
 DIRECTORY=${DIRECTORY:-components}
 TAG=${TAG:-latest}
-REGISTRY=${REGISTRY:-ghcr.io/decyphereu/fondant/components}
+REGISTRY=${REGISTRY:-ghcr.io/decyphereu}
 
 # Get the list of components to build
 if [ -d $DIRECTORY ]; then
