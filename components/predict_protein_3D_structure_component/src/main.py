@@ -30,14 +30,12 @@ class PredictProtein3DStructureComponent(PandasTransformComponent):
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Perform the transformation on the dataframe."""
 
-		# Get the indices of sequences that don't have a pdb_string yet
+		# Ge the indices to predict
 		indices_to_predict = dataframe[dataframe["pdb_string"] == ""].index
 
-		# Predict pdb_string for sequences that don't have it yet
-		for index in indices_to_predict:
-			sequence = dataframe.at[index, "sequence"]
-			pdb_string = self.predict_tertiary_structure(sequence)
-			dataframe.at[index, "pdb_string"] = pdb_string
+		# Predict the tertiary structures
+		dataframe.loc[indices_to_predict, "pdb_string"] = dataframe.loc[indices_to_predict,
+																		"sequence"].apply(lambda sequence: self.predict_tertiary_structure(sequence))
 
 		return dataframe
 
