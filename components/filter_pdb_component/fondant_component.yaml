@@ -5,7 +5,7 @@ image: filter_pdb_component:latest
 consumes:
   sequence:
         type: string
-  sequence_id:
+  sequence_checksum:
         type: string
 
 args:
@@ -17,7 +17,7 @@ args:
 produces:
   sequence:
         type: string
-  sequence_id:
+  sequence_checksum:
         type: string
   pdb_string:
         type: string

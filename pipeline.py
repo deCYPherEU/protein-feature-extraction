@@ -21,7 +21,7 @@ dataset = pipeline.read(
 )
 
 _ = dataset.apply(
-	"./components/apply_checksum_component"
+	"./components/generate_protein_sequence_checksum_component"
 ).apply(
 	"./components/filter_pdb_component",
 	arguments={

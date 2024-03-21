@@ -5,7 +5,7 @@ image: predict_tertiary_structures_component:latest
 consumes:
   sequence:
         type: string
-  sequence_id:
+  sequence_checksum:
         type: string
   pdb_string:
         type: string
@@ -13,7 +13,7 @@ consumes:
 produces:
   sequence:
         type: string
-  sequence_id:
+  sequence_checksum:
         type: string
   pdb_string:
         type: string
