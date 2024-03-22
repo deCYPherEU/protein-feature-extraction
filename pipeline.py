@@ -21,8 +21,6 @@ dataset = pipeline.read(
 )
 
 _ = dataset.apply(
-	"./components/generate_protein_sequence_checksum_component"
-).apply(
 	"./components/biopython_component"
 ).apply(
 	"./components/iFeatureOmega_component",
@@ -31,6 +29,8 @@ _ = dataset.apply(
 	arguments={
 		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
 	}
+).apply(
+	"./components/generate_protein_sequence_checksum_component"
 ).apply(
 	"./components/filter_pdb_component",
 	arguments={

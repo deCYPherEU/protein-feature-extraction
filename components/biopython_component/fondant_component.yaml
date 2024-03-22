@@ -5,13 +5,9 @@ image: biopython_component:latest
 consumes:
     sequence:
         type: string
-    sequence_checksum:
-        type: string
 
 produces:
     sequence:
-        type: string
-    sequence_checksum:
         type: string
     sequence_length:
         type: int64
