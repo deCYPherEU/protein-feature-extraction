@@ -3,17 +3,17 @@ description: The PredictProtein3DStructureComponent is a component that takes in
 image: predict_protein_3D_structure_component:latest
 
 consumes:
-  sequence:
+    sequence:
         type: string
-  sequence_checksum:
+    sequence_checksum:
         type: string
-  pdb_string:
+    pdb_string:
         type: string
 
 produces:
-  sequence:
+    sequence:
         type: string
-  sequence_checksum:
+    sequence_checksum:
         type: string
-  pdb_string:
+    pdb_string:
         type: string

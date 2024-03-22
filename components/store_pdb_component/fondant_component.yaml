@@ -3,11 +3,11 @@ description: The StorePDBComponent stores the PDB file given a storage_type. Thi
 image: store_pdb_component:latest
 
 consumes:
-  sequence:
+    sequence:
         type: string
-  sequence_checksum:
+    sequence_checksum:
         type: string
-  pdb_string:
+    pdb_string:
         type: string
 
 args:
@@ -33,9 +33,9 @@ args:
         default: ""
 
 produces:
-  sequence:
+    sequence:
         type: string
-  sequence_checksum:
+    sequence_checksum:
         type: string
-  pdb_string:
+    pdb_string:
         type: string

@@ -3,9 +3,9 @@ description: The FilterPDBComponent is a component that takes in a dataframe and
 image: filter_pdb_component:latest
 
 consumes:
-  sequence:
+    sequence:
         type: string
-  sequence_checksum:
+    sequence_checksum:
         type: string
 
 args:
@@ -31,9 +31,9 @@ args:
         default: ""
 
 produces:
-  sequence:
+    sequence:
         type: string
-  sequence_checksum:
+    sequence_checksum:
         type: string
-  pdb_string:
+    pdb_string:
         type: string

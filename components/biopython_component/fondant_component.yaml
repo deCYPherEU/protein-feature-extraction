@@ -3,35 +3,39 @@ description: A component that uses Biopython to perform certain operations on se
 image: biopython_component:latest
 
 consumes:
-  sequence:
+    sequence:
+        type: string
+    sequence_checksum:
         type: string
 
 produces:
-  sequence:
+    sequence:
         type: string
-  sequence_length:
+    sequence_checksum:
+        type: string
+    sequence_length:
         type: int64
-  molecular_weight:
+    molecular_weight:
         type: float64
-  aromaticity:
+    aromaticity:
         type: float64
-  isoelectric_point:
+    isoelectric_point:
         type: float64
-  instability_index:
+    instability_index:
         type: float64
-  gravy:
+    gravy:
         type: float64
-  helix:
+    helix:
         type: float64
-  turn:
+    turn:
         type: float64
-  sheet:
+    sheet:
         type: float64
-  charge_at_ph7:
+    charge_at_ph7:
         type: float64
-  charge_at_ph5:
+    charge_at_ph5:
         type: float64
-  molar_extinction_coefficient_oxidized:
+    molar_extinction_coefficient_oxidized:
         type: int64
-  molar_extinction_coefficient_reduced:
+    molar_extinction_coefficient_reduced:
         type: int64
