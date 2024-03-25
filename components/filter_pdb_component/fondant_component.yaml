@@ -13,7 +13,7 @@ args:
         type: str
         description: "The method to use to fetch and save the PDB file. Can be 'local' or 'remote'."
         default: "local"
-    pdb_path:
+    local_pdb_path:
         type: str
         description: "The path to the PDB files. Only used when the method is 'local'."
         default: None

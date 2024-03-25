@@ -16,14 +16,14 @@ class StorePDBComponent(PandasTransformComponent):
 	The StorePDBComponent stores the PDB file given a method. This method consists of two options 'local' and 'remote'. The 'local' method is used to store the PDB file locally in the '/data/pdb_files' folder. The 'remote' method will use the GCP storage bucket to store the PDB file. 
 	"""
 
-	def __init__(self, method: str, pdb_path: str, bucket_name: str, project_id: str, google_cloud_credentials_path: str):
+	def __init__(self, method: str, local_pdb_path: str, bucket_name: str, project_id: str, google_cloud_credentials_path: str):
 
 		if method not in ["local", "remote"]:
 			raise ValueError("method must be either 'local' or 'remote'")
 		self.method = method
 
 		if method == "local":
-			self.local_pdb_files_path = pdb_path
+			self.local_pdb_files_path = local_pdb_path
 
 		else:
 			os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_cloud_credentials_path

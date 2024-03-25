@@ -35,7 +35,7 @@ _ = dataset.apply(
 	"./components/filter_pdb_component",
 	arguments={
 		"method": "local",
-		"pdb_path": "/data/pdb_files",
+		"local_pdb_path": "/data/pdb_files",
 		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
@@ -46,7 +46,7 @@ _ = dataset.apply(
 	"./components/store_pdb_component",
 	arguments={
 		"method": "local",
-		"pdb_path": "/data/pdb_files/",
+		"local_pdb_path": "/data/pdb_files/",
 		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
