@@ -18,19 +18,19 @@ args:
     pdb_path:
         type: str
         description: "The path to the PDB files. Only used when the method is 'local'."
-        default: ""
+        default: None
     bucket_name:
         type: str
         description: "The name of the GCP Storage Bucket. Only used when the method is 'remote'."
-        default: ""
+        default: None
     project_id:
         type: str
         description: "The GCP project ID. Only used when the method is 'remote'."
-        default: ""
+        default: None
     google_cloud_credentials_path:
         type: str
         description: "The path to the Google Cloud credentials file. Only used when the method is 'remote'."
-        default: ""
+        default: None
 
 produces:
     sequence:
