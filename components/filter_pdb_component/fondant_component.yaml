@@ -9,7 +9,7 @@ consumes:
         type: string
 
 args:
-    storage_type:
+    method:
         type: str
         description: "The method to use to fetch and save the PDB file. Can be 'local' or 'remote'."
         default: "local"

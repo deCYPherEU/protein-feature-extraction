@@ -1,5 +1,5 @@
 """
-The FilterPDBComponent is a component that takes in a dataframe and, based on the storage_type given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
+The FilterPDBComponent is a component that takes in a dataframe and, based on the method given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
 """
 
 import logging
@@ -14,16 +14,16 @@ logger = logging.getLogger(__name__)
 
 class FilterPDBComponent(PandasTransformComponent):
 	"""
-	The FilterPDBComponent is a component that takes in a dataframe and, based on the storage_type given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
+	The FilterPDBComponent is a component that takes in a dataframe and, based on the method given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
 	"""
 
-	def __init__(self, storage_type: str, pdb_path: str, bucket_name: str, project_id: str, google_cloud_credentials_path: str):
+	def __init__(self, method: str, pdb_path: str, bucket_name: str, project_id: str, google_cloud_credentials_path: str):
 
-		if storage_type not in ["local", "remote"]:
-			raise ValueError("storage_type must be either 'local' or 'remote'")
-		self.storage_type = storage_type
+		if method not in ["local", "remote"]:
+			raise ValueError("method must be either 'local' or 'remote'")
+		self.method = method
 
-		if storage_type == "local":
+		if method == "local":
 			self.local_pdb_files_path = pdb_path
 
 		else:
@@ -36,7 +36,7 @@ class FilterPDBComponent(PandasTransformComponent):
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Perform the transformation on the dataframe."""
 
-		if self.storage_type == "local":
+		if self.method == "local":
 			dataframe = self.load_local_pdb_files(dataframe)
 
 		else:

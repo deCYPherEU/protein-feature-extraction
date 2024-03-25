@@ -34,7 +34,7 @@ _ = dataset.apply(
 ).apply(
 	"./components/filter_pdb_component",
 	arguments={
-		"storage_type": "local",
+		"method": "local",
 		"pdb_path": "/data/pdb_files",
 		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
 		"project_id": "elated-chassis-400207",
@@ -45,7 +45,7 @@ _ = dataset.apply(
 ).apply(
 	"./components/store_pdb_component",
 	arguments={
-		"storage_type": "local",
+		"method": "local",
 		"pdb_path": "/data/pdb_files/",
 		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
 		"project_id": "elated-chassis-400207",
