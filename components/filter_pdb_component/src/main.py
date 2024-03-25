@@ -41,16 +41,16 @@ class FilterPDBComponent(PandasTransformComponent):
 
 		else:
 			storage_client = storage.Client(self.project_id)
-			self.bucket = storage_client.get_bucket(self.bucket_name)
-			dataframe = self.load_remote_pdb_files(dataframe)
+			bucket = storage_client.get_bucket(self.bucket_name)
+			dataframe = self.load_remote_pdb_files(dataframe, bucket)
 
 		return dataframe
 
-	def load_remote_pdb_files(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+	def load_remote_pdb_files(self, dataframe: pd.DataFrame, bucket: storage.Bucket) -> pd.DataFrame:
 		"""Load the remote PDB files and filter out the ones that already exist."""
 
 		# Collect all blob names first
-		blob_names = [blob.name for blob in self.bucket.list_blobs()]
+		blob_names = [blob.name for blob in bucket.list_blobs()]
 
 		existing_blobs = [
 			blob for blob in blob_names if blob in dataframe['sequence_checksum'].values]
@@ -59,7 +59,7 @@ class FilterPDBComponent(PandasTransformComponent):
 
 		for row in dataframe.itertuples():
 			if row.sequence_checksum in existing_blobs:
-				blob = self.bucket.blob(row.sequence_checksum)
+				blob = bucket.blob(row.sequence_checksum)
 				logger.info(
 					f"Downloading {row.sequence_checksum} from the bucket")
 				dataframe.at[row.Index,

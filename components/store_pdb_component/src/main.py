@@ -40,15 +40,15 @@ class StorePDBComponent(PandasTransformComponent):
 
 		else:
 			storage_client = storage.Client(self.project_id)
-			self.bucket = storage_client.get_bucket(self.bucket_name)
-			dataframe = self.store_remote_pdb_files(dataframe)
+			bucket = storage_client.get_bucket(self.bucket_name)
+			dataframe = self.store_remote_pdb_files(dataframe, bucket)
 
 		return dataframe
 
-	def store_remote_pdb_files(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+	def store_remote_pdb_files(self, dataframe: pd.DataFrame, bucket: storage.Bucket) -> pd.DataFrame:
 		"""Save the remote PDB files and filter out the ones that already exist."""
 
-		dataframe.apply(lambda row: self.bucket.blob(
+		dataframe.apply(lambda row: bucket.blob(
 			row.sequence_checksum).upload_from_string(row.pdb_string), axis=1)
 
 		return dataframe
