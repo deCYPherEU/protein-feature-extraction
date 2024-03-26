@@ -1,0 +1,2 @@
+biopython==1.83
+pyarrow==15.0.0
