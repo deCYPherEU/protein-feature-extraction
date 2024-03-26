@@ -192,3 +192,6 @@ data/
 experiments/
 
 components/iFeatureOmega_component/src/iFeatureOmega_CLI
+
+# Ignore the logs folder
+.pylintrc

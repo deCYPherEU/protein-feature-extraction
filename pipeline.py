@@ -23,12 +23,33 @@ dataset = pipeline.read(
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
+	"./components/generate_protein_sequence_checksum_component"
+).apply(
 	"./components/iFeatureOmega_component",
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
-	# change the descriptors? => change the features of the yaml file 
 	arguments={
 		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+	}
+).apply(
+	"./components/filter_pdb_component",
+	arguments={
+		"method": "local",
+		"local_pdb_path": "/data/pdb_files",
+		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
+		"project_id": "elated-chassis-400207",
+		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
+	}
+).apply(
+	"./components/predict_protein_3D_structure_component",
+).apply(
+	"./components/store_pdb_component",
+	arguments={
+		"method": "local",
+		"local_pdb_path": "/data/pdb_files/",
+		"bucket_name": "elated-chassis-400207_dbtl_pipeline_outputs",
+		"project_id": "elated-chassis-400207",
+		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 )
 

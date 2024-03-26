@@ -15,11 +15,10 @@ RUN pip3 install fondant[component]==0.10.1
 # Set the working directory to the component folder
 WORKDIR /component/src
 
+# Copy the .env file to the component folder
+COPY .env .
+
 # Copy over src-files and spec of the component
 COPY src/ .
-
-# install the github repo of iFeatureOmega-CLI and rename it to iFeatureOmega_CLI
-RUN git clone https://github.com/Superzchen/iFeatureOmega-CLI
-RUN mv iFeatureOmega-CLI iFeatureOmega_CLI
 
 ENTRYPOINT ["fondant", "execute", "main"]
