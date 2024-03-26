@@ -21,6 +21,13 @@ dataset = pipeline.read(
 )
 
 _ = dataset.apply(
+	"./components/unikp_component",
+	arguments={
+		"protein_smiles_path": "/data/protein_smiles.json",
+	},
+)
+
+""".apply(
 	"./components/biopython_component"
 ).apply(
 	"./components/generate_protein_sequence_checksum_component"
@@ -52,7 +59,7 @@ _ = dataset.apply(
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 )
-
+"""
 
 """
 # write the dataset
