@@ -3,10 +3,10 @@ The PredictProtein3DStructureComponent is a component that takes in a dataframe 
 """
 import logging
 import os
-import requests
-from dotenv import load_dotenv
-import pandas as pd
 from fondant.component import PandasTransformComponent
+import pandas as pd
+from dotenv import load_dotenv
+import requests
 
 # Load the environment variables
 load_dotenv()
