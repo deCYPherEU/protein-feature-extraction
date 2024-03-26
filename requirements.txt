@@ -6,3 +6,4 @@ biopython==1.83
 bandit==1.7.1
 pylint==2.5.3
 liccheck==0.6.5
+ipykernel==6.29.3

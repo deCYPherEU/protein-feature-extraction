@@ -47,6 +47,4 @@ class BiopythonComponent(PandasTransformComponent):
 		dataframe["molar_extinction_coefficient_reduced"] = sequence_analysis.apply(
 			lambda x: x.molar_extinction_coefficient()[1])
 
-		logger.info(
-			f"BiopythonComponent: features generated: {dataframe.columns.tolist()}")
 		return dataframe
