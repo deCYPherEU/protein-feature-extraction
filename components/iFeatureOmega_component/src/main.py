@@ -5,7 +5,7 @@ The IFeatureOmegaComponent class is a component that generates new features usin
 import logging
 import pandas as pd
 from fondant.component import PandasTransformComponent
-import iFeatureOmega_CLI.iFeatureOmegaCLI as iFO
+import iFeatureOmega_CLI.iFeatureOmegaCLI as iFO # pylint: disable=import-error
 
 # Set up logging
 logger = logging.getLogger(__name__)

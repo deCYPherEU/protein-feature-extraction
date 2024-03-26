@@ -60,8 +60,6 @@ class FilterPDBComponent(PandasTransformComponent):
 		for row in dataframe.itertuples():
 			if row.sequence_checksum in existing_blobs:
 				blob = bucket.blob(row.sequence_checksum)
-				logger.info(
-					f"Downloading {row.sequence_checksum} from the bucket")
 				dataframe.at[row.Index,
 							'pdb_string'] = blob.download_as_string()
 
