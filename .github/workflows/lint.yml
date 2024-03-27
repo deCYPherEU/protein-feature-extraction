@@ -16,18 +16,21 @@ jobs:
       with:
         python-version:  ${{ matrix.python-version }}
 
-    - name: cache pip
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          ${{ runner.os }}-
+    - name: Install dependencies for each component
+      run: |
+        for component in components/*; do
+          if [ -d "$component" ]; then
+            cd "$component"
+            if [ -f "requirements.txt" ]; then
+              pip install -r requirements.txt
+            fi
+            cd ..
+          fi
+        done
 
     - name: pylint
       run: |
-        pip install $(cat requirements.txt | grep pylint)
+        pip install pylint
         python pylint.py --modules-file pylint-modules
 
     - name: bandit
