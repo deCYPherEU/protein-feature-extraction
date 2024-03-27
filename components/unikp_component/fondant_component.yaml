@@ -15,5 +15,5 @@ args:
 produces:
     sequence:
         type: string
-    unikp_results:
+    unikp_kinetic_prediction:
         type: string

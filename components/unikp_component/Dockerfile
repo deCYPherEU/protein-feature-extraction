@@ -15,6 +15,9 @@ RUN pip3 install fondant[component]==0.10.1
 # Set the working directory to the component folder
 WORKDIR /component/src
 
+# Copy the .env file to the component folder
+COPY .env .
+
 # Copy over src-files and spec of the component
 COPY src/ .
 
