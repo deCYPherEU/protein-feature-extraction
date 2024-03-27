@@ -1,0 +1,17 @@
+name: MSA component
+description: This component is responsible for handling the MSA sequence.
+image: msa_component:latest
+
+consumes:
+  sequence:
+        type: string
+  sequence_id:
+        type: string
+
+produces:
+  sequence:
+        type: string
+  sequence_id:
+        type: string
+  msa_sequence:
+        type: string

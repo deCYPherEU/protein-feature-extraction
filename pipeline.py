@@ -20,6 +20,7 @@ dataset = pipeline.read(
 	}
 )
 
+
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
@@ -51,6 +52,8 @@ _ = dataset.apply(
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
+).apply(
+	"./components/msa_component",
 )
 
 
