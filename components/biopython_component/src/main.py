@@ -1,5 +1,7 @@
 """
-The BiopythonComponent class is a component that takes in a dataframe, performs the Biopython functions to generate new features and returns the dataframe with the new features added.
+The BiopythonComponent class is a component that takes in a dataframe,
+performs the Biopython functions to generate new features
+and returns the dataframe with the new features added.
 """
 import logging
 import pandas as pd
@@ -11,13 +13,18 @@ logger = logging.getLogger(__name__)
 
 
 class BiopythonComponent(PandasTransformComponent):
-	"""The BiopythonComponent class is a component that takes in a dataframe, performs the Biopython functions to generate new features and returns the dataframe with the new features added."""
+	"""The BiopythonComponent class is a component that takes in a dataframe,
+	performs the Biopython functions to generate new features
+	and returns the dataframe with the new features added."""
 
 	def __init__(self, *_):
+		# pylint: disable=super-init-not-called
 		pass
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""The transform method takes in a dataframe, performs the Biopython functions to generate new features and returns the dataframe with the new features added."""
+		"""The transform method takes in a dataframe,
+		performs the Biopython functions to generate new features
+		and returns the dataframe with the new features added."""
 
 		sequence_analysis = dataframe["sequence"].apply(ProteinAnalysis)
 

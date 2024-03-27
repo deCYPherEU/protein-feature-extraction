@@ -1,12 +1,15 @@
 """
-The PredictProtein3DStructureComponent is a component that takes in a dataframe and sends the sequences to the HuggingFace ESMFold Endpoint to predict the tertiary structures of the proteins. The component returns the dataframe with the predicted tertiary structures. 
+The PredictProtein3DStructureComponent is a component that takes
+in a dataframe and sends the sequences to the HuggingFace ESMFold Endpoint
+to predict the tertiary structures of the proteins.
+The component returns the dataframe with the predicted tertiary structures.
 """
 import logging
 import os
 from fondant.component import PandasTransformComponent
 import pandas as pd
-from dotenv import load_dotenv
-import requests
+from dotenv import load_dotenv  # pylint: disable=import-error
+import requests  # pylint: disable=import-error
 
 # Load the environment variables
 load_dotenv()
@@ -17,10 +20,14 @@ logger = logging.getLogger(__name__)
 
 class PredictProtein3DStructureComponent(PandasTransformComponent):
 	"""
-	The PredictProtein3DStructureComponent is a component that takes in a dataframe and sends the sequences to the HuggingFace ESMFold Endpoint to predict the tertiary structures of the proteins. The component returns the dataframe with the predicted tertiary structures.
+	The PredictProtein3DStructureComponent is a component that takes
+	in a dataframe and sends the sequences to the HuggingFace ESMFold Endpoint
+	to predict the tertiary structures of the proteins.
+	The component returns the dataframe with the predicted tertiary structures.
 	"""
 
 	def __init__(self):
+		# pylint: disable=super-init-not-called
 		self.hf_api_key = os.getenv("HF_API_KEY")
 		self.hf_endpoint_url = os.getenv("HF_ENDPOINT_URL")
 
@@ -35,12 +42,12 @@ class PredictProtein3DStructureComponent(PandasTransformComponent):
 
 		# Predict the tertiary structures
 		dataframe.loc[indices_to_predict, "pdb_string"] = dataframe.loc[indices_to_predict,
-																		"sequence"].apply(lambda sequence: self.predict_tertiary_structure(sequence))
+																		"sequence"].apply(self.predict_tertiary_structure)
 
 		return dataframe
 
 	def predict_tertiary_structure(self, sequence: str) -> str:
-		"""Predict the tertiary structure of the protein sequence using the HuggingFace ESMFold Endpoint."""
+		"""Predict the tertiary structure of the protein sequence using HuggingFace ESMFold Endpoint."""
 
 		# Set the headers
 		headers = {

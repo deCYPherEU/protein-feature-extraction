@@ -1,5 +1,6 @@
 """
-The IFeatureOmegaComponent class is a component that generates new features using iFeatureOmega.
+The IFeatureOmegaComponent class is a component that
+generates new features using iFeatureOmega.
 """
 
 import logging
@@ -12,9 +13,13 @@ logger = logging.getLogger(__name__)
 
 
 class IFeatureOmegaComponent(PandasTransformComponent):
-	"""The IFeatureOmegaComponent class is a component that generates new features using iFeatureOmega."""
+	"""
+	The IFeatureOmegaComponent class is a component that
+	generates new features using iFeatureOmega.
+	"""
 
 	def __init__(self, descriptors: list):
+		# pylint: disable=super-init-not-called
 		self.descriptors = descriptors
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -47,6 +52,7 @@ class IFeatureOmegaComponent(PandasTransformComponent):
 
 	def create_ifo_protein(self, sequence: str, dataframe: pd.DataFrame) -> iFO.iProtein:
 		"""Create an iProtein object from a sequence."""
+		# pylint: disable=no-self-use
 		# based on the sequence, give me the checksum_sequence in the dataframe
 		file_name = dataframe.loc[dataframe["sequence"]
 								== sequence, "sequence_checksum"].values[0]
