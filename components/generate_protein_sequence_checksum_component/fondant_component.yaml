@@ -1,13 +1,13 @@
-name: Apply Checksum Component
+name: Generate Protein Sequence Checksum Component
 description: A component that applies that uses the checksum operator on the 'sequence' from Biopython to create the 'sequence_id' feature.
-image: apply_checksum_component:latest
+image: generate_protein_sequence_checksum_component:latest
 
 consumes:
-  sequence:
+    sequence:
         type: string
 
 produces:
-  sequence:
+    sequence:
         type: string
-  sequence_id:
+    sequence_checksum:
         type: string
