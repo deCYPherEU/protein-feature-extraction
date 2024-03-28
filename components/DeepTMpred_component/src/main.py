@@ -29,12 +29,13 @@ class DeepTMpredComponent(PandasTransformComponent):
 		self.create_columns(dataframe)
 
 		for row in dataframe.itertuples():
-			self.run_deeptmpred_model(input_file, row.sequence, input_file)
+			self.run_deeptmpred_model(
+				input_file, row.sequence, row.sequence_checksum)
 			transmembrane_helices = self.read_and_parse_output(
 				input_file, output_file)
 			features = self.calculate_features(transmembrane_helices)
 			dataframe = self.insert_features_into_dataframe(
-				dataframe, features, row.sequence_id)
+				dataframe, features, row.sequence_checksum)
 
 		return dataframe
 
@@ -44,11 +45,11 @@ class DeepTMpredComponent(PandasTransformComponent):
 		for column in self.columns:
 			dataframe[column] = None
 
-	def run_deeptmpred_model(self, input_file: str, sequence: str, sequence_id: str) -> None:
+	def run_deeptmpred_model(self, input_file: str, sequence: str, sequence_checksum: str) -> None:
 		"""Run the DeepTMpred model."""
 
 		with open(input_file, 'w') as f:
-			f.write(f'>{sequence_id}\n{sequence}')
+			f.write(f'>{sequence_checksum}\n{sequence}')
 
 		subprocess.run([
 			'python',
@@ -90,11 +91,12 @@ class DeepTMpredComponent(PandasTransformComponent):
 								end in transmembrane_helices)
 		return tmh_num_helices, tmh_total_length, tmh_avg_length_total, tmh_biggest_length, tmh_smallest_length
 
-	def insert_features_into_dataframe(self, dataframe: pd.DataFrame, features: tuple, sequence_id: str) -> pd.DataFrame:
+	def insert_features_into_dataframe(self, dataframe: pd.DataFrame, features: tuple, sequence_checksum: str) -> pd.DataFrame:
 		"""Insert the new features into the dataframe."""
 
-		# Find the index where sequence_id matches in the dataframe
-		index = dataframe[dataframe['sequence_id'] == sequence_id].index[0]
+		# Find the index where sequence_checksum matches in the dataframe
+		index = dataframe[dataframe['sequence_checksum']
+						== sequence_checksum].index[0]
 
 		# Insert the new features into the dataframe at the corresponding index using the self.columns list
 		for column, feature in zip(self.columns, features):

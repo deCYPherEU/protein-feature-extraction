@@ -5,13 +5,13 @@ image: deeptm_pred_component:latest
 consumes:
   sequence:
         type: string
-  sequence_id:
+  sequence_checksum:
         type: string
 
 produces:
   sequence:
         type: string
-  sequence_id:
+  sequence_checksum:
         type: string
   tmh_num_helices:
           type: int64
