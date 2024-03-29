@@ -34,3 +34,13 @@ tmh_avg_length_total: The average length of the transmembrane helices in the pro
 tmh_biggest_length: The length of the biggest transmembrane helix in the protein sequence.
 tmh_smallest_length: The length of the smallest transmembrane helix in the protein sequence.
 ```
+
+## Troubleshooting
+
+If you encounter the following error in your terminal:
+
+```bash
+PytorchStreamReader failed reading zip archive: failed finding central directory
+```
+
+It is likely that the models were not downloaded correctly. To fix this, remove the folder with its contents and re-run the download script.
