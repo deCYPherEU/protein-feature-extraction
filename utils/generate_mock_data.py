@@ -1,7 +1,12 @@
 import pandas as pd
+import os
 
 # having a problem with importing from config.py, placing this here hard-coded. This entire file will disappear once the real data is available
 MOCK_DATA_PATH_LOCAL = "./data/mock_data.parquet"
+
+# create the data folder if it doesn't exist
+if not os.path.exists('./data'):
+	os.makedirs('./data')
 
 def generate_mock_data() -> None:
 	data = {
