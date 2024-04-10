@@ -23,8 +23,6 @@ dataset = pipeline.read(
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
-	"/components/peptide_features_component"
-).apply(
 	"./components/generate_protein_sequence_checksum_component"
 ).apply(
 	"./components/iFeatureOmega_component",
@@ -53,6 +51,8 @@ _ = dataset.apply(
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
+).apply(
+	"/components/peptide_features_component"
 )
 
 """

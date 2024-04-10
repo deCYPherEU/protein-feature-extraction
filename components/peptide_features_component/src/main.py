@@ -3,8 +3,8 @@ The PeptideFeaturesComponent class is a component that takes in a dataframe, per
 """
 import logging
 import pandas as pd
-from fondant.component import PandasTransformComponent
 import peptides
+from fondant.component import PandasTransformComponent
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -24,7 +24,6 @@ class PeptideFeaturesComponent(PandasTransformComponent):
 		
 		dataframe = self.calculate_aa_fractions(dataframe)	
 		dataframe = self.calculate_mz(dataframe)
-
 
 		logger.info(f"PeptideFeaturesComponent: features generated: {dataframe.columns.tolist()}")
 		return dataframe
