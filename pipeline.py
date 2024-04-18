@@ -54,16 +54,3 @@ _ = dataset.apply(
 ).apply(
 	"/components/peptide_features_component"
 )
-
-"""
-# write the dataset
-_ = dataset.write(
-	"write_to_file",
-	arguments={
-		"path": "/data/export/",
-	}
-)
-"""
-
-# run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
