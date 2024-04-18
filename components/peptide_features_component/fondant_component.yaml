@@ -23,59 +23,17 @@ produces:
     type: float64
   positively_charged_aa_fraction:
     type: float64
-  st_scales_1:
-    type: float64
-  st_scales_2:
-    type: float64
-  st_scales_3:
-    type: float64
-  st_scales_4:
-    type: float64
-  st_scales_5:
-    type: float64
-  st_scales_6:
-    type: float64
-  st_scales_7:
-    type: float64
-  st_scales_8:
-    type: float64
   sulfur_containing_aa_fraction:
-    type: float64
-  t_scales_1:
-    type: float64
-  t_scales_2:
-    type: float64
-  t_scales_3:
-    type: float64
-  t_scales_4:
-    type: float64
-  t_scales_5:
     type: float64
   uncharged_polar_aa_fraction:
     type: float64
-  vhse_scales_1:
+  z_scale_1:
     type: float64
-  vhse_scales_2:
+  z_scale_2:
     type: float64
-  vhse_scales_3:
+  z_scale_3:
     type: float64
-  vhse_scales_4:
+  z_scale_4:
     type: float64
-  vhse_scales_5:
-    type: float64
-  vhse_scales_6:
-    type: float64
-  vhse_scales_7:
-    type: float64
-  vhse_scales_8:
-    type: float64
-  z_scales_1:
-    type: float64
-  z_scales_2:
-    type: float64
-  z_scales_3:
-    type: float64
-  z_scales_4:
-    type: float64
-  z_scales_5:
+  z_scale_5:
     type: float64

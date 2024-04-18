@@ -1,8 +1,8 @@
 """
 The PeptideFeaturesComponent uses the peptides package to generate new
 features related to the amino acids in a protein sequence. These features
-include physicochemical properties of amino acids (hydrophobicity, aphiliaticity, ...)
-and amino acid fractions and mass-to-charge ratio (m/z) of the peptide sequence. 
+include physicochemical properties of amino acids (hydrophobicity, aliphaticity, ...)
+and amino acid fractions and mass-to-charge ratio (m/z) of the peptide sequence.
 """
 import logging
 import pandas as pd
@@ -27,31 +27,24 @@ class PeptideFeaturesComponent(PandasTransformComponent):
 		"""The transform method takes in a dataframe, generate new
 		features and returns the dataframe with the new features added."""
 
-		scales_list = ["z_scales", "vhse_scales", "t_scales", "st_scales"]
-		dataframe = dataframe.apply(
-			lambda row: self.calculate_scales_for_row(row, scales_list), axis=1)
-
 		dataframe = self.calculate_aa_fractions(dataframe)
 		dataframe = self.calculate_mz(dataframe)
+		dataframe = self.calculate_z_scales(dataframe)
 
 		logger.info(
 			f"PeptideFeaturesComponent: features generated: {dataframe.columns.tolist()}")
+
 		return dataframe
 
-	def calculate_scales(self, dataframe: pd.DataFrame, scale_method: str) -> pd.DataFrame:
+	def calculate_z_scales(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""
-		Calculate the z-scales, vhse-scales, t-scales and st-scales of a peptide sequence.
+		Calculate the z-scales of peptide sequences.
 		"""
 
-		index = 1
-		dataframe[scale_method] = dataframe["sequence"].apply(
-			lambda sequence: peptides.Peptide(sequence))
-		dataframe[scale_method] = dataframe[scale_method].apply(
-			lambda peptide: getattr(peptide, f"{scale_method}"))
-
-		dataframe[[f"{scale_method}_{i+index}" for i in range(len(dataframe[scale_method][0]))]] = pd.DataFrame(
-			dataframe[scale_method].tolist(), index=dataframe.index)
-		dataframe.drop(columns=[scale_method], inplace=True)
+		# z-scales are a set of 5 physicochemical properties of amino acids
+		for i in range(5):
+			dataframe[f"z_scale_{i+1}"] = dataframe["sequence"].apply(
+				lambda sequence: peptides.Peptide(sequence).z_scales()[i])
 
 		return dataframe
 
