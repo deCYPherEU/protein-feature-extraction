@@ -1,0 +1,25 @@
+name: PDB Features component
+description: The PDBFeaturesComponent takes as argument the pdb file as string and will calculate features such as contact order, LRO, etc.
+image: pdb_features_component:latest
+
+consumes:
+    pdb_string:
+        type: string
+
+produces:
+    contact_order:
+        type: float64
+    lro:
+        type: float64
+    contacts_8A_ca:
+        type: float64
+    contacts_14A_ca:
+        type: float64
+    buriedness:
+        type: string
+    short_distances:
+        type: string
+    medium_distances:
+        type: string
+    long_distances:
+        type: string
