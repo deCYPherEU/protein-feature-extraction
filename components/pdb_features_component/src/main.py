@@ -3,13 +3,12 @@ The PDBFeaturesComponent takes as argument the pdb file
 as string and will calculate features such as contact order, LRO, etc.
 """
 import logging
-import math
+from itertools import combinations
 from typing import Tuple
 import pandas as pd
 import numpy as np
-from Bio.PDB import PDBParser
-from itertools import combinations
 from scipy.spatial import ConvexHull
+from Bio.PDB import PDBParser
 from fondant.component import PandasTransformComponent
 
 # Set up logging
@@ -23,43 +22,57 @@ class PDBFeaturesComponent(PandasTransformComponent):
 	"""
 
 	def __init__(self, *_):
-		pass
+		self.pdb_file = "temp.pdb"
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""
 		Transforms the input dataframe by calculating the features of the PDB file.
 		"""
 
-		dataframe["contact_order"] = dataframe["pdb_string"].apply(
-			lambda x: self.calculate_feature(x, self.calculate_contact_order))
-		dataframe["lro"] = dataframe["pdb_string"].apply(
-			lambda x: self.calculate_feature(x, self.calculate_long_range_order))
-		dataframe["contacts_8A_CA"], dataframe["contacts_14A_CA"] = zip(*dataframe["pdb_string"].apply(lambda x: self.calculate_feature(
-			x, lambda s: (self.calculate_number_of_contacts(s, 8), self.calculate_number_of_contacts(s, 14)))))
-		dataframe["buriedness"] = dataframe["pdb_string"].apply(
-			lambda x: self.calculate_feature(x, self.calculate_buriedness))
-		dataframe["short_distances"], dataframe["medium_distances"], dataframe["long_distances"] = zip(
-			*dataframe["pdb_string"].apply(lambda x: self.calculate_feature(x, self.calculate_distances)))
+		dataframe["pdb_contact_order"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_contact_order(pdb_string, atom_type='CA', cutoff=8))
+
+		dataframe["pdb_lro"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_long_range_order(pdb_string))
+
+		dataframe["pdb_contacts_8A_ca"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_number_of_contacts(pdb_string, cutoff=8, atom_type='CA'))
+
+		dataframe["pdb_contacts_14A_ca"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_number_of_contacts(pdb_string, cutoff=14, atom_type='CA'))
+
+		dataframe["pdb_buriedness"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_buriedness(pdb_string))
+
+		dataframe["pdb_short_distances"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_distances(pdb_string)[0])
+
+		dataframe["pdb_medium_distances"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_distances(pdb_string)[1])
+
+		dataframe["pdb_long_distances"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_distances(pdb_string)[2])
 
 		return dataframe
 
-	def calculate_feature(self, pdb_string: str, pdb_file: str, func: str) -> float:
+	def write_pdb_to_file(self, pdb_string: str, filename: str) -> None:
 		"""
-		Calculates the feature of the PDB file using the specified function.
+		Write a PDB string to a file.
 		"""
 
-		with open(pdb_file, "w") as f:
+		with open(filename, "w") as f:
 			f.write(pdb_string)
 
-		return getattr(self, func)(pdb_file)
-
-	def calculate_contact_order(pdb_file: str, atom_type='CA', cutoff=8) -> float:
+	def calculate_contact_order(self, pdb_string: str, atom_type='CA', cutoff=8) -> float:
 		"""
 		Calculate the number of contacts between amino acid residues in the crystal structure.
 		"""
 
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
 		parser = PDBParser()
-		structure = parser.get_structure("protein", pdb_file)
+		structure = parser.get_structure("protein", self.pdb_file)
 
 		contacts = 0
 		# use only the first model in the structure
@@ -82,13 +95,16 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		return contacts
 
-	def calculate_long_range_order(pdb_file: str) -> float:
+	def calculate_long_range_order(self, pdb_string: str) -> float:
 		"""
 		Calculate the Long Range Order (LRO) of a protein structure from a PDB file.
 		"""
 
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
 		parser = PDBParser()
-		structure = parser.get_structure("protein", pdb_file)
+		structure = parser.get_structure("protein", self.pdb_file)
 
 		distances = []
 		# use only the first model in the structure
@@ -112,16 +128,18 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		else:
 			return np.mean(distances)
 
-
-	def calculate_number_of_contacts(pdb_file: str, cutoff: int, atom_type='CA') -> int:
+	def calculate_number_of_contacts(self, pdb_string: str, cutoff: int, atom_type='CA') -> int:
 		"""
 		Calculate the number of contacts between amino acid residues in the crystal structure.
 
 		https://github.com/rodogi/buriedness/blob/master/buriedness.py
 		"""
 
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
 		parser = PDBParser()
-		structure = parser.get_structure("protein", pdb_file)
+		structure = parser.get_structure("protein", self.pdb_file)
 
 		contacts = 0
 		# use only the first model in the structure
@@ -144,25 +162,26 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		return contacts
 
-	def calculate_buriedness(pdb_file: str) -> str:
+	def calculate_buriedness(self, pdb_string: str) -> str:
 		"""
 		Calculate the buriedness of a protein structure from a PDB file.
 		"""
 
 		bdness_object = {}
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
 		parser = PDBParser()
-		try:
-			structure = parser.get_structure(pdb_file, pdb_file)[0]
-		except FileNotFoundError:
-			print("Cannot find the file".format(pdb_file))
+		structure = parser.get_structure("protein", self.pdb_file)
+		model = structure[0]
 
 		# Remove water and hetatoms
-		for res in structure.get_residues():
+		for res in model.get_residues():
 			chain = res.parent
 			if res.id[0] != " ":
 				chain.detach_child(res.id)
 
-		atoms = [atom for atom in structure.get_atoms()]
+		atoms = [atom for atom in model.get_atoms()]
 		if not atoms:
 			raise Exception("Could not parse atoms in the pdb file")
 
@@ -189,16 +208,17 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		return str(bdness_object)
 
-	def calculate_distances(pdb_file: str) -> Tuple[str, str, str]:
+	def calculate_distances(self, pdb_string: str) -> Tuple[str, str, str]:
 		"""
-		Calculate short (< 8), medium (< 12 and >= 8) and long (> 12) distances between all amino acids in a protein structure from a PDB file.
+		Calculate short (< 8), medium (< 12 and >= 8) and long (> 12) distances
+		between all amino acids in a protein structure from a PDB file.
 		"""
 
-		# Initialize the parser
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
 		parser = PDBParser()
-
-		# Parse the PDB file
-		structure = parser.get_structure("protein", pdb_file)
+		structure = parser.get_structure("protein", self.pdb_file)
 
 		# Initialize a dictionary to store distances
 		short_distances = {}

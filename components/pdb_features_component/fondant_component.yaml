@@ -7,19 +7,19 @@ consumes:
         type: string
 
 produces:
-    contact_order:
+    pdb_contact_order:
         type: float64
-    lro:
+    pdb_lro:
         type: float64
-    contacts_8A_ca:
+    pdb_contacts_8A_ca:
         type: float64
-    contacts_14A_ca:
+    pdb_contacts_14A_ca:
         type: float64
-    buriedness:
+    pdb_buriedness:
         type: string
-    short_distances:
+    pdb_short_distances:
         type: string
-    medium_distances:
+    pdb_medium_distances:
         type: string
-    long_distances:
+    pdb_long_distances:
         type: string
