@@ -3,10 +3,16 @@ description: The PDBFeaturesComponent takes as argument the pdb file as string a
 image: pdb_features_component:latest
 
 consumes:
+    sequence:
+        type: string
     pdb_string:
         type: string
 
 produces:
+    sequence:
+        type: string
+    pdb_string:
+        type: string
     pdb_contact_order:
         type: float64
     pdb_lro:
