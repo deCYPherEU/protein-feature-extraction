@@ -11,8 +11,207 @@ args:
         type: list
         description: List of descriptors to be calculated
         default: ["AAC", "CTDC", "CTDT"]
+        default: ["AAC", "CTDC", "CTDT"]
 
 produces:
+    sequence:
+        type: string
+    AAC_A:
+        type: float64
+    AAC_C:
+        type: float64
+    AAC_D:
+        type: float64
+    AAC_E:
+        type: float64
+    AAC_F:
+        type: float64
+    AAC_G:
+        type: float64
+    AAC_H:
+        type: float64
+    AAC_I:
+        type: float64
+    AAC_K:
+        type: float64
+    AAC_L:
+        type: float64
+    AAC_M:
+        type: float64
+    AAC_N:
+        type: float64
+    AAC_P:
+        type: float64
+    AAC_Q:
+        type: float64
+    AAC_R:
+        type: float64
+    AAC_S:
+        type: float64
+    AAC_T:
+        type: float64
+    AAC_V:
+        type: float64
+    AAC_W:
+        type: float64
+    AAC_Y:
+        type: float64
+    CTDC_charge.G1:
+        type: float64
+    CTDC_charge.G2:
+        type: float64
+    CTDC_charge.G3:
+        type: float64
+    CTDC_hydrophobicity_ARGP820101.G1:
+        type: float64
+    CTDC_hydrophobicity_ARGP820101.G2:
+        type: float64
+    CTDC_hydrophobicity_ARGP820101.G3:
+        type: float64
+    CTDC_hydrophobicity_CASG920101.G1:
+        type: float64
+    CTDC_hydrophobicity_CASG920101.G2:
+        type: float64
+    CTDC_hydrophobicity_CASG920101.G3:
+        type: float64
+    CTDC_hydrophobicity_ENGD860101.G1:
+        type: float64
+    CTDC_hydrophobicity_ENGD860101.G2:
+        type: float64
+    CTDC_hydrophobicity_ENGD860101.G3:
+        type: float64
+    CTDC_hydrophobicity_FASG890101.G1:
+        type: float64
+    CTDC_hydrophobicity_FASG890101.G2:
+        type: float64
+    CTDC_hydrophobicity_FASG890101.G3:
+        type: float64
+    CTDC_hydrophobicity_PONP930101.G1:
+        type: float64
+    CTDC_hydrophobicity_PONP930101.G2:
+        type: float64
+    CTDC_hydrophobicity_PONP930101.G3:
+        type: float64
+    CTDC_hydrophobicity_PRAM900101.G1:
+        type: float64
+    CTDC_hydrophobicity_PRAM900101.G2:
+        type: float64
+    CTDC_hydrophobicity_PRAM900101.G3:
+        type: float64
+    CTDC_hydrophobicity_ZIMJ680101.G1:
+        type: float64
+    CTDC_hydrophobicity_ZIMJ680101.G2:
+        type: float64
+    CTDC_hydrophobicity_ZIMJ680101.G3:
+        type: float64
+    CTDC_normwaalsvolume.G1:
+        type: float64
+    CTDC_normwaalsvolume.G2:
+        type: float64
+    CTDC_normwaalsvolume.G3:
+        type: float64
+    CTDC_polarity.G1:
+        type: float64
+    CTDC_polarity.G2:
+        type: float64
+    CTDC_polarity.G3:
+        type: float64
+    CTDC_polarizability.G1:
+        type: float64
+    CTDC_polarizability.G2:
+        type: float64
+    CTDC_polarizability.G3:
+        type: float64
+    CTDC_secondarystruct.G1:
+        type: float64
+    CTDC_secondarystruct.G2:
+        type: float64
+    CTDC_secondarystruct.G3:
+        type: float64
+    CTDC_solventaccess.G1:
+        type: float64
+    CTDC_solventaccess.G2:
+        type: float64
+    CTDC_solventaccess.G3:
+        type: float64
+    CTDT_charge.Tr1221:
+        type: float64
+    CTDT_charge.Tr1331:
+        type: float64
+    CTDT_charge.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_ARGP820101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_ARGP820101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_ARGP820101.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_CASG920101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_CASG920101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_CASG920101.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_ENGD860101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_ENGD860101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_ENGD860101.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_FASG890101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_FASG890101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_FASG890101.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_PONP930101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_PONP930101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_PONP930101.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_PRAM900101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_PRAM900101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_PRAM900101.Tr2332:
+        type: float64
+    CTDT_hydrophobicity_ZIMJ680101.Tr1221:
+        type: float64
+    CTDT_hydrophobicity_ZIMJ680101.Tr1331:
+        type: float64
+    CTDT_hydrophobicity_ZIMJ680101.Tr2332:
+        type: float64
+    CTDT_normwaalsvolume.Tr1221:
+        type: float64
+    CTDT_normwaalsvolume.Tr1331:
+        type: float64
+    CTDT_normwaalsvolume.Tr2332:
+        type: float64
+    CTDT_polarity.Tr1221:
+        type: float64
+    CTDT_polarity.Tr1331:
+        type: float64
+    CTDT_polarity.Tr2332:
+        type: float64
+    CTDT_polarizability.Tr1221:
+        type: float64
+    CTDT_polarizability.Tr1331:
+        type: float64
+    CTDT_polarizability.Tr2332:
+        type: float64
+    CTDT_secondarystruct.Tr1221:
+        type: float64
+    CTDT_secondarystruct.Tr1331:
+        type: float64
+    CTDT_secondarystruct.Tr2332:
+        type: float64
+    CTDT_solventaccess.Tr1221:
+        type: float64
+    CTDT_solventaccess.Tr1331:
+        type: float64
+    CTDT_solventaccess.Tr2332:
+        type: float64
   sequence:
     type: string
   AAC_A:

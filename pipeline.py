@@ -52,5 +52,5 @@ _ = dataset.apply(
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 ).apply(
-	"/components/peptide_features_component"
+	"./components/peptide_features_component"
 )
