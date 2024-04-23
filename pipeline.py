@@ -30,7 +30,7 @@ _ = dataset.apply(
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
 	arguments={
-		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+		"descriptors": ["AAC", "CTDC", "CTDT"]
 	}
 ).apply(
 	"./components/filter_pdb_component",
