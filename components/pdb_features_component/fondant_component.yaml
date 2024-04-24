@@ -29,3 +29,9 @@ produces:
         type: string
     pdb_long_distances:
         type: string
+    pdb_avg_short_range:
+        type: float64
+    pdb_avg_medium_range:
+        type: float64
+    pdb_avg_long_range:
+        type: float64

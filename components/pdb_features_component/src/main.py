@@ -53,6 +53,15 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		dataframe["pdb_long_distances"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_distances(pdb_string)[2])
 
+		dataframe["pdb_avg_short_range"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_interactions(pdb_string)[0])
+
+		dataframe["pdb_avg_medium_range"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_interactions(pdb_string)[1])
+
+		dataframe["pdb_avg_long_range"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_interactions(pdb_string)[2])
+
 		return dataframe
 
 	def write_pdb_to_file(self, pdb_string: str, filename: str) -> None:
@@ -244,3 +253,49 @@ class PDBFeaturesComponent(PandasTransformComponent):
 					pass
 
 		return str(short_distances), str(medium_distances), str(long_distances)
+
+	def calculate_interactions(self, pdb_string: str) -> Tuple[str, str, str]:
+		"""
+		Calculate the interactions between amino acids in a protein structure from a PDB file.
+
+		Returns the average short range, medium range and long range interactions.
+		"""
+
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
+		parser = PDBParser()
+		structure = parser.get_structure("protein", self.pdb_file)
+
+		# Get the model and chain
+		model = structure[0]
+		chain = model['A']  # Assuming chain A
+
+		# Initialize total distances
+		total_short_range = 0
+		total_medium_range = 0
+		total_long_range = 0
+
+		# Loop over each residue in the chain
+		for target_residue in chain:
+			# Calculate interactions for the current residue
+			for residue in chain:
+				if residue != target_residue:
+					try:
+						distance = target_residue["CA"] - residue["CA"]
+					except KeyError:
+						continue
+
+					if distance <= 2:
+						total_short_range += distance
+					elif 3 <= distance <= 4:
+						total_medium_range += distance
+					else:
+						total_long_range += distance
+
+		average_short_range = total_short_range/len(list(chain.get_residues()))
+		average_medium_range = total_medium_range / \
+			len(list(chain.get_residues()))
+		average_long_range = total_long_range/len(list(chain.get_residues()))
+
+		return average_short_range, average_medium_range, average_long_range
