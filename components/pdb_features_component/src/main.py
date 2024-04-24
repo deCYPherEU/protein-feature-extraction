@@ -10,6 +10,7 @@ import numpy as np
 from scipy.spatial import ConvexHull
 from Bio.PDB import PDBParser
 from Bio.SeqUtils.ProtParamData import kd
+import freesasa
 from fondant.component import PandasTransformComponent
 
 # Set up logging
@@ -65,6 +66,9 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		
 		dataframe["pdb_avg_hydrophobicity"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_hydrophobicity(pdb_string))
+		
+		dataframe["pdb_hydrophobicity_accessible_area"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_hydrophobicity_accessible_area(pdb_string))
 
 		return dataframe
 
@@ -341,3 +345,19 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		average_hydrophobicity = sum(hydrophobicity.values()) / len(hydrophobicity)
 
 		return average_hydrophobicity
+
+	def calculate_hydrophobicity_accessible_area(self, pdb_string: str) -> float:
+		"""
+		Calculate the hydrophobicity of a protein structure from a PDB file.
+		Uses the freesasa library to calculate the accessible surface area.
+		"""
+
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
+		structure = freesasa.Structure(self.pdb_file)
+		result = freesasa.calc(structure)
+		total_area = result.totalArea()
+
+		# return the total area or 0.0
+		return total_area if total_area else 0.0

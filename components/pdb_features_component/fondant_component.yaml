@@ -37,3 +37,5 @@ produces:
         type: float64
     pdb_avg_hydrophobicity:
         type: float64
+    pdb_hydrophobicity_accessible_area:
+        type: float64
