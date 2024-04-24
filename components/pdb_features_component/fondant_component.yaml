@@ -35,3 +35,5 @@ produces:
         type: float64
     pdb_avg_long_range:
         type: float64
+    pdb_avg_hydrophobicity:
+        type: float64

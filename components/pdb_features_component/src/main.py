@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 from scipy.spatial import ConvexHull
 from Bio.PDB import PDBParser
+from Bio.SeqUtils.ProtParamData import kd
 from fondant.component import PandasTransformComponent
 
 # Set up logging
@@ -61,6 +62,9 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		dataframe["pdb_avg_long_range"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_interactions(pdb_string)[2])
+		
+		dataframe["pdb_avg_hydrophobicity"] = dataframe["pdb_string"].apply(
+			lambda pdb_string: self.calculate_hydrophobicity(pdb_string))
 
 		return dataframe
 
@@ -299,3 +303,41 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		average_long_range = total_long_range/len(list(chain.get_residues()))
 
 		return average_short_range, average_medium_range, average_long_range
+	
+
+	def calculate_hydrophobicity(self, pdb_string: str) -> float:
+		"""
+		Calculate the hydrophobicity of a protein structure from a PDB file.
+		"""
+
+		# write pdb string to a file
+		self.write_pdb_to_file(pdb_string, self.pdb_file)
+
+		parser = PDBParser()
+		structure = parser.get_structure("protein", self.pdb_file)
+
+		hydrophobicity = {}
+
+		for model in structure:
+			for chain in model:
+				for residue in chain:
+					residue_id = residue.get_id()[1]
+					residue_aa = residue.get_resname()[0]
+					hydrophobicity[residue_id] = kd.get(residue_aa, 0.0)
+
+					for other_residue in chain:
+						if residue != other_residue:
+							other_residue_aa = other_residue.get_resname()[0]
+
+							try:
+								distance = residue['CA'] - other_residue['CA']
+							except KeyError:
+								continue
+
+							if distance < 8:
+								hydrophobicity[residue_id] += kd.get(other_residue_aa, 0.0)
+
+		# get the average hydrophobicity
+		average_hydrophobicity = sum(hydrophobicity.values()) / len(hydrophobicity)
+
+		return average_hydrophobicity
