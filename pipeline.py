@@ -52,9 +52,15 @@ _ = dataset.apply(
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 ).apply(
+	"./components/msa_component",
+).apply(
+	"./components/unikp_component",
+	arguments={
+		"protein_smiles_path": "/data/protein_smiles.json",
+	},
+).apply(
 	"./components/pdb_features_component"
 )
-
 
 """
 # write the dataset
