@@ -60,6 +60,8 @@ _ = dataset.apply(
 		"protein_smiles_path": "/data/protein_smiles.json",
 	},
 ).apply(
+	"./components/peptide_features_component"
+).apply(
 	"./components/DeepTMpred_component"
 )
 
