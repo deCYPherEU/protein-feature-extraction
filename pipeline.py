@@ -20,6 +20,7 @@ dataset = pipeline.read(
 	}
 )
 
+
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
@@ -53,8 +54,18 @@ _ = dataset.apply(
 	}
 ).apply(
 	"./components/pdb_features_component"
+).apply(
+	"./components/msa_component",
+).apply(
+	"./components/unikp_component",
+	arguments={
+		"protein_smiles_path": "/data/protein_smiles.json",
+	},
+).apply(
+	"./components/peptide_features_component"
+).apply(
+	"./components/DeepTMpred_component"
 )
-
 
 """
 # write the dataset

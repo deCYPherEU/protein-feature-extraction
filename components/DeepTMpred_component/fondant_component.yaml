@@ -1,0 +1,25 @@
+name: DeepTM prediction Component
+description: The DeepTMpred component predicts the number of transmembrane helices in a protein sequence using the DeepTMpred model.
+image: deeptm_prediction_component:latest
+
+consumes:
+  sequence:
+        type: string
+  sequence_checksum:
+        type: string
+
+produces:
+  sequence:
+        type: string
+  sequence_checksum:
+        type: string
+  tmh_num_helices:
+          type: int64
+  tmh_total_length:
+          type: int64
+  tmh_avg_length_total:
+          type: float64
+  tmh_max_length:
+          type: int64
+  tmh_min_length:
+          type: int64
