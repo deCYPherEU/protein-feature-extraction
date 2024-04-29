@@ -3,13 +3,11 @@ description: A component that uses iFeatureOmega to perform certain operations o
 image: iFeatureOmega_component:latest
 
 consumes:
-    sequence:
-        type: string
-    sequence_checksum:
+  sequence:
         type: string
 
 args:
-    descriptors:
+  descriptors:
         type: list
         description: List of descriptors to be calculated
         default: ["AAC", "CTDC", "CTDT"]

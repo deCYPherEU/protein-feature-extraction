@@ -27,11 +27,21 @@ produces:
         type: float64
     sheet:
         type: float64
-    charge_at_ph7:
+    charge_at_ph3:
         type: float64
     charge_at_ph5:
+        type: float64
+    charge_at_ph7:
+        type: float64
+    charge_at_ph9:
         type: float64
     molar_extinction_coefficient_oxidized:
         type: int64
     molar_extinction_coefficient_reduced:
         type: int64
+    flexibility_max:
+        type: float64
+    flexibility_min:
+        type: float64
+    flexibility_mean:
+        type: float64
