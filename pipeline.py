@@ -25,8 +25,6 @@ _ = dataset.apply(
 ).apply(
 	"./components/generate_protein_sequence_checksum_component"
 ).apply(
-	"./components/msa_component",
-).apply(
 	"./components/iFeatureOmega_component",
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
@@ -55,8 +53,12 @@ _ = dataset.apply(
 	}
 ).apply(
 	"./components/msa_component",
+).apply(
+	"./components/unikp_component",
+	arguments={
+		"protein_smiles_path": "/data/protein_smiles.json",
+	},
 )
-
 
 """
 # write the dataset
