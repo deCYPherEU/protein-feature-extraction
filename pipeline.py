@@ -52,5 +52,25 @@ _ = dataset.apply(
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 ).apply(
+	"./components/msa_component",
+).apply(
+	"./components/unikp_component",
+	arguments={
+		"protein_smiles_path": "/data/protein_smiles.json",
+	},
+).apply(
 	"./components/peptide_features_component"
 )
+
+"""
+# write the dataset
+_ = dataset.write(
+	"write_to_file",
+	arguments={
+		"path": "/data/export/",
+	}
+)
+"""
+
+# run the pipeline using your local path to the folder, this one is mine
+# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
