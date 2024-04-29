@@ -20,6 +20,7 @@ dataset = pipeline.read(
 	}
 )
 
+
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
@@ -60,6 +61,8 @@ _ = dataset.apply(
 	},
 ).apply(
 	"./components/peptide_features_component"
+).apply(
+	"./components/DeepTMpred_component"
 )
 
 """
