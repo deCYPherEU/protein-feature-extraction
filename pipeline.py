@@ -58,6 +58,8 @@ _ = dataset.apply(
 	arguments={
 		"protein_smiles_path": "/data/protein_smiles.json",
 	},
+).apply(
+	"./components/peptide_features_component"
 )
 
 """
