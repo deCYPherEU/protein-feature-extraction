@@ -4,7 +4,8 @@ FROM --platform=linux/amd64 fndnt/fondant:0.11.dev5-py3.10
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install git -y && \
-	apt-get install wget -y
+    apt-get install wget -y && \
+    apt-get install build-essential -y
 
 # Install requirements
 COPY requirements.txt ./
