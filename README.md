@@ -2,10 +2,24 @@
 
 This repository contains the code for the creation of the Fondant pipeline that extracts protein features from protein sequences.
 
+- [Components](#components)
+- [Installation](#installation)
+  - [Docker](#docker)
+- [Fondant](#fondant)
+- [Requirements](#requirements)
+  - [Env variables](#env-variables)
+    - [predict\_protein\_3D\_structure\_component](#predict_protein_3d_structure_component)
+    - [unikp\_component](#unikp_component)
+    - [Data files](#data-files)
+- [Google Cloud Credentials](#google-cloud-credentials)
+- [Executing the Pipeline](#executing-the-pipeline)
+- [Generation of Mock Data](#generation-of-mock-data)
+- [Partition issue with Fondant](#partition-issue-with-fondant)
+
 ## Components
 
-- [BioPython](./components/biopython_component)
-- [Generate Checksum](./components/generate_protein_sequence_checksum_component)
+- [Biopython](./components/biopython_component)
+- [Generate Protein Sequence Checksum](./components/generate_protein_sequence_checksum_component)
 - [iFeatureOmega](./components/iFeatureOmega_component)
 - [Filter PDB](./components/filter_pdb_component)
 - [Predict Protein 3D Structure](./components/predict_protein_3D_structure_component)
@@ -13,7 +27,7 @@ This repository contains the code for the creation of the Fondant pipeline that 
 - [Peptide](./components/peptide_features_component)
 - [DeepTMpred](./components/DeepTMpred_component)
 - [Store PDB](./components/store_pdb_component)
-- [UniKP](./components/UniKP_component)
+- [UniKP](./components/unikp_component)
 
 ## Installation
 
@@ -41,12 +55,19 @@ This section will go over the requirements needed to run the pipeline.
 
 There are some environment variables that need to be set in order to run the pipeline. These are the following:
 
-- `predict_protein_3D_structure_component`
-  - `HF_API_KEY=""`
-  - `HF_ENDPOINT_URL=""`
-- `UniKP_component`
-  - `HF_API_KEY=""`
-  - `HF_ENDPOINT_URL=""`
+#### predict_protein_3D_structure_component
+
+```yaml
+HF_API_KEY=""
+HF_ENDPOINT_URL=""
+```
+
+#### unikp_component
+
+```yaml
+HF_API_KEY=""
+HF_ENDPOINT_URL=""
+```
 
 Place the `.env` file in the component folder where the component is located. Make sure this file is in the same level as the `Dockerfile`, `fondant_component.yaml`, and `requirements.txt` files.
 
