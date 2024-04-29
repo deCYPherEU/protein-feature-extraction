@@ -62,7 +62,7 @@ _ = dataset.apply(
 ).apply(
 	"./components/peptide_features_component"
 ).apply(
-	"./components/DeepTMpred_component"
+	"./components/deepTMpred_component"
 )
 
 """

@@ -25,7 +25,7 @@ This repository contains the code for the creation of the Fondant pipeline that 
 - [Predict Protein 3D Structure](./components/predict_protein_3D_structure_component)
 - [MSA](./components/msa_component)
 - [Peptide](./components/peptide_features_component)
-- [DeepTMpred](./components/DeepTMpred_component)
+- [DeepTMpred](./components/deepTMpred_component)
 - [Store PDB](./components/store_pdb_component)
 - [UniKP](./components/unikp_component)
 
