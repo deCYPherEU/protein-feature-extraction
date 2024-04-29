@@ -8,8 +8,8 @@ This repository contains the code for the creation of the Fondant pipeline that 
 - [Fondant](#fondant)
 - [Requirements](#requirements)
   - [Env variables](#env-variables)
-    - [predict\_protein\_3D\_structure\_component](#predict_protein_3d_structure_component)
-    - [unikp\_component](#unikp_component)
+    - [predict_protein_3D_structure_component](#predict_protein_3d_structure_component)
+    - [unikp_component](#unikp_component)
     - [Data files](#data-files)
 - [Google Cloud Credentials](#google-cloud-credentials)
 - [Executing the Pipeline](#executing-the-pipeline)
@@ -78,13 +78,24 @@ The pipeline will mount to the specified folder when executing the pipeline. Thi
 The data folder should contain the following files:
 
 - `mock_data.parquet`
+  - see [Generation of Mock Data](#generation-of-mock-data) for more information
 - `google_cloud_credentials.json`
+  - see [Filter PDB Component](./components/filter_pdb_component/README.md) for more information
 - `protein_smiles.json`
+  - see [uniKP Component](./components/unikp_component/README.md) for more information
 
 It should also contain the following folders:
 
-- `export`
 - `pdb_files`
+  - see [Filter PDB Component](./components/filter_pdb_component/README.md) for more information
+
+For the `deepTMpred_component`, you'll firstly need to download the models used in the component. Starting from the [component itself](./components/deepTMpred_component/), run the following command:
+
+```bash
+bash download_model_files.sh
+```
+
+A full explanation of the component can be found [here](./components/deepTMpred_component/README.md).
 
 ## Google Cloud Credentials
 
@@ -99,8 +110,6 @@ PS> fondant run local pipeline.py --extra-volumes YOUR\FULL\PATH\TO\THIS\PROJECT
 ```
 
 ## Generation of Mock Data
-
-**This section will be removed once mock data is no longer needed.**
 
 Currently there is no specific data to test the pipeline, so to generate some mock data, a script was created for this purpose. The script is located in the `utils` folder and is called `generate_mock_data.py`. This file contains a basic object with a sequence and a name feature. You need to run the script to generate the mock data file, so it can be used in the pipeline.
 
