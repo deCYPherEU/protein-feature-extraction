@@ -53,6 +53,8 @@ _ = dataset.apply(
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
 ).apply(
+	"./components/pdb_features_component"
+).apply(
 	"./components/msa_component",
 ).apply(
 	"./components/unikp_component",
