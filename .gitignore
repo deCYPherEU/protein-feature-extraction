@@ -195,3 +195,6 @@ components/iFeatureOmega_component/src/iFeatureOmega_CLI
 
 # Ignore the logs folder
 .pylintrc
+
+# add model_files in the DeepTMpred_component, too large to be uploaded to github
+model_files/
