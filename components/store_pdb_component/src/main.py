@@ -22,6 +22,8 @@ class StorePDBComponent(PandasTransformComponent):
 			raise ValueError("method must be either 'local' or 'remote'")
 		self.method = method
 
+		self.check_existence_of_files()
+
 		if method == "local":
 			self.local_pdb_files_path = local_pdb_path
 
@@ -31,6 +33,16 @@ class StorePDBComponent(PandasTransformComponent):
 
 			self.bucket_name = bucket_name
 			self.project_id = project_id
+	
+	def check_existence_of_files(self) -> None:
+		"""Check if the required files exist in the local_pdb_files_path directory."""
+
+		if self.method == "local":
+			if not os.path.exists(self.local_pdb_files_path):
+				logger.error(
+					f"Directory {self.local_pdb_files_path} not found. Please make sure the directory exists.")
+				raise FileNotFoundError(
+					f"Directory {self.local_pdb_files_path} not found. Please make sure the directory exists.")
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Perform the transformation on the dataframe."""
