@@ -5,7 +5,7 @@ in a protein sequence using the DeepTMpred model.
 import logging
 from typing import Any, Dict
 import pandas as pd
-from deepTMpred_main import deepTMpred
+from components.DeepTMpred_component.src.run_deeptm import deepTMpred
 from fondant.component import PandasTransformComponent
 
 # Set up logging
@@ -20,7 +20,7 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 	def __init__(self, *_):
 		self.columns = ['tmh_num_helices', 'tmh_total_length',
-						'tmh_avg_length_total', 'tmh_biggest_length', 'tmh_smallest_length']
+						'tmh_avg_length_total', 'tmh_max_length', 'tmh_min_length']
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Transform the dataframe by adding new features."""
@@ -60,7 +60,7 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		# check if empty
 		if not transmembrane_helices:
-			return 0, 0, 0.0, 0, 0
+			return None, None, None, None, None
 
 		tmh_num_helices = len(transmembrane_helices)
 		tmh_total_length = sum(end - start + 1 for start,
