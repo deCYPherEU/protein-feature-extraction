@@ -5,6 +5,8 @@ image: iFeatureOmega_component:latest
 consumes:
   sequence:
         type: string
+  sequence_checksum:
+        type: string
 
 args:
   descriptors:
@@ -14,6 +16,8 @@ args:
 
 produces:
     sequence:
+        type: string
+    sequence_checksum:
         type: string
     AAC_A:
         type: float64
