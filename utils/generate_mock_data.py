@@ -21,6 +21,13 @@ def generate_mock_data() -> None:
 	}
 
 	df = pd.DataFrame(data)
+
+	# add the pdb_string column with the pdb files that are present in the data/pdb_files folder as string
+	pdb_files = os.listdir('./data/pdb_files')
+	with open('./data/pdb_files/' + pdb_files[0], 'r') as file:
+		pdb_string = file.read()
+	df['pdb_string'] = pdb_string
+
 	df.to_parquet(MOCK_DATA_PATH_LOCAL, index=False)
 
 # run the file to generate the mock data

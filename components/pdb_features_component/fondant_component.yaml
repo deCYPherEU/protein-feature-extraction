@@ -7,11 +7,15 @@ consumes:
         type: string
     pdb_string:
         type: string
+    msa_sequence:
+        type: string
 
 produces:
     sequence:
         type: string
     pdb_string:
+        type: string
+    msa_sequence:
         type: string
     pdb_contact_order:
         type: float64
@@ -22,15 +26,9 @@ produces:
     pdb_contacts_14A_ca:
         type: float64
     pdb_buriedness:
-        type: string
-    pdb_short_distances:
-        type: string
-    pdb_medium_distances:
-        type: string
-    pdb_long_distances:
-        type: string
-    pdb_avg_short_range:
         type: float64
+    pdb_aa_distances_matrix:
+        type: string
     pdb_avg_medium_range:
         type: float64
     pdb_avg_long_range:

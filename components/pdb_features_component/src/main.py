@@ -8,6 +8,7 @@ from typing import Tuple
 import pandas as pd
 import numpy as np
 from scipy.spatial import ConvexHull
+from Bio.PDB.Polypeptide import index_to_one, three_to_index
 from Bio.PDB import PDBParser
 from Bio.SeqUtils.ProtParamData import kd
 import freesasa
@@ -31,6 +32,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		Transforms the input dataframe by calculating the features of the PDB file.
 		"""
 
+		"""
 		dataframe["pdb_contact_order"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_contact_order(pdb_string, atom_type='CA', cutoff=8))
 
@@ -42,18 +44,14 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		dataframe["pdb_contacts_14A_ca"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_number_of_contacts(pdb_string, cutoff=14, atom_type='CA'))
+		
+		"""
+		dataframe["pdb_aligned_buriedness"] = dataframe.apply(
+			lambda row: self.calculate_aligned_buriedness(row["pdb_string"], row["msa_sequence"]), axis=1)
+		"""
 
-		dataframe["pdb_buriedness"] = dataframe["pdb_string"].apply(
-			lambda pdb_string: self.calculate_buriedness(pdb_string))
-
-		dataframe["pdb_short_distances"] = dataframe["pdb_string"].apply(
-			lambda pdb_string: self.calculate_distances(pdb_string)[0])
-
-		dataframe["pdb_medium_distances"] = dataframe["pdb_string"].apply(
-			lambda pdb_string: self.calculate_distances(pdb_string)[1])
-
-		dataframe["pdb_long_distances"] = dataframe["pdb_string"].apply(
-			lambda pdb_string: self.calculate_distances(pdb_string)[2])
+		dataframe["pdb_aa_distances_matrix"] = dataframe.apply(
+			lambda row: self.calculate_buriedness(row["pdb_string"], row["msa_sequence"]), axis=1)
 
 		dataframe["pdb_avg_short_range"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_interactions(pdb_string)[0])
@@ -69,6 +67,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		
 		dataframe["pdb_hydrophobicity_accessible_area"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_hydrophobicity_accessible_area(pdb_string))
+		"""
 
 		return dataframe
 
@@ -148,8 +147,6 @@ class PDBFeaturesComponent(PandasTransformComponent):
 	def calculate_number_of_contacts(self, pdb_string: str, cutoff: int, atom_type='CA') -> int:
 		"""
 		Calculate the number of contacts between amino acid residues in the crystal structure.
-
-		https://github.com/rodogi/buriedness/blob/master/buriedness.py
 		"""
 
 		# write pdb string to a file
@@ -179,18 +176,21 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		return contacts
 
-	def calculate_buriedness(self, pdb_string: str) -> str:
+	def calculate_buriedness(self, pdb_string: str) -> float:
 		"""
 		Calculate the buriedness of a protein structure from a PDB file.
+		https://github.com/rodogi/buriedness/blob/master/buriedness.py
 		"""
 
-		bdness_object = {}
 		# write pdb string to a file
 		self.write_pdb_to_file(pdb_string, self.pdb_file)
 
 		parser = PDBParser()
 		structure = parser.get_structure("protein", self.pdb_file)
 		model = structure[0]
+
+		# Initialize the buriedness object
+		bdness_object = {}
 
 		# Remove water and hetatoms
 		for res in model.get_residues():
@@ -205,8 +205,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		conv = ConvexHull([atom.coord for atom in atoms])
 		for i, atom in enumerate(atoms):
 			coord = atom.coord
-			res = (atom.parent.parent.id
-				+ atom.parent.resname + str(atom.parent.id[1]))
+			res = f"{index_to_one(three_to_index(atom.parent.resname))}-{str(atom.parent.id[1])}"
 			bdness_object.setdefault(res, [])
 			# Get distance from atom to closer face of `conv'
 			if i in conv.vertices:
@@ -220,15 +219,37 @@ class PDBFeaturesComponent(PandasTransformComponent):
 					if _dist < dist:
 						dist = _dist
 				bdness_object[res].append(dist)
+		
 		for res in bdness_object:
 			bdness_object[res] = np.mean(bdness_object[res])
 
-		return str(bdness_object)
+		return bdness_object
 
-	def calculate_distances(self, pdb_string: str) -> Tuple[str, str, str]:
+	def calculate_aligned_buriedness(self, pdb_string: str, aligned_sequence: str) -> dict:
 		"""
-		Calculate short (< 8), medium (< 12 and >= 8) and long (> 12) distances
-		between all amino acids in a protein structure from a PDB file.
+		Calculate the buriedness of a protein structure from a PDB file based on an aligned sequence.
+		"""
+		buriedness = self.calculate_buriedness(pdb_string)
+
+		aligned_buriedness = {}
+		aligned_position = 1
+		buriedness_position = 1
+		for i, residue in enumerate(aligned_sequence):
+			if residue == "-":
+				# add the buriedness of 'nan' for gaps and keep track of this position in the aligned sequence
+				aligned_buriedness[f"PAD-{aligned_position}"] = np.nan
+				aligned_position += 1
+			else:
+				# add the buriedness of the residue and keep track of this position in the aligned sequence
+				aligned_buriedness[f"{residue}-{aligned_position}"] = buriedness[f"{residue}-{buriedness_position}"]
+				aligned_position += 1
+				buriedness_position += 1
+
+		return str(aligned_buriedness)
+
+	def calculate_distances(self, pdb_string: str, aligned_sequence: str) -> Tuple[str, str, str]:
+		"""
+		Calculate the sparse matrix of distances between amino acids in a protein structure from a PDB file.
 		"""
 
 		# write pdb string to a file
@@ -236,31 +257,31 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		parser = PDBParser()
 		structure = parser.get_structure("protein", self.pdb_file)
+		max_length = len(aligned_sequence)
 
-		# Initialize a dictionary to store distances
-		short_distances = {}
-		medium_distances = {}
-		long_distances = {}
+		# Initialize a sparse matrix to store distances
+		sparse_matrix = np.zeros((max_length, max_length))
 
+		# Iterate over all chains in the structure
 		for chain in structure.get_chains():
+			# Iterate over all residues in the chain
 			for res1, res2 in combinations(chain.get_residues(), 2):
+				# Calculate the distance between the alpha carbons of the residues
 				try:
-					distance = np.linalg.norm(
-						res1['CA'].get_coord() - res2['CA'].get_coord())
-					if distance < 8:
-						short_distances[(res1.get_id()[1],
-										res2.get_id()[1])] = distance
-					if distance < 12 and distance >= 8:
+					# Find corresponding positions in aligned sequence
+					pos1 = res1.get_id()[1] - 1
+					pos2 = res2.get_id()[1] - 1
 
-						medium_distances[(res1.get_id()[1],
-										res2.get_id()[1])] = distance
-					if distance >= 12:
-						long_distances[(res1.get_id()[1],
-										res2.get_id()[1])] = distance
+					# Calculate the distance only if both positions are within aligned sequence length
+					if pos1 < max_length and pos2 < max_length:
+						distance = np.linalg.norm(
+							res1['CA'].get_coord() - res2['CA'].get_coord())
+						sparse_matrix[pos1, pos2] = distance
+						sparse_matrix[pos2, pos1] = distance
 				except KeyError:
 					pass
 
-		return str(short_distances), str(medium_distances), str(long_distances)
+		return sparse_matrix
 
 	def calculate_interactions(self, pdb_string: str) -> Tuple[str, str, str]:
 		"""
@@ -307,7 +328,6 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		average_long_range = total_long_range/len(list(chain.get_residues()))
 
 		return average_short_range, average_medium_range, average_long_range
-	
 
 	def calculate_hydrophobicity(self, pdb_string: str) -> float:
 		"""
@@ -339,10 +359,12 @@ class PDBFeaturesComponent(PandasTransformComponent):
 								continue
 
 							if distance < 8:
-								hydrophobicity[residue_id] += kd.get(other_residue_aa, 0.0)
+								hydrophobicity[residue_id] += kd.get(
+									other_residue_aa, 0.0)
 
 		# get the average hydrophobicity
-		average_hydrophobicity = sum(hydrophobicity.values()) / len(hydrophobicity)
+		average_hydrophobicity = sum(
+			hydrophobicity.values()) / len(hydrophobicity)
 
 		return average_hydrophobicity
 
