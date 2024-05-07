@@ -26,7 +26,7 @@ produces:
     pdb_contacts_14A_ca:
         type: float64
     pdb_buriedness:
-        type: float64
+        type: string
     pdb_aa_distances_matrix:
         type: string
     pdb_avg_medium_range:

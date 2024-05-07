@@ -32,7 +32,6 @@ class PDBFeaturesComponent(PandasTransformComponent):
 		Transforms the input dataframe by calculating the features of the PDB file.
 		"""
 
-		"""
 		dataframe["pdb_contact_order"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_contact_order(pdb_string, atom_type='CA', cutoff=8))
 
@@ -44,14 +43,12 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		dataframe["pdb_contacts_14A_ca"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_number_of_contacts(pdb_string, cutoff=14, atom_type='CA'))
-		
-		"""
-		dataframe["pdb_aligned_buriedness"] = dataframe.apply(
+
+		dataframe["pdb_buriedness"] = dataframe.apply(
 			lambda row: self.calculate_aligned_buriedness(row["pdb_string"], row["msa_sequence"]), axis=1)
-		"""
 
 		dataframe["pdb_aa_distances_matrix"] = dataframe.apply(
-			lambda row: self.calculate_buriedness(row["pdb_string"], row["msa_sequence"]), axis=1)
+			lambda row: self.calculate_distance_matrix(row["pdb_string"], row["msa_sequence"]), axis=1)
 
 		dataframe["pdb_avg_short_range"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_interactions(pdb_string)[0])
@@ -61,13 +58,12 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		dataframe["pdb_avg_long_range"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_interactions(pdb_string)[2])
-		
+
 		dataframe["pdb_avg_hydrophobicity"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_hydrophobicity(pdb_string))
-		
+
 		dataframe["pdb_hydrophobicity_accessible_area"] = dataframe["pdb_string"].apply(
 			lambda pdb_string: self.calculate_hydrophobicity_accessible_area(pdb_string))
-		"""
 
 		return dataframe
 
@@ -219,7 +215,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
 					if _dist < dist:
 						dist = _dist
 				bdness_object[res].append(dist)
-		
+
 		for res in bdness_object:
 			bdness_object[res] = np.mean(bdness_object[res])
 
@@ -247,7 +243,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 		return str(aligned_buriedness)
 
-	def calculate_distances(self, pdb_string: str, aligned_sequence: str) -> Tuple[str, str, str]:
+	def calculate_distance_matrix(self, pdb_string: str, aligned_sequence: str) -> Tuple[str, str, str]:
 		"""
 		Calculate the sparse matrix of distances between amino acids in a protein structure from a PDB file.
 		"""
