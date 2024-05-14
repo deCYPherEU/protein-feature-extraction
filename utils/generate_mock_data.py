@@ -21,7 +21,6 @@ def generate_mock_data() -> None:
 	}
 
 	df = pd.DataFrame(data)
-
 	df.to_parquet(MOCK_DATA_PATH_LOCAL, index=False)
 
 # run the file to generate the mock data
