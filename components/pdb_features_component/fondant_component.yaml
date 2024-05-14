@@ -17,8 +17,6 @@ produces:
         type: string
     msa_sequence:
         type: string
-    pdb_contact_order:
-        type: float64
     pdb_lro:
         type: float64
     pdb_contacts_8A_ca:
