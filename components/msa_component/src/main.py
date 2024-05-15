@@ -58,16 +58,21 @@ class MSAComponent(PandasTransformComponent):
 	def add_msa_sequences_to_dataframe(self, msa_file_content: str, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Read the MSA file and add the MSA sequences to the dataframe"""
 
-		entries = msa_file_content.split('>')
 		msa_dict = {}
+		current_sequence = None
+		current_msa_sequence = ""
 
-		for entry in entries:
-			if entry == "":
-				continue
-			lines = entry.split('\n')
-			sequence_checksum = lines[0]
-			msa_sequence = lines[1]
-			msa_dict[sequence_checksum] = msa_sequence
+		for line in msa_file_content.split('\n'):
+			if line.startswith('>'):
+				if current_sequence is not None:
+					msa_dict[current_sequence] = current_msa_sequence
+				current_sequence = line[1:].strip()
+				current_msa_sequence = ""
+			else:
+				current_msa_sequence += line.strip()
+
+		if current_sequence is not None:
+			msa_dict[current_sequence] = current_msa_sequence
 
 		dataframe['msa_sequence'] = dataframe['sequence_checksum'].map(msa_dict)
 
