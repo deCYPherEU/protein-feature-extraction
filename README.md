@@ -2,12 +2,79 @@
 
 This repository contains the code for the creation of the Fondant pipeline that extracts protein features from protein sequences.
 
+## Components
+
+- [BioPython](./components/biopython_component)
+- [Generate Checksum](./components/generate_protein_sequence_checksum_component)
+- [iFeatureOmega](./components/iFeatureOmega_component)
+- [Filter PDB](./components/filter_pdb_component)
+- [Predict Protein 3D Structure](./components/predict_protein_3D_structure_component)
+- [MSA](./components/msa_component)
+- [Peptide](./components/peptide_features_component)
+- [DeepTMpred](./components/DeepTMpred_component)
+- [Store PDB](./components/store_pdb_component)
+- [UniKP](./components/UniKP_component)
+
 ## Installation
 
 To install the pipeline, you need to run the following command to install the requirements file:
 
 ```bash
 pip install -r requirements.txt
+```
+
+### Docker
+
+Make sure you have Docker installed on your machine. You can download it [here](https://www.docker.com/products/docker-desktop). Check your Docker version and make sure it is at least `24.0.0`.
+
+## Fondant
+
+This project uses Fondant to run the pipeline.
+
+Fondant is a tool that allows you to run your pipeline in a containerized environment. This is useful because it allows you to run your pipeline in a consistent environment, regardless of the operating system you are using.
+
+## Requirements
+
+This section will go over the requirements needed to run the pipeline.
+
+### Env variables
+
+There are some environment variables that need to be set in order to run the pipeline. These are the following:
+
+- `predict_protein_3D_structure_component`
+  - `HF_API_KEY=""`
+  - `HF_ENDPOINT_URL=""`
+- `UniKP_component`
+  - `HF_API_KEY=""`
+  - `HF_ENDPOINT_URL=""`
+
+Place the `.env` file in the component folder where the component is located. Make sure this file is in the same level as the `Dockerfile`, `fondant_component.yaml`, and `requirements.txt` files.
+
+### Data files
+
+The pipeline will mount to the specified folder when executing the pipeline. This is done by using the `--extra-volumes` flag when running the pipeline.
+
+The data folder should contain the following files:
+
+- `mock_data.parquet`
+- `google_cloud_credentials.json`
+- `protein_smiles.json`
+
+It should also contain the following folders:
+
+- `export`
+- `pdb_files`
+
+## Google Cloud Credentials
+
+The components `filter_pdb_component` and `store_pdb_component` have an option to load in pdb files from Google Cloud Storage. In order to do this, you need to have a Google Cloud Service Account key. This key should be placed in the `data` folder. You can choose the naming, but you'll have to modify the component arguments in `pipeline.py`.
+
+## Executing the Pipeline
+
+You can execute the following command to run the pipeline:
+
+```bash
+PS> fondant run local pipeline.py --extra-volumes YOUR\FULL\PATH\TO\THIS\PROJECT\data:/data
 ```
 
 ## Generation of Mock Data
@@ -22,14 +89,6 @@ To execute this script, you need to run the following command:
 
 ```bash
 python utils/generate_mock_data.py
-```
-
-## Executing the Pipeline
-
-For Windows users, you need to run the following command to execute the pipeline:
-
-```bash
-PS> fondant run local pipeline.py --extra-volumes YOUR\FULL\PATH\TO\THIS\PROJECT\data:/data
 ```
 
 ## Partition issue with Fondant

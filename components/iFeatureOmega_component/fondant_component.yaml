@@ -3,16 +3,16 @@ description: A component that uses iFeatureOmega to perform certain operations o
 image: iFeatureOmega_component:latest
 
 consumes:
-    sequence:
+  sequence:
         type: string
-    sequence_checksum:
+  sequence_checksum:
         type: string
 
 args:
-    descriptors:
+  descriptors:
         type: list
         description: List of descriptors to be calculated
-        default: ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+        default: ["AAC", "CTDC", "CTDT"]
 
 produces:
     sequence:
@@ -59,209 +59,159 @@ produces:
         type: float64
     AAC_Y:
         type: float64
-    APAAC_Pc1.A:
+    CTDC_charge.G1:
         type: float64
-    APAAC_Pc1.C:
+    CTDC_charge.G2:
         type: float64
-    APAAC_Pc1.D:
+    CTDC_charge.G3:
         type: float64
-    APAAC_Pc1.E:
+    CTDC_hydrophobicity_ARGP820101.G1:
         type: float64
-    APAAC_Pc1.F:
+    CTDC_hydrophobicity_ARGP820101.G2:
         type: float64
-    APAAC_Pc1.G:
+    CTDC_hydrophobicity_ARGP820101.G3:
         type: float64
-    APAAC_Pc1.H:
+    CTDC_hydrophobicity_CASG920101.G1:
         type: float64
-    APAAC_Pc1.I:
+    CTDC_hydrophobicity_CASG920101.G2:
         type: float64
-    APAAC_Pc1.K:
+    CTDC_hydrophobicity_CASG920101.G3:
         type: float64
-    APAAC_Pc1.L:
+    CTDC_hydrophobicity_ENGD860101.G1:
         type: float64
-    APAAC_Pc1.M:
+    CTDC_hydrophobicity_ENGD860101.G2:
         type: float64
-    APAAC_Pc1.N:
+    CTDC_hydrophobicity_ENGD860101.G3:
         type: float64
-    APAAC_Pc1.P:
+    CTDC_hydrophobicity_FASG890101.G1:
         type: float64
-    APAAC_Pc1.Q:
+    CTDC_hydrophobicity_FASG890101.G2:
         type: float64
-    APAAC_Pc1.R:
+    CTDC_hydrophobicity_FASG890101.G3:
         type: float64
-    APAAC_Pc1.S:
+    CTDC_hydrophobicity_PONP930101.G1:
         type: float64
-    APAAC_Pc1.T:
+    CTDC_hydrophobicity_PONP930101.G2:
         type: float64
-    APAAC_Pc1.V:
+    CTDC_hydrophobicity_PONP930101.G3:
         type: float64
-    APAAC_Pc1.W:
+    CTDC_hydrophobicity_PRAM900101.G1:
         type: float64
-    APAAC_Pc1.Y:
+    CTDC_hydrophobicity_PRAM900101.G2:
         type: float64
-    APAAC_Pc2.Hydrophilicity.1:
+    CTDC_hydrophobicity_PRAM900101.G3:
         type: float64
-    APAAC_Pc2.Hydrophilicity.2:
+    CTDC_hydrophobicity_ZIMJ680101.G1:
         type: float64
-    APAAC_Pc2.Hydrophilicity.3:
+    CTDC_hydrophobicity_ZIMJ680101.G2:
         type: float64
-    APAAC_Pc2.Hydrophobicity.1:
+    CTDC_hydrophobicity_ZIMJ680101.G3:
         type: float64
-    APAAC_Pc2.Hydrophobicity.2:
+    CTDC_normwaalsvolume.G1:
         type: float64
-    APAAC_Pc2.Hydrophobicity.3:
+    CTDC_normwaalsvolume.G2:
         type: float64
-    GAAC_alphatic:
+    CTDC_normwaalsvolume.G3:
         type: float64
-    GAAC_aromatic:
+    CTDC_polarity.G1:
         type: float64
-    GAAC_negativecharge:
+    CTDC_polarity.G2:
         type: float64
-    GAAC_postivecharge:
+    CTDC_polarity.G3:
         type: float64
-    GAAC_uncharge:
+    CTDC_polarizability.G1:
         type: float64
-    Geary_ANDN920101.lag1:
+    CTDC_polarizability.G2:
         type: float64
-    Geary_ANDN920101.lag2:
+    CTDC_polarizability.G3:
         type: float64
-    Geary_ANDN920101.lag3:
+    CTDC_secondarystruct.G1:
         type: float64
-    Geary_ARGP820101.lag1:
+    CTDC_secondarystruct.G2:
         type: float64
-    Geary_ARGP820101.lag2:
+    CTDC_secondarystruct.G3:
         type: float64
-    Geary_ARGP820101.lag3:
+    CTDC_solventaccess.G1:
         type: float64
-    Geary_ARGP820102.lag1:
+    CTDC_solventaccess.G2:
         type: float64
-    Geary_ARGP820102.lag2:
+    CTDC_solventaccess.G3:
         type: float64
-    Geary_ARGP820102.lag3:
+    CTDT_charge.Tr1221:
         type: float64
-    Geary_ARGP820103.lag1:
+    CTDT_charge.Tr1331:
         type: float64
-    Geary_ARGP820103.lag2:
+    CTDT_charge.Tr2332:
         type: float64
-    Geary_ARGP820103.lag3:
+    CTDT_hydrophobicity_ARGP820101.Tr1221:
         type: float64
-    Geary_BEGF750101.lag1:
+    CTDT_hydrophobicity_ARGP820101.Tr1331:
         type: float64
-    Geary_BEGF750101.lag2:
+    CTDT_hydrophobicity_ARGP820101.Tr2332:
         type: float64
-    Geary_BEGF750101.lag3:
+    CTDT_hydrophobicity_CASG920101.Tr1221:
         type: float64
-    Geary_BEGF750102.lag1:
+    CTDT_hydrophobicity_CASG920101.Tr1331:
         type: float64
-    Geary_BEGF750102.lag2:
+    CTDT_hydrophobicity_CASG920101.Tr2332:
         type: float64
-    Geary_BEGF750102.lag3:
+    CTDT_hydrophobicity_ENGD860101.Tr1221:
         type: float64
-    Geary_BEGF750103.lag1:
+    CTDT_hydrophobicity_ENGD860101.Tr1331:
         type: float64
-    Geary_BEGF750103.lag2:
+    CTDT_hydrophobicity_ENGD860101.Tr2332:
         type: float64
-    Geary_BEGF750103.lag3:
+    CTDT_hydrophobicity_FASG890101.Tr1221:
         type: float64
-    Geary_BHAR880101.lag1:
+    CTDT_hydrophobicity_FASG890101.Tr1331:
         type: float64
-    Geary_BHAR880101.lag2:
+    CTDT_hydrophobicity_FASG890101.Tr2332:
         type: float64
-    Geary_BHAR880101.lag3:
+    CTDT_hydrophobicity_PONP930101.Tr1221:
         type: float64
-    Moran_ANDN920101.lag1:
+    CTDT_hydrophobicity_PONP930101.Tr1331:
         type: float64
-    Moran_ANDN920101.lag2:
+    CTDT_hydrophobicity_PONP930101.Tr2332:
         type: float64
-    Moran_ANDN920101.lag3:
+    CTDT_hydrophobicity_PRAM900101.Tr1221:
         type: float64
-    Moran_ARGP820101.lag1:
+    CTDT_hydrophobicity_PRAM900101.Tr1331:
         type: float64
-    Moran_ARGP820101.lag2:
+    CTDT_hydrophobicity_PRAM900101.Tr2332:
         type: float64
-    Moran_ARGP820101.lag3:
+    CTDT_hydrophobicity_ZIMJ680101.Tr1221:
         type: float64
-    Moran_ARGP820102.lag1:
+    CTDT_hydrophobicity_ZIMJ680101.Tr1331:
         type: float64
-    Moran_ARGP820102.lag2:
+    CTDT_hydrophobicity_ZIMJ680101.Tr2332:
         type: float64
-    Moran_ARGP820102.lag3:
+    CTDT_normwaalsvolume.Tr1221:
         type: float64
-    Moran_ARGP820103.lag1:
+    CTDT_normwaalsvolume.Tr1331:
         type: float64
-    Moran_ARGP820103.lag2:
+    CTDT_normwaalsvolume.Tr2332:
         type: float64
-    Moran_ARGP820103.lag3:
+    CTDT_polarity.Tr1221:
         type: float64
-    Moran_BEGF750101.lag1:
+    CTDT_polarity.Tr1331:
         type: float64
-    Moran_BEGF750101.lag2:
+    CTDT_polarity.Tr2332:
         type: float64
-    Moran_BEGF750101.lag3:
+    CTDT_polarizability.Tr1221:
         type: float64
-    Moran_BEGF750102.lag1:
+    CTDT_polarizability.Tr1331:
         type: float64
-    Moran_BEGF750102.lag2:
+    CTDT_polarizability.Tr2332:
         type: float64
-    Moran_BEGF750102.lag3:
+    CTDT_secondarystruct.Tr1221:
         type: float64
-    Moran_BEGF750103.lag1:
+    CTDT_secondarystruct.Tr1331:
         type: float64
-    Moran_BEGF750103.lag2:
+    CTDT_secondarystruct.Tr2332:
         type: float64
-    Moran_BEGF750103.lag3:
+    CTDT_solventaccess.Tr1221:
         type: float64
-    Moran_BHAR880101.lag1:
+    CTDT_solventaccess.Tr1331:
         type: float64
-    Moran_BHAR880101.lag2:
-        type: float64
-    Moran_BHAR880101.lag3:
-        type: float64
-    NMBroto_ANDN920101.lag1:
-        type: float64
-    NMBroto_ANDN920101.lag2:
-        type: float64
-    NMBroto_ANDN920101.lag3:
-        type: float64
-    NMBroto_ARGP820101.lag1:
-        type: float64
-    NMBroto_ARGP820101.lag2:
-        type: float64
-    NMBroto_ARGP820101.lag3:
-        type: float64
-    NMBroto_ARGP820102.lag1:
-        type: float64
-    NMBroto_ARGP820102.lag2:
-        type: float64
-    NMBroto_ARGP820102.lag3:
-        type: float64
-    NMBroto_ARGP820103.lag1:
-        type: float64
-    NMBroto_ARGP820103.lag2:
-        type: float64
-    NMBroto_ARGP820103.lag3:
-        type: float64
-    NMBroto_BEGF750101.lag1:
-        type: float64
-    NMBroto_BEGF750101.lag2:
-        type: float64
-    NMBroto_BEGF750101.lag3:
-        type: float64
-    NMBroto_BEGF750102.lag1:
-        type: float64
-    NMBroto_BEGF750102.lag2:
-        type: float64
-    NMBroto_BEGF750102.lag3:
-        type: float64
-    NMBroto_BEGF750103.lag1:
-        type: float64
-    NMBroto_BEGF750103.lag2:
-        type: float64
-    NMBroto_BEGF750103.lag3:
-        type: float64
-    NMBroto_BHAR880101.lag1:
-        type: float64
-    NMBroto_BHAR880101.lag2:
-        type: float64
-    NMBroto_BHAR880101.lag3:
+    CTDT_solventaccess.Tr2332:
         type: float64

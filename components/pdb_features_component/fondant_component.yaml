@@ -1,0 +1,39 @@
+name: PDB Features component
+description: The PDBFeaturesComponent takes as argument the pdb file as string and will calculate features such as contact order, LRO, etc.
+image: pdb_features_component:latest
+
+consumes:
+    sequence:
+        type: string
+    pdb_string:
+        type: string
+    msa_sequence:
+        type: string
+
+produces:
+    sequence:
+        type: string
+    pdb_string:
+        type: string
+    msa_sequence:
+        type: string
+    pdb_lro:
+        type: float64
+    pdb_contacts_8A_ca:
+        type: float64
+    pdb_contacts_14A_ca:
+        type: float64
+    pdb_buriedness:
+        type: string
+    pdb_aa_distances_matrix:
+        type: string
+    pdb_avg_short_range:
+        type: float64
+    pdb_avg_medium_range:
+        type: float64
+    pdb_avg_long_range:
+        type: float64
+    pdb_avg_hydrophobicity:
+        type: float64
+    pdb_hydrophobicity_accessible_area:
+        type: float64

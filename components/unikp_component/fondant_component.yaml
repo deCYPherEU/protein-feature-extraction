@@ -1,0 +1,19 @@
+name: UniKP Component
+description: The UniKP component uses the UniKP framework to predict kinetic properties (Km, Kcat and Vmax) of a protein sequence and a ligand SMILES string. The results will be presented as a JSON, but in a string format for easy storage and retrieval in the dataframe.
+image: unikp_component:latest
+
+consumes:
+    sequence:
+        type: string
+
+args:
+    protein_smiles_path:
+        type: str
+        description: "The path to the protein SMILES json file. This needs to be in the directory that is mounted to the container."
+        default: None
+
+produces:
+    sequence:
+        type: string
+    unikp_kinetic_prediction:
+        type: string

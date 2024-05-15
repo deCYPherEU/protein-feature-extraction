@@ -20,6 +20,7 @@ dataset = pipeline.read(
 	}
 )
 
+
 _ = dataset.apply(
 	"./components/biopython_component"
 ).apply(
@@ -29,7 +30,7 @@ _ = dataset.apply(
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
 	arguments={
-		"descriptors": ["AAC", "GAAC", "Moran", "Geary", "NMBroto", "APAAC"]
+		"descriptors": ["AAC", "CTDC", "CTDT"]
 	}
 ).apply(
 	"./components/filter_pdb_component",
@@ -51,18 +52,19 @@ _ = dataset.apply(
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
-)
-
-
-"""
-# write the dataset
-_ = dataset.write(
-	"write_to_file",
+).apply(
+	"./components/msa_component",
+).apply(
+	"./components/pdb_features_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+	input_partition_rows=5,
+).apply(
+	"./components/unikp_component",
 	arguments={
-		"path": "/data/export/",
-	}
+		"protein_smiles_path": "/data/protein_smiles.json",
+	},
+).apply(
+	"./components/peptide_features_component"
+).apply(
+	"./components/DeepTMpred_component"
 )
-"""
-
-# run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
