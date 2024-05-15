@@ -38,4 +38,4 @@ jobs:
     - name: license_check
       run: |
         pip install $(cat requirements.txt | grep liccheck)
-        ./run_license_check.sh --modules-file pylint-modules
+        ./run_license_check.sh --modules-file license-modules
