@@ -9,12 +9,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def calculate_buriedness(pdb_file_path: str) -> dict:
+def calculate_buriedness(structure: str) -> dict:
 	"""
 	Calculate the buriedness of a protein structure from a PDB file.
 	"""
-	parser = PDBParser()
-	structure = parser.get_structure("protein", pdb_file_path)
+
 	model = structure[0]
 
 	# Initialize the buriedness object
@@ -54,11 +53,11 @@ def calculate_buriedness(pdb_file_path: str) -> dict:
 	return bdness_object
 
 
-def calculate_aligned_buriedness(pdb_file_path: str, aligned_sequence: str) -> dict:
+def calculate_aligned_buriedness(structure: str, aligned_sequence: str) -> dict:
 	"""
 	Calculate the buriedness of a protein structure from a PDB file based on an aligned sequence.
 	"""
-	buriedness = calculate_buriedness(pdb_file_path)
+	buriedness = calculate_buriedness(structure)
 	
 	aligned_buriedness = {}
 	aligned_position = 1

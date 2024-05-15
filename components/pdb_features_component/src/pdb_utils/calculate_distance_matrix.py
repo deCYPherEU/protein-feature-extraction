@@ -5,14 +5,12 @@ from Bio.PDB import PDBParser
 import numpy as np
 from itertools import combinations
 
-def calculate_distance_matrix(pdb_file_path: str, aligned_sequence: str) -> str:
+def calculate_distance_matrix(structure: str, aligned_sequence: str) -> str:
 	"""
 	Calculate the sparse matrix of distances between amino acids in a
 	protein structure from a PDB file.
 	"""
 
-	parser = PDBParser()
-	structure = parser.get_structure("protein", pdb_file_path)
 	max_length = len(aligned_sequence)
 
 	# Initialize a sparse matrix to store distances

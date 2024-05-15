@@ -5,15 +5,12 @@ from typing import Tuple
 from Bio.PDB import PDBParser
 
 
-def calculate_interactions(pdb_file_path: str) -> Tuple[str, str, str]:
+def calculate_interactions(structure: str) -> Tuple[str, str, str]:
     """
     Calculate the interactions between amino acids in a protein structure from a PDB file.
 
     Returns the average short range, medium range and long range interactions.
     """
-
-    parser = PDBParser()
-    structure = parser.get_structure("protein", pdb_file_path)
 
     # Get the model and chain
     model = structure[0]

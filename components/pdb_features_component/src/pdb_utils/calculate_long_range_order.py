@@ -2,16 +2,11 @@
 This module calculates the long-range order of a protein structure.
 """
 import numpy as np
-from Bio.PDB import PDBParser
 
-def calculate_long_range_order(pdb_file_path: str) -> float:
+def calculate_long_range_order(structure: str) -> float:
 	"""
 	Calculate the Long Range Order (LRO) of a protein structure from a PDB file.
 	"""
-
-	parser = PDBParser()
-	structure = parser.get_structure("protein", pdb_file_path)
-
 
 	distances = []
 	# use only the first model in the structure

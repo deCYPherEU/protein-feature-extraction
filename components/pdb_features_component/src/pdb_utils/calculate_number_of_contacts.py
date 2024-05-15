@@ -5,14 +5,10 @@ This module calculates the number of contacts between amino acid residues in the
 import numpy as np
 from Bio.PDB import PDBParser
 
-def calculate_number_of_contacts(pdb_file_path: str, cutoff: float, atom_type: str) -> int:
+def calculate_number_of_contacts(structure: str, cutoff: float, atom_type: str) -> int:
 	"""
 	Calculate the number of contacts between amino acid residues in the crystal structure.
 	"""
-
-	parser = PDBParser()
-	structure = parser.get_structure("protein", pdb_file_path)
-
 
 	contacts = 0
 	# use only the first model in the structure

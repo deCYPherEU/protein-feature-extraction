@@ -5,13 +5,10 @@ from Bio.PDB import PDBParser
 from Bio.SeqUtils.ProtParamData import kd
 
 
-def calculate_hydrophobicity(pdb_file_path: str) -> float:
+def calculate_hydrophobicity(structure: str) -> float:
 	"""
 	Calculate the hydrophobicity of a protein structure from a PDB file.
 	"""
-
-	parser = PDBParser()
-	structure = parser.get_structure("protein", pdb_file_path)
 
 	hydrophobicity = {}
 
