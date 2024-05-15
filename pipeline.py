@@ -16,28 +16,16 @@ dataset = pipeline.read(
 		"dataset_uri": MOCK_DATA_PATH_FONDANT,
 	},
 	produces={
-		"sequence": pa.string(),
-		"pdb_string": pa.string()
+		"sequence": pa.string()
 	}
 )
 
 
 _ = dataset.apply(
+	"./components/biopython_component"
+).apply(
 	"./components/generate_protein_sequence_checksum_component"
 ).apply(
-	"./components/msa_component",
-).apply(
-	"./components/pdb_features_component",
-	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
-	input_partition_rows=5,
-)
-
-"""
-.apply(
-	"./components/biopython_component"
-)
-
-.apply(
 	"./components/iFeatureOmega_component",
 	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
 	input_partition_rows=5,
@@ -64,9 +52,13 @@ _ = dataset.apply(
 		"project_id": "elated-chassis-400207",
 		"google_cloud_credentials_path": "/data/google_cloud_credentials.json"
 	}
-)
-
-.apply(
+).apply(
+	"./components/msa_component",
+).apply(
+	"./components/pdb_features_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+	input_partition_rows=5,
+).apply(
 	"./components/unikp_component",
 	arguments={
 		"protein_smiles_path": "/data/protein_smiles.json",
@@ -76,8 +68,3 @@ _ = dataset.apply(
 ).apply(
 	"./components/DeepTMpred_component"
 )
-
-"""
-
-# run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
