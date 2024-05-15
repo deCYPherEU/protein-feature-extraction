@@ -1,7 +1,6 @@
 """
 This module calculates the hydrophobicity of a protein sequence.
 """
-from Bio.PDB import PDBParser
 from Bio.SeqUtils.ProtParamData import kd
 
 

@@ -3,7 +3,6 @@ This module calculates the number of contacts between amino acid residues in the
 """
 
 import numpy as np
-from Bio.PDB import PDBParser
 
 def calculate_number_of_contacts(structure: str, cutoff: float, atom_type: str) -> int:
 	"""

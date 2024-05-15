@@ -1,7 +1,6 @@
 """
 This module calculates the distance matrix of a protein structure.
 """
-from Bio.PDB import PDBParser
 import numpy as np
 from itertools import combinations
 

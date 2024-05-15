@@ -2,14 +2,14 @@
 This module calculates the buriedness of amino acid residues in the crystal structure.
 """
 import numpy as np
-from Bio.PDB import PDBParser
 from scipy.spatial import ConvexHull
+from typing import Dict
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-def calculate_buriedness(structure: str) -> dict:
+def calculate_buriedness(structure: str) -> Dict:
 	"""
 	Calculate the buriedness of a protein structure from a PDB file.
 	"""
@@ -17,7 +17,7 @@ def calculate_buriedness(structure: str) -> dict:
 	model = structure[0]
 
 	# Initialize the buriedness object
-	bdness_object = {}
+	buriedness_object = {}
 
 	# Remove water and hetatoms
 	for res in model.get_residues():
@@ -27,17 +27,17 @@ def calculate_buriedness(structure: str) -> dict:
 
 	atoms = [atom for atom in model.get_atoms()]
 	if not atoms:
-		raise Exception("Could not parse atoms in the pdb file")
+		raise ValueError("Could not parse atoms in the pdb file")
 
 	conv = ConvexHull([atom.coord for atom in atoms])
 	for i, atom in enumerate(atoms):
 		coord = atom.coord
 		res = i + 1
-		bdness_object.setdefault(res, [])
+		buriedness_object.setdefault(res, [])
 		# Get distance from atom to closer face of `conv'
 		if i in conv.vertices:
 			dist = 0
-			bdness_object[res].append(dist)
+			buriedness_object[res].append(dist)
 		else:
 			dist = np.inf
 			for face in conv.equations:
@@ -45,15 +45,15 @@ def calculate_buriedness(structure: str) -> dict:
 				_dist = _dist / np.linalg.norm(face[:-1])
 				if _dist < dist:
 					dist = _dist
-			bdness_object[res].append(dist)
+			buriedness_object[res].append(dist)
 
-	for res in bdness_object:
-		bdness_object[res] = np.mean(bdness_object[res])
+	for res in buriedness_object:
+		buriedness_object[res] = np.mean(buriedness_object[res])
 
-	return bdness_object
+	return buriedness_object
 
 
-def calculate_aligned_buriedness(structure: str, aligned_sequence: str) -> dict:
+def calculate_aligned_buriedness(structure: str, aligned_sequence: str) -> Dict:
 	"""
 	Calculate the buriedness of a protein structure from a PDB file based on an aligned sequence.
 	"""

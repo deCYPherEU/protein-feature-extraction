@@ -16,6 +16,7 @@ from pdb_utils.calculate_interactions import calculate_interactions
 from pdb_utils.calculate_long_range_order import calculate_long_range_order
 from pdb_utils.calculate_number_of_contacts import calculate_number_of_contacts
 
+
 logger = logging.getLogger(__name__)
 
 

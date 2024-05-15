@@ -2,7 +2,6 @@
 This module calculates the interactions between amino acid residues in the crystal structure.
 """
 from typing import Tuple
-from Bio.PDB import PDBParser
 
 
 def calculate_interactions(structure: str) -> Tuple[str, str, str]:
