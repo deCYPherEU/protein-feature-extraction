@@ -47,8 +47,9 @@ class MSAComponent(PandasTransformComponent):
 			with open(input_file, "a") as f:
 				f.write(f">{row['sequence_checksum']}\n{row['sequence']}\n")
 
-		subprocess.run(
-			f'clustalo -t Protein -i {input_file} -o {output_file} --force', shell=True, check=True)
+		# run clustalo
+		subprocess.run(['clustalo', '-t', 'Protein', '-i',
+					input_file, '-o', output_file, '--force'], check=True)
 
 		# get content of output file
 		with open(output_file, "r") as f:
@@ -75,6 +76,7 @@ class MSAComponent(PandasTransformComponent):
 		if current_sequence is not None:
 			msa_dict[current_sequence] = current_msa_sequence
 
-		dataframe['msa_sequence'] = dataframe['sequence_checksum'].map(msa_dict)
+		dataframe['msa_sequence'] = dataframe['sequence_checksum'].map(
+			msa_dict)
 
 		return dataframe
