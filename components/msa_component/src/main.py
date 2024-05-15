@@ -58,7 +58,7 @@ class MSAComponent(PandasTransformComponent):
 		clustalo_path = shutil.which('clustalo')
 		if clustalo_path:
 			subprocess.run([clustalo_path, '-t', 'Protein', '-i',
-						input_file, '-o', output_file, '--force'], check=True)
+						input_file, '-o', output_file, '--force'], check=True) # nosec
 		else:
 			raise RuntimeError(
 				"Clustalo executable not found in system's PATH")
