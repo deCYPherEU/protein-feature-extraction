@@ -18,6 +18,7 @@ class MSAComponent(PandasTransformComponent):
 	"""
 
 	def __init__(self, *_):
+		# pylint: disable=super-init-not-called
 		pass
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -32,7 +33,7 @@ class MSAComponent(PandasTransformComponent):
 
 		return dataframe
 
-	def execute_clustalo_cmd(self, dataframe: pd.DataFrame) -> str:
+	def execute_clustalo_cmd(self, dataframe: pd.DataFrame) -> str:  # pylint: disable=no-self-use
 		"""Run Clustalo on the input file and return the content of the msa file"""
 
 		input_file = "all_sequences.fasta"
@@ -42,12 +43,12 @@ class MSAComponent(PandasTransformComponent):
 		with open(output_file, "w") as f:
 			f.write("")
 
-		for index, row in dataframe.iterrows():
+		for index, row in dataframe.iterrows():  # pylint: disable=unused-variable
 			with open(input_file, "a") as f:
 				f.write(f">{row['sequence_checksum']}\n{row['sequence']}\n")
 
 		subprocess.run(
-			f'clustalo -t Protein -i {input_file} -o {output_file} --force', shell=True)
+			f'clustalo -t Protein -i {input_file} -o {output_file} --force', shell=True, check=True)
 
 		# get content of output file
 		with open(output_file, "r") as f:
@@ -55,7 +56,7 @@ class MSAComponent(PandasTransformComponent):
 
 		return content
 
-	def add_msa_sequences_to_dataframe(self, msa_file_content: str, dataframe: pd.DataFrame) -> pd.DataFrame:
+	def add_msa_sequences_to_dataframe(self, msa_file_content: str, dataframe: pd.DataFrame) -> pd.DataFrame:  # pylint: disable=line-too-long,no-self-use
 		"""Read the MSA file and add the MSA sequences to the dataframe"""
 
 		msa_dict = {}

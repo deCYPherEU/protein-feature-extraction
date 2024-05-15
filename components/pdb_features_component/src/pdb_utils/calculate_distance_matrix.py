@@ -1,8 +1,8 @@
 """
 This module calculates the distance matrix of a protein structure.
 """
-import numpy as np
 from itertools import combinations
+import numpy as np
 
 def calculate_distance_matrix(structure: str, aligned_sequence: str) -> str:
 	"""

@@ -8,13 +8,13 @@ import pandas as pd
 from fondant.component import PandasTransformComponent
 from Bio.PDB import PDBParser
 
-from pdb_utils.calculate_buriedness import calculate_aligned_buriedness
-from pdb_utils.calculate_distance_matrix import calculate_distance_matrix
-from pdb_utils.calculate_hydrophobicity import calculate_hydrophobicity
-from pdb_utils.calculate_hydrophobicity_accessible_area import calculate_hydrophobicity_accessible_area
-from pdb_utils.calculate_interactions import calculate_interactions
-from pdb_utils.calculate_long_range_order import calculate_long_range_order
-from pdb_utils.calculate_number_of_contacts import calculate_number_of_contacts
+from pdb_utils.calculate_buriedness import calculate_aligned_buriedness  # pylint: disable=import-error
+from pdb_utils.calculate_distance_matrix import calculate_distance_matrix  # pylint: disable=import-error
+from pdb_utils.calculate_hydrophobicity import calculate_hydrophobicity  # pylint: disable=import-error
+from pdb_utils.calculate_hydrophobicity_accessible_area import calculate_hydrophobicity_accessible_area  # pylint: disable=line-too-long,import-error
+from pdb_utils.calculate_interactions import calculate_interactions  # pylint: disable=import-error
+from pdb_utils.calculate_long_range_order import calculate_long_range_order  # pylint: disable=import-error
+from pdb_utils.calculate_number_of_contacts import calculate_number_of_contacts  # pylint: disable=import-error
 
 
 logger = logging.getLogger(__name__)
@@ -27,6 +27,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
 	"""
 
 	def __init__(self, *_):
+		# pylint: disable=super-init-not-called
 		pass
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -61,12 +62,12 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 			dataframe.at[idx, "pdb_avg_hydrophobicity"] = calculate_hydrophobicity(
 				structure)
-			dataframe.at[idx, "pdb_hydrophobicity_accessible_area"] = calculate_hydrophobicity_accessible_area(
+			dataframe.at[idx, "pdb_hydrophobicity_accessible_area"] = calculate_hydrophobicity_accessible_area(  # pylint: disable=line-too-long
 				pdb_file_path)
 
 		return dataframe
 
-	def write_pdb_to_file(self, pdb_string: str, filename: str) -> None:
+	def write_pdb_to_file(self, pdb_string: str, filename: str) -> None:  # pylint: disable=no-self-use
 		"""
 		Write a PDB string to a file.
 		"""

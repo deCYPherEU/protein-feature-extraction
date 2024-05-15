@@ -1,6 +1,11 @@
-./components/biopython_component/src/
-./components/filter_pdb_component/src/
-./components/generate_protein_sequence_checksum_component/src/
-./components/iFeatureOmega_component/src/
-./components/predict_protein_3D_structure_component/src/
-./components/store_pdb_component/src/
+components/biopython_component/src
+components/DeepTMpred_component/src
+components/filter_pdb_component/src
+components/generate_protein_sequence_checksum_component/src
+components/iFeatureOmega_component/src
+components/msa_component/src
+components/pdb_features_component/src
+components/peptide_features_component/src
+components/predict_protein_3D_structure_component/src
+components/store_pdb_component/src
+components/unikp_component/src

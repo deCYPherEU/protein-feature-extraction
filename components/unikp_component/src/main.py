@@ -8,10 +8,10 @@ import logging
 import os
 import json
 import pandas as pd
-from dotenv import load_dotenv # pylint: disable=import-error
-import requests
-from requests.exceptions import RequestException
 from fondant.component import PandasTransformComponent
+from dotenv import load_dotenv # pylint: disable=import-error
+import requests # pylint: disable=import-error
+from requests.exceptions import RequestException # pylint: disable=import-error
 
 # Load the environment variables
 load_dotenv()

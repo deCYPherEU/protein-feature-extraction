@@ -1,7 +1,7 @@
 """
 This module calculates the hydrophobicity accessible area of a protein sequence.
 """
-import freesasa
+import freesasa  # pylint: disable=import-error
 
 def calculate_hydrophobicity_accessible_area(pdb_file_path: str) -> float:
 	"""

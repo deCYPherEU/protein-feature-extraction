@@ -11,7 +11,7 @@ def calculate_hydrophobicity(structure: str) -> float:
 
 	hydrophobicity = {}
 
-	for model in structure:
+	for model in structure:  # pylint: disable=too-many-nested-blocks
 		for chain in model:
 			for residue in chain:
 				residue_id = residue.get_id()[1]
