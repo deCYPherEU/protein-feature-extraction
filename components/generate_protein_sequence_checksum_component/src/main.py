@@ -22,7 +22,7 @@ class GenerateProteinSequenceChecksumComponent(PandasTransformComponent):
 		# pylint: disable=super-init-not-called
 		pass
 
-	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:  # pylint: disable=no-self-use
 		"""Apply a CRC64 checksum to each sequence and store the result in a new column."""
 
 		dataframe['sequence_checksum'] = dataframe['sequence'].apply(crc64)

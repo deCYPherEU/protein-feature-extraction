@@ -21,7 +21,7 @@ class BiopythonComponent(PandasTransformComponent):
 		# pylint: disable=super-init-not-called
 		pass
 
-	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:  # pylint: disable=no-self-use
 		"""The transform method takes in a dataframe,
 		performs the Biopython functions to generate new features
 		and returns the dataframe with the new features added."""
