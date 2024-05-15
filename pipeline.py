@@ -55,6 +55,10 @@ _ = dataset.apply(
 ).apply(
 	"./components/msa_component",
 ).apply(
+	"./components/pdb_features_component",
+	# currently forcing the number of rows to 5, but there needs to be a better way to do this, see readme for more info
+	input_partition_rows=5,
+).apply(
 	"./components/unikp_component",
 	arguments={
 		"protein_smiles_path": "/data/protein_smiles.json",
@@ -64,16 +68,3 @@ _ = dataset.apply(
 ).apply(
 	"./components/deepTMpred_component"
 )
-
-"""
-# write the dataset
-_ = dataset.write(
-	"write_to_file",
-	arguments={
-		"path": "/data/export/",
-	}
-)
-"""
-
-# run the pipeline using your local path to the folder, this one is mine
-# fondant run local pipeline.py --extra-volumes C:\Users\denis\Desktop\stage\protein-feature-extraction\data:/data
