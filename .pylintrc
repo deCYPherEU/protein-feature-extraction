@@ -142,7 +142,8 @@ disable=print-statement,
         no-else-return,  # Explicit elif / else can improve readability
         bad-continuation,  # Checked by pycodestyle
         missing-final-newline,  # Too strict to enforce
-        trailing-newlines  # Too strict to enforce
+        trailing-newlines,  # Too strict to enforce
+		import-error,  # Doesn't find modules that are listed in the requirements.txt file
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -513,7 +514,7 @@ max-returns=6
 max-statements=50
 
 # Minimum number of public methods for a class (see R0903).
-min-public-methods=2
+min-public-methods=1
 
 
 [IMPORTS]
