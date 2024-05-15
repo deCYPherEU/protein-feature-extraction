@@ -3,6 +3,7 @@ The MSA Component will take in a dataframe with a column of
 sequences and return a dataframe with the MSA sequences as a new column
 """
 import logging
+import shutil
 import subprocess
 import pandas as pd
 from fondant.component import PandasTransformComponent
@@ -39,19 +40,30 @@ class MSAComponent(PandasTransformComponent):
 		input_file = "all_sequences.fasta"
 		output_file = "msa.fasta"
 
-		# create output file
+		# Validate file extensions
+		if not input_file.endswith('.fasta') or not output_file.endswith('.fasta'):
+			raise ValueError(
+				"Invalid file extensions. Only .fasta files are allowed.")
+
+		# Create output file
 		with open(output_file, "w") as f:
 			f.write("")
 
-		for index, row in dataframe.iterrows():  # pylint: disable=unused-variable
-			with open(input_file, "a") as f:
+		# Write sequences to input file
+		with open(input_file, "w") as f:
+			for index, row in dataframe.iterrows():  # pylint: disable=unused-variable
 				f.write(f">{row['sequence_checksum']}\n{row['sequence']}\n")
 
-		# run clustalo
-		subprocess.run(['clustalo', '-t', 'Protein', '-i',
-					input_file, '-o', output_file, '--force'], check=True)
+		# Get the full path to the Clustalo executable
+		clustalo_path = shutil.which('clustalo')
+		if clustalo_path:
+			subprocess.run([clustalo_path, '-t', 'Protein', '-i',
+						input_file, '-o', output_file, '--force'], check=True)
+		else:
+			raise RuntimeError(
+				"Clustalo executable not found in system's PATH")
 
-		# get content of output file
+		# Get content of output file
 		with open(output_file, "r") as f:
 			content = f.read()
 
