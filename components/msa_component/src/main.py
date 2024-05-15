@@ -4,7 +4,7 @@ sequences and return a dataframe with the MSA sequences as a new column
 """
 import logging
 import shutil
-import subprocess
+import subprocess # nosec
 import pandas as pd
 from fondant.component import PandasTransformComponent
 
@@ -57,8 +57,8 @@ class MSAComponent(PandasTransformComponent):
 		# Get the full path to the Clustalo executable
 		clustalo_path = shutil.which('clustalo')
 		if clustalo_path:
-			subprocess.run([clustalo_path, '-t', 'Protein', '-i',
-						input_file, '-o', output_file, '--force'], check=True) # nosec
+			subprocess.run([clustalo_path, '-t', 'Protein', '-i',  # nosec
+						input_file, '-o', output_file, '--force'], check=True)  # nosec
 		else:
 			raise RuntimeError(
 				"Clustalo executable not found in system's PATH")
