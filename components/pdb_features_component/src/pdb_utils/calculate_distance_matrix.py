@@ -1,12 +1,11 @@
 """
 This module calculates the distance matrix of a protein structure.
 """
-from typing import Tuple
 from Bio.PDB import PDBParser
 import numpy as np
 from itertools import combinations
 
-def calculate_distance_matrix(pdb_file_path: str, aligned_sequence: str) -> Tuple[str, str, str]:
+def calculate_distance_matrix(pdb_file_path: str, aligned_sequence: str) -> str:
 	"""
 	Calculate the sparse matrix of distances between amino acids in a
 	protein structure from a PDB file.
@@ -38,4 +37,6 @@ def calculate_distance_matrix(pdb_file_path: str, aligned_sequence: str) -> Tupl
 			except KeyError:
 				pass
 
-	return sparse_matrix
+	# Convert the sparse matrix to a string representation
+	matrix_string = np.array2string(sparse_matrix, separator=',')
+	return matrix_string

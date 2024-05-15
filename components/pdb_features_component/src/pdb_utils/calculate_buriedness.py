@@ -4,18 +4,15 @@ This module calculates the buriedness of amino acid residues in the crystal stru
 import numpy as np
 from Bio.PDB import PDBParser
 from scipy.spatial import ConvexHull
-from Bio.PDB.Polypeptide import index_to_one, three_to_index
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-def calculate_buriedness(pdb_file_path: str) -> float:
+def calculate_buriedness(pdb_file_path: str) -> dict:
 	"""
 	Calculate the buriedness of a protein structure from a PDB file.
-	https://github.com/rodogi/buriedness/blob/master/buriedness.py
 	"""
-
 	parser = PDBParser()
 	structure = parser.get_structure("protein", pdb_file_path)
 	model = structure[0]
@@ -36,7 +33,7 @@ def calculate_buriedness(pdb_file_path: str) -> float:
 	conv = ConvexHull([atom.coord for atom in atoms])
 	for i, atom in enumerate(atoms):
 		coord = atom.coord
-		res = f"{index_to_one(three_to_index(atom.parent.resname))}-{str(atom.parent.id[1])}"
+		res = i + 1
 		bdness_object.setdefault(res, [])
 		# Get distance from atom to closer face of `conv'
 		if i in conv.vertices:
@@ -62,21 +59,20 @@ def calculate_aligned_buriedness(pdb_file_path: str, aligned_sequence: str) -> d
 	Calculate the buriedness of a protein structure from a PDB file based on an aligned sequence.
 	"""
 	buriedness = calculate_buriedness(pdb_file_path)
+	
 	aligned_buriedness = {}
 	aligned_position = 1
 	buriedness_position = 1
+
 	for i, residue in enumerate(aligned_sequence):
-		if residue == "-":
-			# add the buriedness of 'nan' for gaps in the aligned sequence
-			aligned_buriedness[f"PAD-{aligned_position}"] = np.nan
-			aligned_position += 1
-		else:
-			# add the buriedness of the residue in the aligned sequence
-			logger.info(f"{residue}-{aligned_position}")
-			logger.info(f"{residue}-{buriedness_position}")
-			aligned_buriedness[f"{residue}-{aligned_position}"] = \
-				buriedness[f"{residue}-{buriedness_position}"]
+		if residue != "-":
+			# Add the buriedness of the residue to the aligned buriedness dictionary
+			aligned_buriedness[aligned_position] = buriedness.get(buriedness_position, np.nan)
 			aligned_position += 1
 			buriedness_position += 1
+		else:
+			# Add padding information to the aligned buriedness dictionary
+			aligned_buriedness[aligned_position] = np.nan
+			aligned_position += 1
 
 	return str(aligned_buriedness)
