@@ -31,7 +31,7 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		self.create_columns(dataframe)
 
-		for index, row in dataframe.iterrows():  # pylint: disable=unused-variable
+		for _, row in dataframe.iterrows():
 			transmembrane_helices = self.run_deeptmpred_model(
 				input_file, row.sequence_checksum, row.sequence)
 			features = self.calculate_features(transmembrane_helices)
@@ -46,7 +46,10 @@ class DeepTMpredComponent(PandasTransformComponent):
 		for column in self.columns:
 			dataframe[column] = None
 
-	def run_deeptmpred_model(self, input_file: str, sequence_checksum: str, sequence: str) -> Dict[str, Any]:  # pylint: disable=no-self-use,line-too-long
+	def run_deeptmpred_model(self, input_file: str,
+							sequence_checksum: str,
+							sequence: str) -> Dict[str, Any]:
+		# pylint: disable=no-self-use
 		"""Run the DeepTMpred model."""
 
 		with open(input_file, 'w') as f:
@@ -57,7 +60,9 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		return deeptmpred_topo
 
-	def calculate_features(self, transmembrane_helices: Dict) -> Tuple[int, int, int, int, int]:  # pylint: disable=no-self-use,line-too-long
+	def calculate_features(self,
+						transmembrane_helices: Dict) -> Tuple[int, int, int, int, int]:
+		# pylint: disable=no-self-use
 		"""Calculate features based on the parsed output."""
 
 		# check if empty
@@ -75,7 +80,9 @@ class DeepTMpredComponent(PandasTransformComponent):
 		return tmh_num_helices, tmh_total_length, tmh_avg_length_total, \
 			tmh_biggest_length, tmh_smallest_length
 
-	def insert_features_into_dataframe(self, dataframe: pd.DataFrame, features: tuple, sequence_checksum: str) -> pd.DataFrame:  # pylint: disable=line-too-long
+	def insert_features_into_dataframe(self, dataframe: pd.DataFrame,
+									features: tuple,
+									sequence_checksum: str) -> pd.DataFrame:
 		"""Insert the new features into the dataframe."""
 
 		# Find the index where sequence_checksum matches in the dataframe

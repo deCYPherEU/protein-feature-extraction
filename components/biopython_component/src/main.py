@@ -8,7 +8,7 @@ import pandas as pd
 from fondant.component import PandasTransformComponent
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 

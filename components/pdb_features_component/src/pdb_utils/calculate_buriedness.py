@@ -26,7 +26,7 @@ def calculate_buriedness(structure: str) -> Dict:
 		if res.id[0] != " ":
 			chain.detach_child(res.id)
 
-	atoms = [atom for atom in model.get_atoms()]  # pylint: disable=unnecessary-comprehension
+	atoms = model.get_atoms()
 	if not atoms:
 		raise ValueError("Could not parse atoms in the pdb file")
 
@@ -64,7 +64,7 @@ def calculate_aligned_buriedness(structure: str, aligned_sequence: str) -> Dict:
 	aligned_position = 1
 	buriedness_position = 1
 
-	for i, residue in enumerate(aligned_sequence):  # pylint: disable=unused-variable
+	for _, residue in enumerate(aligned_sequence):
 		if residue != "-":
 			# Add the buriedness of the residue to the aligned buriedness dictionary
 			aligned_buriedness[aligned_position] = buriedness.get(buriedness_position, np.nan)

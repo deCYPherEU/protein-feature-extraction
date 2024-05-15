@@ -8,8 +8,9 @@ import pandas as pd
 from fondant.component import PandasTransformComponent
 from Bio.SeqUtils.CheckSum import crc64
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
+
 
 class GenerateProteinSequenceChecksumComponent(PandasTransformComponent):
 	"""

@@ -29,33 +29,47 @@ def tmh_predict(id_list, predict_str, prob, orientation):
 	Predict the transmembrane helices
 	"""
 	cutoff = 5
-	for _id, predict, prob, ori in zip(id_list, predict_str, prob, orientation):  # pylint: disable=unused-variable,redefined-argument-from-local
+	result = []
+	for id_, predict, prob_, orientation_ in zip(id_list, predict_str, prob, orientation):
 		tmp = []
-		predict = map(str, predict)
+		predict = list(map(str, predict))
 		for item in re.finditer(r'1+', ''.join(predict)):
-			if (item.end()-item.start()-1) >= cutoff:
-				tmp.append([item.start()+1, item.end()])
-	return tmp
+			if (item.end() - item.start() - 1) >= cutoff:
+				tmp.append([item.start() + 1, item.end()])
+		result.append((id_, tmp, prob_, orientation_))
+	return result
 
 
-def test_model(model, orientation_model, test_loader, device):  # pylint: disable=too-many-locals
+def test_model(model, orientation_model, test_loader, device):
 	"""
 	Test the model
 	"""
 	model.eval()
-	with torch.no_grad():  # pylint: disable=too-many-locals
-		for tokens, _ids, matrix, token_lengths in test_loader:
+	with torch.no_grad():
+		tmh_dict = []
+		for tokens, ids, matrix, token_lengths in test_loader:
 			tokens = tokens.to(device)
 			results = model.esm(tokens, repr_layers=[
 								12], return_contacts=False)
 			token_embeddings = results["representations"][12][:, 1:, :]
 			token_lengths = token_lengths.to(device)
 			matrix = matrix.to(device)
-			embedings = torch.cat((matrix, token_embeddings), dim=2)
-			predict_list, prob = model.predict(embedings, token_lengths)
-			orientation_out = orientation_model(embedings)
-			predict = torch.argmax(orientation_out, dim=1)
-			tmh_dict = tmh_predict(_ids, predict_list, prob, predict.tolist())
+			embeddings = torch.cat((matrix, token_embeddings), dim=2)
+			tmh_dict = test_prediction(model, orientation_model,
+									embeddings, token_lengths, ids, tmh_dict)
+
+	return tmh_dict
+
+
+def test_prediction(model, orientation_model, embeddings, token_lengths, ids, tmh_dict):  # pylint: disable=too-many-arguments
+	"""
+	Test the prediction using the model
+	"""
+	predict_list, prob = model.predict(embeddings, token_lengths)
+	orientation_out = orientation_model(embeddings)
+	predict = torch.argmax(orientation_out, dim=1)
+	tmh_dict.append(tmh_predict(ids, predict_list, prob, predict.tolist()))
+
 	return tmh_dict
 
 

@@ -14,7 +14,7 @@ import requests  # pylint: disable=import-error
 # Load the environment variables
 load_dotenv()
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,13 +41,16 @@ class PredictProtein3DStructureComponent(PandasTransformComponent):
 		indices_to_predict = dataframe[dataframe["pdb_string"] == ""].index
 
 		# Predict the tertiary structures
-		dataframe.loc[indices_to_predict, "pdb_string"] = dataframe.loc[indices_to_predict,
-																		"sequence"].apply(self.predict_tertiary_structure)
+		dataframe.loc[indices_to_predict, "pdb_string"] = \
+			dataframe.loc[indices_to_predict, "sequence"].apply(
+				self.predict_tertiary_structure)
 
 		return dataframe
 
 	def predict_tertiary_structure(self, sequence: str) -> str:
-		"""Predict the tertiary structure of the protein sequence using HuggingFace ESMFold Endpoint."""
+		"""Predict the tertiary structure of the protein sequence using
+		HuggingFace ESMFold Endpoint.
+		"""
 
 		# Set the headers
 		headers = {
@@ -67,7 +70,8 @@ class PredictProtein3DStructureComponent(PandasTransformComponent):
 		# Check if the request was successful
 		if response.status_code != 200:
 			raise Exception(
-				f"Request failed with status code {response.status_code} and response {response.text}")
+					f"Request failed with status code {response.status_code} \
+					and response {response.text}")
 
 		# Return the pdb string
 		return response.json()

@@ -11,7 +11,8 @@ from Bio.PDB import PDBParser
 from pdb_utils.calculate_buriedness import calculate_aligned_buriedness  # pylint: disable=import-error
 from pdb_utils.calculate_distance_matrix import calculate_distance_matrix  # pylint: disable=import-error
 from pdb_utils.calculate_hydrophobicity import calculate_hydrophobicity  # pylint: disable=import-error
-from pdb_utils.calculate_hydrophobicity_accessible_area import calculate_hydrophobicity_accessible_area  # pylint: disable=line-too-long,import-error
+from pdb_utils.calculate_hydrophobicity_accessible_area import \
+	calculate_hydrophobicity_accessible_area  # pylint: disable=import-error
 from pdb_utils.calculate_interactions import calculate_interactions  # pylint: disable=import-error
 from pdb_utils.calculate_long_range_order import calculate_long_range_order  # pylint: disable=import-error
 from pdb_utils.calculate_number_of_contacts import calculate_number_of_contacts  # pylint: disable=import-error
@@ -62,8 +63,8 @@ class PDBFeaturesComponent(PandasTransformComponent):
 
 			dataframe.at[idx, "pdb_avg_hydrophobicity"] = calculate_hydrophobicity(
 				structure)
-			dataframe.at[idx, "pdb_hydrophobicity_accessible_area"] = calculate_hydrophobicity_accessible_area(  # pylint: disable=line-too-long
-				pdb_file_path)
+			dataframe.at[idx, "pdb_hydrophobicity_accessible_area"] = \
+				calculate_hydrophobicity_accessible_area(pdb_file_path)
 
 		return dataframe
 

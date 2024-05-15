@@ -25,16 +25,17 @@ class PeptideFeaturesComponent(PandasTransformComponent):
 		pass
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""The transform method takes in a dataframe, generate new
-		features and returns the dataframe with the new features added."""
+		"""The transform method takes in a dataframe, generates new
+		features, and returns the dataframe with the new features added."""
 
 		dataframe = self.calculate_aa_fractions(dataframe)
 		dataframe["mz"] = dataframe["sequence"].apply(
 			lambda sequence: peptides.Peptide(sequence).mz())
 
+		z_scales = [peptides.Peptide(sequence).z_scales() for sequence in dataframe["sequence"]]
+
 		for i in range(5):
-			dataframe[f"z_scale_{i+1}"] = dataframe["sequence"].apply(
-				lambda sequence: peptides.Peptide(sequence).z_scales()[i])  # pylint: disable=cell-var-from-loop
+			dataframe[f"z_scale_{i+1}"] = [z[i] for z in z_scales]
 
 		return dataframe
 

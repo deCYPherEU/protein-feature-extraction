@@ -11,7 +11,7 @@ import pandas as pd
 from fondant.component import PandasTransformComponent
 from google.cloud import storage # pylint: disable=import-error
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -56,8 +56,8 @@ class FilterPDBComponent(PandasTransformComponent):
 		return dataframe
 
 	def load_remote_pdb_files(self, dataframe: pd.DataFrame, bucket: storage.Bucket) -> pd.DataFrame:
-		"""Load the remote PDB files and filter out the ones that already exist."""
 		# pylint: disable=no-self-use
+		"""Load the remote PDB files and filter out the ones that already exist."""
 
 		# Collect all blob names first
 		blob_names = [blob.name for blob in bucket.list_blobs()]

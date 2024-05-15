@@ -16,7 +16,7 @@ from requests.exceptions import RequestException # pylint: disable=import-error
 # Load the environment variables
 load_dotenv()
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
