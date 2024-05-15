@@ -7,7 +7,7 @@ DeepTMpred is a deep learning-based method for predicting transmembrane helices 
 To use the DeepTMpred component, you will need to download the necessary models. These models are crucial for the component to work, but require a large amount of storage space (~350MB). To download the models, run the following command:
 
 ```bash
-# assuming your terminal starts in the "components/DeepTMpred_component" directory
+# assuming your terminal starts in the "components/deepTMpred_component" directory
 bash download_model_files.sh
 ```
 

@@ -18,16 +18,19 @@ This repository contains the code for the creation of the Fondant pipeline that 
 
 ## Components
 
-- [Biopython](./components/biopython_component)
-- [Generate Protein Sequence Checksum](./components/generate_protein_sequence_checksum_component)
-- [iFeatureOmega](./components/iFeatureOmega_component)
-- [Filter PDB](./components/filter_pdb_component)
-- [Predict Protein 3D Structure](./components/predict_protein_3D_structure_component)
-- [MSA](./components/msa_component)
-- [Peptide](./components/peptide_features_component)
-- [DeepTMpred](./components/deepTMpred_component)
-- [Store PDB](./components/store_pdb_component)
-- [UniKP](./components/unikp_component)
+This section contains the components that are used in the pipeline. Each component has its own README file that contains information about the component and how to set it up.
+
+- [Biopython](./components/biopython_component/README.md)
+- [Generate Protein Sequence Checksum](./components/generate_protein_sequence_checksum_component/README.md)
+- [iFeatureOmega](./components/iFeatureOmega_component/README.md)
+- [Filter PDB](./components/filter_pdb_component/README.md)
+- [Predict Protein 3D Structure](./components/predict_protein_3D_structure_component/README.md)
+- [MSA](./components/msa_component/README.md)
+- [Peptide](./components/peptide_features_component/README.md)
+- [DeepTMpred](./components/deepTMpred_component/README.md)
+- [Store PDB](./components/store_pdb_component/README.md)
+- [UniKP](./components/unikp_component/README.md)
+- [PDB Features Component](./components/pdb_features_component/README.md)
 
 ## Installation
 
@@ -95,7 +98,7 @@ For the `deepTMpred_component`, you'll firstly need to download the models used 
 bash download_model_files.sh
 ```
 
-A full explanation of the component can be found [here](./components/deepTMpred_component/README.md).
+The reason why this isn't done in the Dockerfile is because the models are quite large and take up a lot of space. This way, you don't need to download them every time you build the Docker image. A full explanation of the component can be found [here](./components/deepTMpred_component/README.md).
 
 ## Google Cloud Credentials
 
@@ -103,10 +106,10 @@ The components `filter_pdb_component` and `store_pdb_component` have an option t
 
 ## Executing the Pipeline
 
-You can execute the following command to run the pipeline:
+You can execute the following command to run the pipeline in your terminal:
 
 ```bash
-PS> fondant run local pipeline.py --extra-volumes YOUR\FULL\PATH\TO\THIS\PROJECT\data:/data
+PS> fondant run local pipeline.py --extra-volumes YOUR/FULL/PATH/TO/THIS/PROJECT/data:/data
 ```
 
 ## Generation of Mock Data
