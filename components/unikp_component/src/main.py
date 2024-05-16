@@ -7,11 +7,12 @@ for easy storage and retrieval in the dataframe.
 import logging
 import os
 import json
+
 import pandas as pd
-from fondant.component import PandasTransformComponent
-from dotenv import load_dotenv
 import requests
 from requests.exceptions import RequestException
+from dotenv import load_dotenv
+from fondant.component import PandasTransformComponent
 
 # Load the environment variables
 load_dotenv()

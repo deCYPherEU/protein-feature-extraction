@@ -4,9 +4,10 @@ that takes in a dataframe and applies a checksum to the sequence column.
 The checksum is then added as a new column to the dataframe.
 """
 import logging
-import pandas as pd
-from fondant.component import PandasTransformComponent
+
 from Bio.SeqUtils.CheckSum import crc64
+from fondant.component import PandasTransformComponent
+import pandas as pd
 
 
 logger = logging.getLogger(__name__)

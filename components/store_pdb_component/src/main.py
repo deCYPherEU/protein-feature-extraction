@@ -6,9 +6,10 @@ The 'remote' method will use the GCP storage bucket to store the PDB file.
 """
 import logging
 import os
+
+from google.cloud import storage
 import pandas as pd
 from fondant.component import PandasTransformComponent
-from google.cloud import storage
 
 
 logger = logging.getLogger(__name__)

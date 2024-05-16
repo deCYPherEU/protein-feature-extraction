@@ -7,9 +7,10 @@ with the ones in the dataframe using the checksum and filters out the ones that 
 
 import logging
 import os
+
+from google.cloud import storage
 import pandas as pd
 from fondant.component import PandasTransformComponent
-from google.cloud import storage
 
 
 logger = logging.getLogger(__name__)

@@ -6,10 +6,11 @@ The component returns the dataframe with the predicted tertiary structures.
 """
 import logging
 import os
-from fondant.component import PandasTransformComponent
+
 import pandas as pd
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
+from fondant.component import PandasTransformComponent
 
 # Load the environment variables
 load_dotenv()

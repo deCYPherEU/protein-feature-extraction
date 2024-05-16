@@ -5,8 +5,8 @@ as string and will calculate features such as contact order, LRO, etc.
 import logging
 
 import pandas as pd
-from fondant.component import PandasTransformComponent
 from Bio.PDB import PDBParser
+from fondant.component import PandasTransformComponent
 
 from .pdb_utils.calculate_buriedness import calculate_aligned_buriedness
 from .pdb_utils.calculate_distance_matrix import calculate_distance_matrix

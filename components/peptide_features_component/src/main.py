@@ -5,9 +5,10 @@ include physicochemical properties of amino acids (hydrophobicity, aliphaticity,
 and amino acid fractions and mass-to-charge ratio (m/z) of the peptide sequence.
 """
 import logging
+
 import pandas as pd
-from fondant.component import PandasTransformComponent
 import peptides
+from fondant.component import PandasTransformComponent
 
 
 logger = logging.getLogger(__name__)

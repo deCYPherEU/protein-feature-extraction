@@ -4,9 +4,10 @@ performs the Biopython functions to generate new features
 and returns the dataframe with the new features added.
 """
 import logging
-import pandas as pd
-from fondant.component import PandasTransformComponent
+
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
+from fondant.component import PandasTransformComponent
+import pandas as pd
 
 
 logger = logging.getLogger(__name__)
