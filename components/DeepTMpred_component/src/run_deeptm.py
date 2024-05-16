@@ -5,8 +5,8 @@ https://github.com/ISYSLAB-HUST/DeepTMpred
 
 import re
 
-import torch  # pylint: disable=import-error
-from torch.utils.data import DataLoader  # pylint: disable=import-error
+import torch
+from torch.utils.data import DataLoader
 
 from deepTMpred.model import FineTuneEsmCNN, OrientationNet  # pylint: disable=import-error
 from deepTMpred.utils import load_model_and_alphabet_core  # pylint: disable=import-error

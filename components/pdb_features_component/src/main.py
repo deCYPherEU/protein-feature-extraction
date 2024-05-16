@@ -8,14 +8,14 @@ import pandas as pd
 from fondant.component import PandasTransformComponent
 from Bio.PDB import PDBParser
 
-from pdb_utils.calculate_buriedness import calculate_aligned_buriedness  # pylint: disable=import-error
-from pdb_utils.calculate_distance_matrix import calculate_distance_matrix  # pylint: disable=import-error
-from pdb_utils.calculate_hydrophobicity import calculate_hydrophobicity  # pylint: disable=import-error
-from pdb_utils.calculate_hydrophobicity_accessible_area import \
-	calculate_hydrophobicity_accessible_area  # pylint: disable=import-error
-from pdb_utils.calculate_interactions import calculate_interactions  # pylint: disable=import-error
-from pdb_utils.calculate_long_range_order import calculate_long_range_order  # pylint: disable=import-error
-from pdb_utils.calculate_number_of_contacts import calculate_number_of_contacts  # pylint: disable=import-error
+from .pdb_utils.calculate_buriedness import calculate_aligned_buriedness
+from .pdb_utils.calculate_distance_matrix import calculate_distance_matrix
+from .pdb_utils.calculate_hydrophobicity import calculate_hydrophobicity
+from .pdb_utils.calculate_hydrophobicity_accessible_area import \
+	calculate_hydrophobicity_accessible_area
+from .pdb_utils.calculate_interactions import calculate_interactions
+from .pdb_utils.calculate_long_range_order import calculate_long_range_order
+from .pdb_utils.calculate_number_of_contacts import calculate_number_of_contacts
 
 
 logger = logging.getLogger(__name__)

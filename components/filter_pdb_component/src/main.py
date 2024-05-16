@@ -9,7 +9,7 @@ import logging
 import os
 import pandas as pd
 from fondant.component import PandasTransformComponent
-from google.cloud import storage # pylint: disable=import-error
+from google.cloud import storage
 
 
 logger = logging.getLogger(__name__)

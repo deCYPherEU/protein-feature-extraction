@@ -8,8 +8,8 @@ import logging
 import os
 from fondant.component import PandasTransformComponent
 import pandas as pd
-from dotenv import load_dotenv  # pylint: disable=import-error
-import requests  # pylint: disable=import-error
+from dotenv import load_dotenv
+import requests
 
 # Load the environment variables
 load_dotenv()

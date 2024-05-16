@@ -5,7 +5,7 @@ from typing import Dict
 import logging
 
 import numpy as np
-from scipy.spatial import ConvexHull  # pylint: disable=import-error
+from scipy.spatial import ConvexHull
 
 
 logger = logging.getLogger(__name__)

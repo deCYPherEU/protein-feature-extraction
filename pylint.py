@@ -58,7 +58,14 @@ def pylint_module(module_path: str) -> int:
     """
     print(f'Linting module {module_path}')
     requirements = Path(os.path.join(module_path, "requirements.txt"))
-    if requirements.exists():
+
+    # Check if requirements.txt exists in the module directory or in the parent (Fondant fix)
+    if not requirements.exists():
+        fondant_module_path = os.path.abspath(os.path.join(module_path, os.pardir))
+        requirements = Path(os.path.join(fondant_module_path, "requirements.txt"))
+        if requirements.exists():
+            install_requirements(fondant_module_path)
+    else:
         install_requirements(module_path)
 
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -82,7 +89,8 @@ def main(args: Any) -> None:
         modules = args.module
     else:
         # If no modules were given, detect them automatically
-        logging.warning('No modules were supplied, detecting them automatically')
+        logging.warning(
+            'No modules were supplied, detecting them automatically')
         modules = [module for module in find_packages() if '.' not in module]
 
     logging.warning('Running pylint for %s', modules)

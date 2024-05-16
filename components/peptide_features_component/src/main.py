@@ -7,7 +7,7 @@ and amino acid fractions and mass-to-charge ratio (m/z) of the peptide sequence.
 import logging
 import pandas as pd
 from fondant.component import PandasTransformComponent
-import peptides  # pylint: disable=import-error
+import peptides
 
 
 logger = logging.getLogger(__name__)
