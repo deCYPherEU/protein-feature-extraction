@@ -5,11 +5,12 @@ include physicochemical properties of amino acids (hydrophobicity, aliphaticity,
 and amino acid fractions and mass-to-charge ratio (m/z) of the peptide sequence.
 """
 import logging
+
 import pandas as pd
 import peptides
 from fondant.component import PandasTransformComponent
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -21,44 +22,26 @@ class PeptideFeaturesComponent(PandasTransformComponent):
 	"""
 
 	def __init__(self, *_):
+		# pylint: disable=super-init-not-called
 		pass
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""The transform method takes in a dataframe, generate new
-		features and returns the dataframe with the new features added."""
+		"""The transform method takes in a dataframe, generates new
+		features, and returns the dataframe with the new features added."""
 
 		dataframe = self.calculate_aa_fractions(dataframe)
-		dataframe = self.calculate_mz(dataframe)
-		dataframe = self.calculate_z_scales(dataframe)
-
-		logger.info(
-			f"PeptideFeaturesComponent: features generated: {dataframe.columns.tolist()}")
-
-		return dataframe
-
-	def calculate_z_scales(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""
-		Calculate the z-scales of peptide sequences.
-		"""
-
-		# z-scales are a set of 5 physicochemical properties of amino acids
-		for i in range(5):
-			dataframe[f"z_scale_{i+1}"] = dataframe["sequence"].apply(
-				lambda sequence: peptides.Peptide(sequence).z_scales()[i])
-
-		return dataframe
-
-	def calculate_mz(self, dataframe: pd.DataFrame) -> pd.DataFrame:
-		"""
-		Calculate the mass-to-charge ratio (m/z) of a peptide sequence.
-		"""
-
 		dataframe["mz"] = dataframe["sequence"].apply(
 			lambda sequence: peptides.Peptide(sequence).mz())
 
+		z_scales = [peptides.Peptide(sequence).z_scales() for sequence in dataframe["sequence"]]
+
+		for i in range(5):
+			dataframe[f"z_scale_{i+1}"] = [z[i] for z in z_scales]
+
 		return dataframe
 
-	def calculate_aa_fractions(self, dataframe: pd.DataFrame) -> pd.DataFrame:
+
+	def calculate_aa_fractions(self, dataframe: pd.DataFrame) -> pd.DataFrame:  # pylint: disable=no-self-use
 		"""
 		Calculate the fractions of different categories of amino acids in the sequence.
 		"""

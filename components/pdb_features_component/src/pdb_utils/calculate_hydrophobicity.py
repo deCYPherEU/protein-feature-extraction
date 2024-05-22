@@ -18,6 +18,11 @@ def calculate_hydrophobicity(structure: str) -> float:
 				residue_aa = residue.get_resname()[0]
 				hydrophobicity[residue_id] = kd.get(residue_aa, 0.0)
 
+	for model in structure:
+		for chain in model:
+			for residue in chain:
+				residue_id = residue.get_id()[1]
+
 				for other_residue in chain:
 					if residue != other_residue:
 						other_residue_aa = other_residue.get_resname()[0]
@@ -32,7 +37,6 @@ def calculate_hydrophobicity(structure: str) -> float:
 								other_residue_aa, 0.0)
 
 	# get the average hydrophobicity
-	average_hydrophobicity = sum(
-		hydrophobicity.values()) / len(hydrophobicity)
+	average_hydrophobicity = sum(hydrophobicity.values()) / len(hydrophobicity)
 
 	return average_hydrophobicity

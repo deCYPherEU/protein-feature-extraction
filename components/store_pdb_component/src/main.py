@@ -1,22 +1,32 @@
 """
-The StorePDBComponent stores the PDB file given a method. This method consists of two options 'local' and 'remote'. The 'local' method is used to store the PDB file locally in the provided folder. The 'remote' method will use the GCP storage bucket to store the PDB file.
+The StorePDBComponent stores the PDB file given a method.
+This method consists of two options 'local' and 'remote'.
+The 'local' method is used to store the PDB file locally in the provided folder.
+The 'remote' method will use the GCP storage bucket to store the PDB file.
 """
 import logging
 import os
+
+from google.cloud import storage
 import pandas as pd
 from fondant.component import PandasTransformComponent
-from google.cloud import storage
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
 class StorePDBComponent(PandasTransformComponent):
 	"""
-	The StorePDBComponent stores the PDB file given a method. This method consists of two options 'local' and 'remote'. The 'local' method is used to store the PDB file locally in the '/data/pdb_files' folder. The 'remote' method will use the GCP storage bucket to store the PDB file. 
+	The StorePDBComponent stores the PDB file given a method.
+	This method consists of two options 'local' and 'remote'.
+	The 'local' method is used to store the PDB file locally in the provided folder.
+	The 'remote' method will use the GCP storage bucket to store the PDB file.
 	"""
 
-	def __init__(self, method: str, local_pdb_path: str, bucket_name: str, project_id: str, google_cloud_credentials_path: str):
+	def __init__(self, method: str, local_pdb_path: str, bucket_name: str,
+			  project_id: str, google_cloud_credentials_path: str):
+		# pylint: disable=super-init-not-called
+		# pylint: disable=too-many-arguments
 
 		if method not in ["local", "remote"]:
 			raise ValueError("method must be either 'local' or 'remote'")
@@ -59,6 +69,7 @@ class StorePDBComponent(PandasTransformComponent):
 
 	def store_remote_pdb_files(self, dataframe: pd.DataFrame, bucket: storage.Bucket) -> pd.DataFrame:
 		"""Save the remote PDB files and filter out the ones that already exist."""
+		# pylint: disable=no-self-use
 
 		dataframe.apply(lambda row: bucket.blob(
 			row.sequence_checksum).upload_from_string(row.pdb_string), axis=1)

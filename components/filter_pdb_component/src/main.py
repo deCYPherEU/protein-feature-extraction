@@ -1,23 +1,33 @@
 """
-The FilterPDBComponent is a component that takes in a dataframe and, based on the method given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
+The FilterPDBComponent is a component that takes in a dataframe and,
+based on the method given, it loads up the PDB files and keep the ones
+that don't exist yet. This component compares the existing PDB files
+with the ones in the dataframe using the checksum and filters out the ones that already exist.
 """
 
 import logging
 import os
+
+from google.cloud import storage
 import pandas as pd
 from fondant.component import PandasTransformComponent
-from google.cloud import storage
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
 class FilterPDBComponent(PandasTransformComponent):
 	"""
-	The FilterPDBComponent is a component that takes in a dataframe and, based on the method given, it loads up the PDB files and keep the ones that don't exist yet. This component compares the existing PDB files with the ones in the dataframe using the checksum and filters out the ones that already exist. 
+	The FilterPDBComponent is a component that takes in a dataframe and,
+	based on the method given, it loads up the PDB files and keep the ones
+	that don't exist yet. This component compares the existing PDB files
+	with the ones in the dataframe using the checksum and filters out the ones that already exist.
 	"""
 
-	def __init__(self, method: str, local_pdb_path: str, bucket_name: str, project_id: str, google_cloud_credentials_path: str):
+	def __init__(self, method: str, local_pdb_path: str, bucket_name: str,
+			  project_id: str, google_cloud_credentials_path: str):
+		# pylint: disable=super-init-not-called
+		# pylint: disable=too-many-arguments
 
 		if method not in ["local", "remote"]:
 			raise ValueError("method must be either 'local' or 'remote'")
@@ -59,6 +69,7 @@ class FilterPDBComponent(PandasTransformComponent):
 		return dataframe
 
 	def load_remote_pdb_files(self, dataframe: pd.DataFrame, bucket: storage.Bucket) -> pd.DataFrame:
+		# pylint: disable=no-self-use
 		"""Load the remote PDB files and filter out the ones that already exist."""
 
 		# Collect all blob names first
@@ -72,8 +83,6 @@ class FilterPDBComponent(PandasTransformComponent):
 		for row in dataframe.itertuples():
 			if row.sequence_checksum in existing_blobs:
 				blob = bucket.blob(row.sequence_checksum)
-				logger.info(
-					f"Downloading {row.sequence_checksum} from the bucket")
 				dataframe.at[row.Index,
 							'pdb_string'] = blob.download_as_string()
 
