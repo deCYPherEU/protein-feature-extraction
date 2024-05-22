@@ -32,7 +32,7 @@ This section contains the components that are used in the pipeline. Each compone
 - [Predict Protein 3D Structure](./components/predict_protein_3D_structure_component/README.md)
 - [MSA](./components/msa_component/README.md)
 - [Peptide](./components/peptide_features_component/README.md)
-- [DeepTMpred](./components/deepTMpred_component/README.md)
+- [DeepTMpred](./components/DeepTMpred_component/README.md)
 - [Store PDB](./components/store_pdb_component/README.md)
 - [UniKP](./components/unikp_component/README.md)
 - [PDB Features Component](./components/pdb_features_component/README.md)

@@ -1,5 +1,5 @@
 components/biopython_component
-components/deepTMpred_component
+components/DeepTMpred_component
 components/filter_pdb_component
 components/generate_protein_sequence_checksum_component
 components/iFeatureOmega_component
