@@ -43,14 +43,15 @@ class StorePDBComponent(PandasTransformComponent):
 
 			self.bucket_name = bucket_name
 			self.project_id = project_id
-	
+
 	def check_existence_of_files(self) -> None:
 		"""Check if the required files exist in the local_pdb_files_path directory."""
 
 		if self.method == "local":
 			if not os.path.exists(self.local_pdb_files_path):
 				logger.error(
-					f"Directory {self.local_pdb_files_path} not found. Please make sure the directory exists.")
+					"Directory %s not found. Please make sure the directory exists.",
+					self.local_pdb_files_path)
 				raise FileNotFoundError(
 					f"Directory {self.local_pdb_files_path} not found. Please make sure the directory exists.")
 

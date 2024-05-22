@@ -53,7 +53,8 @@ class PredictProtein3DStructureComponent(PandasTransformComponent):
 
 		if not os.path.exists(self.protein_smiles_path):
 			logger.error(
-				f"File {self.protein_smiles_path} not found. Please make sure the file exists.")
+				"File %s not found. Please make sure the file exists.",
+				self.protein_smiles_path)
 			raise FileNotFoundError(
 				f"File {self.protein_smiles_path} not found. Please make sure the file exists.")
 
