@@ -1,11 +1,12 @@
 """
 This module calculates the buriedness of amino acid residues in the crystal structure.
 """
+from typing import Dict
+import logging
+
 import numpy as np
 from scipy.spatial import ConvexHull
-from typing import Dict
 
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ def calculate_buriedness(structure: str) -> Dict:
 		if res.id[0] != " ":
 			chain.detach_child(res.id)
 
-	atoms = [atom for atom in model.get_atoms()]
+	atoms = model.get_atoms()
 	if not atoms:
 		raise ValueError("Could not parse atoms in the pdb file")
 
@@ -58,12 +59,12 @@ def calculate_aligned_buriedness(structure: str, aligned_sequence: str) -> Dict:
 	Calculate the buriedness of a protein structure from a PDB file based on an aligned sequence.
 	"""
 	buriedness = calculate_buriedness(structure)
-	
+
 	aligned_buriedness = {}
 	aligned_position = 1
 	buriedness_position = 1
 
-	for i, residue in enumerate(aligned_sequence):
+	for _, residue in enumerate(aligned_sequence):
 		if residue != "-":
 			# Add the buriedness of the residue to the aligned buriedness dictionary
 			aligned_buriedness[aligned_position] = buriedness.get(buriedness_position, np.nan)

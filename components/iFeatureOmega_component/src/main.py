@@ -1,31 +1,44 @@
+"""
+The IFeatureOmegaComponent class is a component that
+generates new features using iFeatureOmega.
+"""
+
 import logging
 import pandas as pd
 from fondant.component import PandasTransformComponent
-import iFeatureOmega_CLI.iFeatureOmegaCLI as iFO
+import iFeatureOmega_CLI.iFeatureOmegaCLI as iFO # pylint: disable=import-error
 
-# Set up logging
+
 logger = logging.getLogger(__name__)
 
 
 class IFeatureOmegaComponent(PandasTransformComponent):
-	"""The IFeatureOmegaComponent class is a component that generates new features using iFeatureOmega."""
+	"""
+	The IFeatureOmegaComponent class is a component that
+	generates new features using iFeatureOmega.
+	"""
 
 	def __init__(self, descriptors: list):
+		# pylint: disable=super-init-not-called
 		self.descriptors = descriptors
 
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Perform the transformation on the dataframe."""
 		sequences = dataframe["sequence"].tolist()
 
+		# Generate all features, only need one to get the column names
 		all_features = self.generate_all_features_names(sequences[0], dataframe)
+
+		# Add the columns to the dataframe
 		dataframe = pd.concat([dataframe, pd.DataFrame(columns=all_features)])
+
+		# Generate the iFeatureOmega features
 		dataframe = self.generate_ifeature_omega_values(sequences, dataframe)
 
 		return dataframe
 
 	def generate_ifeature_omega_values(self, sequences: list, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Generate the iFeatureOmega features for the sequences and add them to the dataframe."""
-
 		for sequence in sequences:
 			ifeature_omega_protein = self.create_ifo_protein(
 				sequence, dataframe)
@@ -39,6 +52,7 @@ class IFeatureOmegaComponent(PandasTransformComponent):
 
 	def create_ifo_protein(self, sequence: str, dataframe: pd.DataFrame) -> iFO.iProtein:
 		"""Create an iProtein object from a sequence."""
+		# pylint: disable=no-self-use
 		# based on the sequence, give me the checksum_sequence in the dataframe
 		file_name = dataframe.loc[dataframe["sequence"]
 								== sequence, "sequence_checksum"].values[0]

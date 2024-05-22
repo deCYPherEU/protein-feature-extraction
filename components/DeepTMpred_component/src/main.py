@@ -3,12 +3,13 @@ The DeepTMpred component predicts the number of transmembrane helices
 in a protein sequence using the DeepTMpred model.
 """
 import logging
-from typing import Any, Dict
-import pandas as pd
-from components.DeepTMpred_component.src.run_deeptm import deepTMpred
-from fondant.component import PandasTransformComponent
+from typing import Any, Dict, Tuple
 
-# Set up logging
+import pandas as pd
+from fondant.component import PandasTransformComponent
+from .run_deeptm import deeptmpred
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,6 +20,7 @@ class DeepTMpredComponent(PandasTransformComponent):
 	"""
 
 	def __init__(self, *_):
+		# pylint: disable=super-init-not-called
 		self.columns = ['tmh_num_helices', 'tmh_total_length',
 						'tmh_avg_length_total', 'tmh_max_length', 'tmh_min_length']
 
@@ -29,7 +31,7 @@ class DeepTMpredComponent(PandasTransformComponent):
 
 		self.create_columns(dataframe)
 
-		for index, row in dataframe.iterrows():
+		for _, row in dataframe.iterrows():
 			transmembrane_helices = self.run_deeptmpred_model(
 				input_file, row.sequence_checksum, row.sequence)
 			features = self.calculate_features(transmembrane_helices)
@@ -44,18 +46,23 @@ class DeepTMpredComponent(PandasTransformComponent):
 		for column in self.columns:
 			dataframe[column] = None
 
-	def run_deeptmpred_model(self, input_file: str, sequence_checksum: str, sequence: str) -> Dict[str, Any]:
+	def run_deeptmpred_model(self, input_file: str,
+							sequence_checksum: str,
+							sequence: str) -> Dict[str, Any]:
+		# pylint: disable=no-self-use
 		"""Run the DeepTMpred model."""
 
 		with open(input_file, 'w') as f:
 			f.write(f'>{sequence_checksum}\n{sequence}')
 
-		deepTMPred_topo = deepTMpred(
+		deeptmpred_topo = deeptmpred(
 			input_file, "model_files/deepTMpred-b.pth", "model_files/orientaion-b.pth")
 
-		return deepTMPred_topo
+		return deeptmpred_topo
 
-	def calculate_features(self, transmembrane_helices: dict) -> tuple:
+	def calculate_features(self,
+						transmembrane_helices: Dict) -> Tuple[int, int, int, int, int]:
+		# pylint: disable=no-self-use
 		"""Calculate features based on the parsed output."""
 
 		# check if empty
@@ -73,14 +80,16 @@ class DeepTMpredComponent(PandasTransformComponent):
 		return tmh_num_helices, tmh_total_length, tmh_avg_length_total, \
 			tmh_biggest_length, tmh_smallest_length
 
-	def insert_features_into_dataframe(self, dataframe: pd.DataFrame, features: tuple, sequence_checksum: str) -> pd.DataFrame:
+	def insert_features_into_dataframe(self, dataframe: pd.DataFrame,
+									features: tuple,
+									sequence_checksum: str) -> pd.DataFrame:
 		"""Insert the new features into the dataframe."""
 
 		# Find the index where sequence_checksum matches in the dataframe
 		index = dataframe[dataframe['sequence_checksum']
 						== sequence_checksum].index[0]
 
-		# Insert the new features into the dataframe at the corresponding index using the self.columns list
+		# Insert the features into the dataframe
 		for column, feature in zip(self.columns, features):
 			dataframe.at[index, column] = feature
 
