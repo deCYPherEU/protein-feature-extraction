@@ -24,6 +24,20 @@ class DeepTMpredComponent(PandasTransformComponent):
 		self.columns = ['tmh_num_helices', 'tmh_total_length',
 						'tmh_avg_length_total', 'tmh_max_length', 'tmh_min_length']
 
+		self.check_existence_of_files()
+
+	def check_existence_of_files(self) -> None:  # pylint: disable=no-self-use
+		"""Check if the required files exist in the model_files directory."""
+
+		deep_tm_pred_files = ["model_files/deepTMpred-b.pth", "model_files/orientaion-b.pth"]
+		for file in deep_tm_pred_files:
+			try:
+				with open(file, 'r'):
+					pass
+			except FileNotFoundError:
+				logger.error("File %s not found. Please make sure the file exists.", file)
+				raise FileNotFoundError(f"File {file} not found. Please make sure the file exists.")
+
 	def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
 		"""Transform the dataframe by adding new features."""
 

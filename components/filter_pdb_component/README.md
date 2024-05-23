@@ -29,4 +29,17 @@ The following arguments will need to be provided for this component in the `pipe
         default: None
 ```
 
-Make sure you have the `google_cloud_credentials.json` file in the `data` folder. This file is needed to access the GCP Storage Bucket.
+Make sure you have the `google_cloud_credentials.json` file in the `data` folder. This file is needed to access the GCP Storage Bucket. This file can be created using the following command:
+
+```bash
+# login
+gcloud auth login
+
+# generate the file
+gcloud auth application-default login
+```
+
+The logs of that command will show you the path to the generated file.
+
+- Linux/MacOS: `~/.config/gcloud/application_default_credentials.json`
+- Windows: `C:\Users\USERNAME\AppData\Roaming\gcloud\application_default_credentials.json`
