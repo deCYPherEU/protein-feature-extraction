@@ -95,13 +95,13 @@ It should also contain the following folders:
 - `pdb_files`
   - see [Filter PDB Component](./components/filter_pdb_component/README.md) for more information
 
-For the `deepTMpred_component`, you'll firstly need to download the models used in the component. Starting from the [component itself](./components/deepTMpred_component/), run the following command:
+For the `deepTMpred_component`, you'll firstly need to download the models used in the component. Starting from the [component itself](./components/DeepTMpred_component/), run the following command:
 
 ```bash
 bash download_model_files.sh
 ```
 
-The reason why this isn't done in the Dockerfile is because the models are quite large and take up a lot of space. This way, you don't need to download them every time you build the Docker image. A full explanation of the component can be found [here](./components/deepTMpred_component/README.md).
+The reason why this isn't done in the Dockerfile is because the models are quite large and take up a lot of space. This way, you don't need to download them every time you build the Docker image. A full explanation of the component can be found [here](./components/DeepTMpred_component/README.md).
 
 ## Google Cloud Credentials
 
