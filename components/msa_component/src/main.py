@@ -40,10 +40,10 @@ class MSAComponent(PandasTransformComponent):
 		input_file = "all_sequences.fasta"
 		output_file = "msa.fasta"
 
-		# Validate file extensions
-		if not input_file.endswith('.fasta') or not output_file.endswith('.fasta'):
-			raise ValueError(
-				"Invalid file extensions. Only .fasta files are allowed.")
+		# # Validate file extensions
+		# if not input_file.endswith('.fasta') or not output_file.endswith('.fasta'):
+		# 	raise ValueError(
+		# 		"Invalid file extensions. Only .fasta files are allowed.")
 
 		# Create output file
 		with open(output_file, "w") as f:

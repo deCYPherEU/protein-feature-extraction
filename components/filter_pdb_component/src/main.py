@@ -33,8 +33,6 @@ class FilterPDBComponent(PandasTransformComponent):
 			raise ValueError("method must be either 'local' or 'remote'")
 		self.method = method
 
-		self.check_existence_of_files()
-
 		if method == "local":
 			self.local_pdb_files_path = local_pdb_path
 
@@ -44,6 +42,8 @@ class FilterPDBComponent(PandasTransformComponent):
 
 			self.bucket_name = bucket_name
 			self.project_id = project_id
+
+		self.check_existence_of_files()
 
 	def check_existence_of_files(self) -> None:
 		"""Check if the required files exist in the local_pdb_files_path directory."""
