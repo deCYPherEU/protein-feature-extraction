@@ -8,18 +8,20 @@ This repository contains the code for the creation of the Fondant pipeline that 
 
 ## Table of Contents
 
-- [Components](#components)
-- [Installation](#installation)
-- [Fondant](#fondant)
-- [Requirements](#requirements)
-  - [Env variables](#env-variables)
-    - [predict_protein_3D_structure_component](#predict_protein_3d_structure_component)
-    - [unikp_component](#unikp_component)
+- [Protein Feature Extraction](#protein-feature-extraction)
+  - [Table of Contents](#table-of-contents)
+  - [Components](#components)
+  - [Installation](#installation)
+  - [Fondant](#fondant)
+  - [Requirements](#requirements)
+    - [Env variables](#env-variables)
+      - [predict\_protein\_3D\_structure\_component](#predict_protein_3d_structure_component)
+      - [unikp\_component](#unikp_component)
     - [Data files](#data-files)
-- [Google Cloud Credentials](#google-cloud-credentials)
-- [Executing the Pipeline](#executing-the-pipeline)
-- [Generation of Mock Data](#generation-of-mock-data)
-- [Partition issue with Fondant](#partition-issue-with-fondant)
+  - [Google Cloud Credentials](#google-cloud-credentials)
+  - [Executing the Pipeline](#executing-the-pipeline)
+  - [Generation of Mock Data](#generation-of-mock-data)
+  - [Partition issue with Fondant](#partition-issue-with-fondant)
 
 ## Components
 
@@ -63,14 +65,14 @@ There are some environment variables that need to be set in order to run the pip
 
 #### predict_protein_3D_structure_component
 
-```yaml
+```bash
 HF_API_KEY=""
 HF_ENDPOINT_URL=""
 ```
 
 #### unikp_component
 
-```yaml
+```bash
 HF_API_KEY=""
 HF_ENDPOINT_URL=""
 ```
