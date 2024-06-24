@@ -4,14 +4,14 @@ image: msa_component:latest
 
 consumes:
   sequence:
-        type: string
+    type: string
   sequence_checksum:
-        type: string
+    type: string
 
 produces:
   sequence:
-        type: string
+    type: string
   sequence_checksum:
-        type: string
+    type: string
   msa_sequence:
-        type: string
+    type: string
