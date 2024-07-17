@@ -6,8 +6,6 @@ import logging
 import shutil
 import subprocess  # nosec
 import pandas as pd
-import datetime
-import os
 from fondant.component import PandasTransformComponent
 
 
@@ -36,7 +34,7 @@ class MSAComponent(PandasTransformComponent):
 
         return dataframe
 
-    def create_fasta_file(self, dataframe:pd.DataFrame) -> str:
+    def create_fasta_file(self, dataframe: pd.DataFrame) -> str:
         """Create a faste file from the dataframe"""
 
         #TODO: this should be stored in the run folder, and not in the root of .fondant
