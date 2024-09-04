@@ -32,8 +32,7 @@ class PDBFeaturesComponent(PandasTransformComponent):
         # pylint: disable=super-init-not-called
         pass
 
-    @staticmethod
-    def transform(dataframe: pd.DataFrame) -> pd.DataFrame:
+    def transform(self, dataframe: pd.DataFrame) -> pd.DataFrame:
         """
         Transforms the input dataframe by calculating the features of the PDB file.
         """
