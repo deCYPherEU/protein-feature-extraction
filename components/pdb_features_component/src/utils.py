@@ -1,6 +1,4 @@
-def convert_aa_outcome_to_msa(outcome, MSA):
-    pass
-
+"""utils"""
 
 
 def remove_water(structure):

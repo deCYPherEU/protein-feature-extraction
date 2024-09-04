@@ -48,6 +48,3 @@ while True:
     keep_esm_alive()
     keep_unikp_alive()
     time.sleep(60 * time_to_sleep)
-
-
-

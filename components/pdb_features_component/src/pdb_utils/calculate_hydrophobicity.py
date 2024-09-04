@@ -18,7 +18,7 @@ def calculate_hydrophobicity(structure: str) -> float:
                 residue_aa = residue.get_resname()[0]
                 hydrophobicity[residue_id] = kd.get(residue_aa, 0.0)
 
-    for model in structure:
+    for model in structure: #pylint: disable=too-many-nested-blocks
         for chain in model:
             for residue in chain:
                 residue_id = residue.get_id()[1]

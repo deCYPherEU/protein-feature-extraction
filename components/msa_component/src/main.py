@@ -34,7 +34,8 @@ class MSAComponent(PandasTransformComponent):
 
         return dataframe
 
-    def create_fasta_file(self, dataframe: pd.DataFrame) -> str:
+    @staticmethod
+    def create_fasta_file(dataframe: pd.DataFrame) -> str:
         """Create a faste file from the dataframe"""
 
         #TODO: this should be stored in the run folder, and not in the root of .fondant
