@@ -4,7 +4,6 @@ components/filter_pdb_component
 components/generate_protein_sequence_checksum_component
 components/iFeatureOmega_component
 components/msa_component
-components/pdb_features_component
 components/peptide_features_component
 components/predict_protein_3D_structure_component
 components/store_pdb_component

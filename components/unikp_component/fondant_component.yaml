@@ -7,7 +7,7 @@ consumes:
         type: string
 
 args:
-    protein_smiles_path:
+    target_molecule_smiles:
         type: str
         description: "The path to the protein SMILES json file. This needs to be in the directory that is mounted to the container."
         default: None
@@ -16,4 +16,4 @@ produces:
     sequence:
         type: string
     unikp_kinetic_prediction:
-        type: string
+        type: map_
