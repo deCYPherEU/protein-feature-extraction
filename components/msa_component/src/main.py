@@ -8,9 +8,7 @@ import subprocess  # nosec
 import pandas as pd
 from fondant.component import PandasTransformComponent
 
-
 logger = logging.getLogger(__name__)
-
 
 class MSAComponent(PandasTransformComponent):
     """
@@ -55,7 +53,7 @@ class MSAComponent(PandasTransformComponent):
 
         # need to make sure all sequences are there
         # input_file = "all_sequences.fasta"
-        output_file = "/.fondant/msa.fasta"
+        output_file = "msa.fasta"
 
         # # Validate file extensions
         # if not input_file.endswith('.fasta') or not output_file.endswith('.fasta'):

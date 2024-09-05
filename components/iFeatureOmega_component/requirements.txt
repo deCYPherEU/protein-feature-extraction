@@ -9,3 +9,4 @@ joblib==1.3.2
 networkx==3.2.1
 biopython==1.83
 rdkit==2023.9.5
+fondant[component]
