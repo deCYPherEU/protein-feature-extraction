@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 fndnt/fondant:0.11.dev5-py3.10
+FROM --platform=linux/amd64 python:3.10-slim
 
 # System dependencies
 RUN apt-get update && \

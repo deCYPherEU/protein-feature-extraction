@@ -204,3 +204,4 @@ local.settings.json
 model_files/
 
 notebooks/
+feature_extraction_pipeline/
